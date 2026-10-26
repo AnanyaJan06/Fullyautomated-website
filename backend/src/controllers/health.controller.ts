@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import { ApiResponse } from '../utils/ApiResponse';
-import { AutomationService } from '../services/automation.service';
 
 export const getHealthStatus = async (
   _req: Request,
@@ -8,15 +8,23 @@ export const getHealthStatus = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const tasks = await AutomationService.getAllTasks();
+    const databaseReady = mongoose.connection.readyState === 1;
+    if (!databaseReady) {
+      res.status(503).json({
+        success: false,
+        message: 'Database is unavailable',
+      });
+      return;
+    }
+
     ApiResponse.success(
       res,
       {
         status: 'UP',
         timestamp: new Date().toISOString(),
-        activeTasksCount: tasks.length,
+        database: 'connected',
       },
-      'Server is healthy'
+      'Server is healthy',
     );
   } catch (error) {
     next(error);

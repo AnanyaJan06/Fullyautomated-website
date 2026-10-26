@@ -15,8 +15,12 @@ export const errorMiddleware = (
   _next: NextFunction
 ): void => {
   logger.error(err.message, err.stack);
-  res.status(500).json({
+  const statusCode = (err as Error & { status?: number; statusCode?: number }).statusCode
+    || (err as Error & { status?: number }).status
+    || 500;
+  const safeStatus = statusCode >= 400 && statusCode < 600 ? statusCode : 500;
+  res.status(safeStatus).json({
     success: false,
-    message: err.message || 'Internal Server Error',
+    message: safeStatus < 500 ? err.message : 'Internal Server Error',
   });
 };

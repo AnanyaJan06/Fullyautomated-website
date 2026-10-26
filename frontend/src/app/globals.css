@@ -3,12 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #ffffff;
+  --foreground: #161824;
+  --primary: #e51515;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
+/* Native radio tabs filter the server-rendered product cards without a client-side filter bundle. */
+#products:has(#product-filter-featured:checked) [data-product-tabs],
+#products:has(#product-filter-bestseller:checked) [data-product-tabs],
+#products:has(#product-filter-onsale:checked) [data-product-tabs] {
+  display: none;
+}
+
+#products:has(#product-filter-featured:checked) [data-product-tabs~='featured'],
+#products:has(#product-filter-bestseller:checked) [data-product-tabs~='bestseller'],
+#products:has(#product-filter-onsale:checked) [data-product-tabs~='onsale'] {
+  display: flex;
+}
+

@@ -6,6 +6,9 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction): vo
     res.status(401).json({ success: false, message: 'Unauthorized' });
     return;
   }
-  // Verify JWT token here
-  next();
+  // Fail closed until real token verification and user identity attachment are implemented.
+  res.status(503).json({
+    success: false,
+    message: 'Authentication is not configured',
+  });
 };
