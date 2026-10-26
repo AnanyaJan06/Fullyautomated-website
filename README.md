@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Automated Website (Next.js + Node.js/Express + MongoDB)
 
 A clean, scalable TypeScript monorepo structure for building a fully automated web platform.
@@ -78,3 +79,7 @@ Automated Website/
 3. **Run in Development**:
    - Start Backend: `npm run dev:backend` (runs on `http://localhost:5000`)
    - Start Frontend: `npm run dev:frontend` (runs on `http://localhost:3000`)
+=======
+# Fullyautomated-website
+Full-stack automated website built with Next.js,Typescript and a database.
+>>>>>>> origin/main
