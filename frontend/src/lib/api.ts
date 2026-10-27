@@ -1,5 +1,12 @@
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1')
-  .replace(/\/$/, '');
+function getApiBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
+  }
+  if (typeof window !== 'undefined' && window.location?.hostname) {
+    return `http://${window.location.hostname}:5000/api/v1`;
+  }
+  return 'http://localhost:5000/api/v1';
+}
 
 export class ApiError extends Error {
   constructor(message: string, public readonly status: number) {
@@ -17,7 +24,7 @@ export async function apiFetcher<T>(
     headers.set('Content-Type', 'application/json');
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${getApiBaseUrl()}${endpoint}`, {
     ...options,
     headers,
     signal: options?.signal ?? AbortSignal.timeout(10_000),

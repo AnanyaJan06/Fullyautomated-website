@@ -19,6 +19,8 @@ export const env = {
   port,
   nodeEnv,
   mongoUri,
+  jwtSecret: process.env.JWT_SECRET || 'gearup_dev_jwt_secret_key_2026',
+  jwtExpiresInSeconds: Number(process.env.JWT_EXPIRES_IN_SECONDS || 60 * 60 * 24 * 7),
   corsOrigins: (process.env.CORS_ORIGIN || 'http://localhost:3000')
     .split(',')
     .map((origin) => origin.trim())

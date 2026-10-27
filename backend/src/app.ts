@@ -12,7 +12,14 @@ const app: Application = express();
 app.use(helmet());
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || env.corsOrigins.includes(origin)) return callback(null, true);
+    if (
+      !origin ||
+      env.corsOrigins.includes(origin) ||
+      (env.nodeEnv === 'development' &&
+        /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?$/.test(origin))
+    ) {
+      return callback(null, true);
+    }
     const error = new Error('Origin is not allowed by CORS') as Error & { status: number };
     error.status = 403;
     return callback(error);
