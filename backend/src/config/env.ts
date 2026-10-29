@@ -15,14 +15,33 @@ if (!mongoUri) {
   throw new Error('MONGODB_URI is required outside development');
 }
 
+const jwtSecret = process.env.JWT_SECRET || (nodeEnv === 'development' ? 'gearup_dev_jwt_secret_key_2026' : '');
+if (nodeEnv === 'production' && jwtSecret.length < 32) {
+  throw new Error('JWT_SECRET must be set to at least 32 characters in production');
+}
+
+const jwtExpiresInSeconds = Number(process.env.JWT_EXPIRES_IN_SECONDS || 60 * 60 * 24 * 7);
+if (!Number.isSafeInteger(jwtExpiresInSeconds) || jwtExpiresInSeconds < 1) {
+  throw new Error('JWT_EXPIRES_IN_SECONDS must be a positive integer');
+}
+
+const corsOrigins = (process.env.CORS_ORIGIN || (nodeEnv === 'development' ? 'http://localhost:3000' : ''))
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
+
+if (nodeEnv === 'production' && corsOrigins.length === 0) {
+  throw new Error('CORS_ORIGIN must include the deployed frontend origin in production');
+}
+
+const schedulerEnabled = process.env.ENABLE_SCHEDULER === 'true';
+
 export const env = {
   port,
   nodeEnv,
   mongoUri,
-  jwtSecret: process.env.JWT_SECRET || 'gearup_dev_jwt_secret_key_2026',
-  jwtExpiresInSeconds: Number(process.env.JWT_EXPIRES_IN_SECONDS || 60 * 60 * 24 * 7),
-  corsOrigins: (process.env.CORS_ORIGIN || 'http://localhost:3000')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean),
+  jwtSecret,
+  jwtExpiresInSeconds,
+  corsOrigins,
+  schedulerEnabled,
 };

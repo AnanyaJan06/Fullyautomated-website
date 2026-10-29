@@ -13,8 +13,10 @@ const startServer = async () => {
     return;
   }
 
-  // Initialize automated background jobs / cron tasks
-  initScheduledJobs();
+  // Keep scheduled work opt-in: multiple web instances would otherwise run duplicate jobs.
+  if (env.schedulerEnabled) {
+    initScheduledJobs();
+  }
 
   const server = app.listen(env.port, () => {
     logger.info(`Server running in ${env.nodeEnv} mode on http://localhost:${env.port}`);

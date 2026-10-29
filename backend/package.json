@@ -2,6 +2,9 @@
   "name": "automated-website-backend",
   "version": "1.0.0",
   "description": "Express + MongoDB + TypeScript Backend with Automation Jobs",
+  "engines": {
+    "node": "22.x"
+  },
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
