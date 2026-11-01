@@ -1,6 +1,7 @@
 function getApiBaseUrl(): string {
   if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
+    const cleaned = process.env.NEXT_PUBLIC_API_URL.trim().replace(/\/+$/, '');
+    return cleaned.endsWith('/api/v1') ? cleaned : `${cleaned}/api/v1`;
   }
   if (typeof window !== 'undefined' && window.location?.hostname) {
     return `http://${window.location.hostname}:5000/api/v1`;

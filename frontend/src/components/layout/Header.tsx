@@ -103,7 +103,7 @@ export function Header() {
             </LineIcon>
           </Link>
           <Link
-            href="/wishlist"
+            href="/#products"
             aria-label="Wishlist"
             className="hidden rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d] md:block"
           >
@@ -112,7 +112,7 @@ export function Header() {
             </LineIcon>
           </Link>
           <Link
-            href="/cart"
+            href="/#products"
             aria-label="Shopping cart"
             className="rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d]"
           >

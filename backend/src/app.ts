@@ -15,8 +15,8 @@ app.use(cors({
     if (
       !origin ||
       env.corsOrigins.includes(origin) ||
-      (env.nodeEnv === 'development' &&
-        /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?$/.test(origin))
+      /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+)(:\d+)?$/.test(origin) ||
+      /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)
     ) {
       return callback(null, true);
     }
@@ -29,10 +29,13 @@ app.use(cors({
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
+if (env.nodeEnv === 'development') {
+  app.use(morgan('dev'));
+}
 
-// API Routes
+// API Routes (mounted at both /api/v1 and root / so requests work with or without /api/v1 prefix)
 app.use('/api/v1', apiRoutes);
+app.use('/', apiRoutes);
 
 // Error Handling Middlewares
 app.use(notFoundMiddleware);
