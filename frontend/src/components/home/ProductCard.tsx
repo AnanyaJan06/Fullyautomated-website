@@ -73,7 +73,18 @@ export function ProductCard({ product }: { product: ProductItem }) {
             In Stock ({product.stockCount})
           </span>
         </div>
-        <AddToCartButton />
+        <AddToCartButton
+          item={{
+            partId: product.id,
+            part: product.title,
+            sku: product.sku,
+            category: product.category,
+            condition: 'new',
+            description: product.specs.join(' • '),
+            price: product.price,
+            quantity: 1,
+          }}
+        />
       </div>
     </article>
   );

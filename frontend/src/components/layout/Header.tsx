@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { HeaderAuthActions } from './HeaderAuthActions';
+import { HeaderCartLink } from './HeaderCartLink';
 
 const navigation = [
   { label: 'Home', href: '/' },
   { label: 'Shop', href: '/#products' },
   { label: 'Categories', href: '/#categories' },
   { label: 'Deals', href: '/#deals' },
+  { label: 'Cart', href: '/cart' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -111,17 +113,7 @@ export function Header() {
               <path d="M20.8 8.7c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.6 4.6 0 0 1 8.8-1.9 4.6 4.6 0 0 1 8.8 1.9Z" />
             </LineIcon>
           </Link>
-          <Link
-            href="/#products"
-            aria-label="Shopping cart"
-            className="rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d]"
-          >
-            <LineIcon>
-              <path d="M3 4h2l2.1 11.1a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 1.9-1.5L21 8H6" />
-              <circle cx="10" cy="20" r="1" />
-              <circle cx="18" cy="20" r="1" />
-            </LineIcon>
-          </Link>
+          <HeaderCartLink />
 
           <div className="h-5 w-px bg-neutral-200 hidden sm:block mx-0.5" />
 

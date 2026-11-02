@@ -63,7 +63,7 @@ export type PartType = 'engine' | 'transmission';
 export interface DatabasePart {
   id: string;
   part: string;
-  partType: PartType;
+  partType?: PartType;
   make: string;
   model: string;
   year: number;
@@ -75,8 +75,15 @@ export interface DatabasePart {
   updatedAt?: string;
 }
 
+export interface PartSearchOptions {
+  makes: string[];
+  models: string[];
+  years: number[];
+}
+
 export interface PartSearchParams {
-  partType?: string;
+  q?: string;
+  partType?: PartType | string;
   make?: string;
   model?: string;
   year?: string | number;
@@ -85,29 +92,84 @@ export interface PartSearchParams {
   limit?: number;
 }
 
-export interface PartSearchOptions {
-  makes: string[];
-  models: string[];
-  years: number[];
-}
-
 export interface PartSearchResponse {
   existsInCollection: boolean;
   count: number;
+  countIsEstimate?: boolean;
   totalInCollection: number;
-  countIsEstimate: boolean;
   filters: {
-    partType?: string;
+    q?: string;
+    partType?: PartType | string;
     make?: string;
     model?: string;
     year?: number;
     condition?: string;
   };
-  parts: DatabasePart[];
-  suggestions: DatabasePart[];
   pagination: {
     page: number;
     pageSize: number;
     hasNextPage: boolean;
   };
+  parts: DatabasePart[];
+  suggestions: DatabasePart[];
+}
+
+export type WarrantyPlanType = 'standard' | 'extended_3yr' | 'lifetime_pro';
+
+export interface CartItem {
+  partId: string;
+  part: string;
+  partType?: PartType | string;
+  sku: string;
+  make?: string;
+  model?: string;
+  year?: number;
+  condition: PartCondition;
+  category?: string;
+  description?: string;
+  image?: string;
+  price: number;
+  quantity: number;
+  vin?: string;
+  warrantyPlan: WarrantyPlanType;
+  warrantyPrice: number;
+  lineSubtotal: number;
+}
+
+export interface CartSummary {
+  totalQuantity: number;
+  partsSubtotal: number;
+  warrantyTotal: number;
+  coreChargeTotal: number;
+  shippingCost: number;
+  grandTotal: number;
+}
+
+export interface CartData {
+  id: string;
+  sessionId: string;
+  userId?: string | null;
+  shippingType: 'commercial' | 'residential';
+  customerVin?: string;
+  items: CartItem[];
+  summary: CartSummary;
+  updatedAt?: string;
+}
+
+export interface AddCartItemPayload {
+  partId: string;
+  part: string;
+  partType?: PartType | string;
+  sku?: string;
+  make?: string;
+  model?: string;
+  year?: number;
+  condition?: PartCondition;
+  category?: string;
+  description?: string;
+  image?: string;
+  price: number;
+  quantity?: number;
+  vin?: string;
+  warrantyPlan?: WarrantyPlanType;
 }

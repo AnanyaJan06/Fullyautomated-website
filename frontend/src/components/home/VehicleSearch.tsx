@@ -147,7 +147,25 @@ function DatabasePartCard({ item }: { item: DatabasePart }) {
           <span className="text-lg font-black text-[#e51515]">${Number(item.price).toFixed(2)}</span>
           <span className="text-[11px] font-semibold text-emerald-600">Available in DB</span>
         </div>
-        <AddToCartButton />
+        <AddToCartButton
+          item={{
+            partId: item.id,
+            part: item.part,
+            partType: item.partType,
+            sku: `DB-${item.id.slice(-6).toUpperCase()}`,
+            make: item.make,
+            model: item.model,
+            year: item.year,
+            condition: item.condition,
+            category: item.partType
+              ? `${item.partType.charAt(0).toUpperCase()}${item.partType.slice(1)} Assembly`
+              : `${item.make} OEM / Performance Part`,
+            description: item.description,
+            image: item.images?.[0] || '',
+            price: item.price,
+            quantity: 1,
+          }}
+        />
       </div>
     </article>
   );
