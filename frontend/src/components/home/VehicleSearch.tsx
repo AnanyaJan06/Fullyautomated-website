@@ -275,7 +275,7 @@ export function VehicleSearch() {
     >
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-[0_8px_28px_-22px_rgba(20,24,35,0.5)] sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_0.75fr_auto] lg:items-end lg:gap-4 lg:px-5 lg:py-4"
+        className="grid grid-cols-1 gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-[0_8px_28px_-22px_rgba(20,24,35,0.5)] sm:grid-cols-2 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.75fr)_auto] lg:items-end lg:gap-4 lg:px-5 lg:py-4"
       >
         <SearchField label="Part Type" icon="part">
           <select
@@ -285,6 +285,7 @@ export function VehicleSearch() {
               setMake('');
               setModel('');
               setYear('');
+              setSearchOptions({ makes: [], models: [], years: [] });
               setSearchResult(null);
             }}
             className={selectClassName}
@@ -303,6 +304,7 @@ export function VehicleSearch() {
               setMake(event.target.value);
               setModel('');
               setYear('');
+              setSearchOptions((current) => ({ ...current, models: [], years: [] }));
               setSearchResult(null);
             }}
             className={selectClassName}
@@ -310,7 +312,7 @@ export function VehicleSearch() {
             required
           >
             <option value="">
-              {isOptionsLoading ? 'Loading makes...' : searchOptions.makes.length ? 'Select make' : 'No makes available'}
+              {searchOptions.makes.length || isOptionsLoading || !partType ? 'Select make' : 'No makes available'}
             </option>
             {searchOptions.makes.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
@@ -322,6 +324,7 @@ export function VehicleSearch() {
             onChange={(event) => {
               setModel(event.target.value);
               setYear('');
+              setSearchOptions((current) => ({ ...current, years: [] }));
               setSearchResult(null);
             }}
             className={selectClassName}
@@ -329,7 +332,7 @@ export function VehicleSearch() {
             required
           >
             <option value="">
-              {isOptionsLoading ? 'Loading models...' : searchOptions.models.length ? 'Select model' : 'No models available'}
+              {searchOptions.models.length || isOptionsLoading || !make ? 'Select model' : 'No models available'}
             </option>
             {searchOptions.models.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
@@ -347,7 +350,7 @@ export function VehicleSearch() {
             required
           >
             <option value="">
-              {isOptionsLoading ? 'Loading years...' : searchOptions.years.length ? 'Select year' : 'No years available'}
+              {searchOptions.years.length || isOptionsLoading || !model ? 'Select year' : 'No years available'}
             </option>
             {searchOptions.years.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
@@ -374,15 +377,19 @@ export function VehicleSearch() {
             {isLoading ? 'Checking DB...' : 'Search Parts'}
           </button>
 
-          {(searchResult || partType || make || model || year || visibleError) && (
-            <button
-              type="button"
-              onClick={handleReset}
-              className="flex h-[42px] items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 px-3 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900"
-            >
-              Reset
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleReset}
+            aria-hidden={!(searchResult || partType || make || model || year || visibleError)}
+            tabIndex={searchResult || partType || make || model || year || visibleError ? 0 : -1}
+            className={`flex h-[42px] items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 px-3 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 ${
+              searchResult || partType || make || model || year || visibleError
+                ? 'visible'
+                : 'invisible pointer-events-none'
+            }`}
+          >
+            Reset
+          </button>
         </div>
       </form>
 
