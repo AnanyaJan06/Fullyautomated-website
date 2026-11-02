@@ -177,7 +177,6 @@ export function VehicleSearch() {
 
   useEffect(() => {
     const controller = new AbortController();
-    setSearchOptions({ makes: [], models: [], years: [] });
     setOptionsError('');
 
     if (!partType) {
@@ -248,6 +247,7 @@ export function VehicleSearch() {
     setMake('');
     setModel('');
     setYear('');
+    setSearchOptions({ makes: [], models: [], years: [] });
     setErrorMsg('');
     setOptionsError('');
     setSearchResult(null);
