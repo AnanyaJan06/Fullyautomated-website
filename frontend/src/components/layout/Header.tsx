@@ -93,7 +93,7 @@ export function Header() {
 
         <div className="flex items-center gap-1.5 sm:gap-2.5">
           <Link
-            href="/#products"
+            href="/#part-search"
             aria-label="Search products"
             className="rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d]"
           >

@@ -21,6 +21,10 @@ export async function apiFetcher<T>(
   options?: RequestInit
 ): Promise<T> {
   const headers = new Headers(options?.headers);
+  const timeoutSignal = AbortSignal.timeout(10_000);
+  const signal = options?.signal
+    ? AbortSignal.any([options.signal, timeoutSignal])
+    : timeoutSignal;
   if (options?.body && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json');
   }
@@ -28,7 +32,7 @@ export async function apiFetcher<T>(
   const response = await fetch(`${getApiBaseUrl()}${endpoint}`, {
     ...options,
     headers,
-    signal: options?.signal ?? AbortSignal.timeout(10_000),
+    signal,
   });
 
   if (!response.ok) {

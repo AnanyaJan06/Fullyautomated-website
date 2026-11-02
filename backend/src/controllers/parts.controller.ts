@@ -6,7 +6,7 @@ import { ApiResponse } from '../utils/ApiResponse';
 
 type CreatePartBody = Pick<
   IPart,
-  'description' | 'part' | 'year' | 'make' | 'model' | 'price' | 'condition' | 'images'
+  'description' | 'part' | 'partType' | 'year' | 'make' | 'model' | 'price' | 'condition' | 'images'
 >;
 
 export const createPart = async (
@@ -25,6 +25,7 @@ export const createPart = async (
     const partData: Partial<CreatePartBody> = {
       description: req.body.description,
       part: req.body.part,
+      partType: req.body.partType,
       year: req.body.year,
       make: req.body.make,
       model: req.body.model,
