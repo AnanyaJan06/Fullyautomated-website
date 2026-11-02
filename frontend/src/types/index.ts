@@ -56,3 +56,44 @@ export interface AutomationTask {
   createdAt: string;
   updatedAt: string;
 }
+
+export type PartCondition = 'new' | 'refurbished' | 'used';
+
+export interface DatabasePart {
+  id: string;
+  part: string;
+  make: string;
+  model: string;
+  year: number;
+  condition: PartCondition;
+  description: string;
+  images: string[];
+  price: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PartSearchParams {
+  q?: string;
+  partType?: string;
+  make?: string;
+  model?: string;
+  year?: string | number;
+  condition?: string;
+}
+
+export interface PartSearchResponse {
+  existsInCollection: boolean;
+  count: number;
+  totalInCollection: number;
+  filters: {
+    q?: string;
+    partType?: string;
+    make?: string;
+    model?: string;
+    year?: number;
+    condition?: string;
+  };
+  parts: DatabasePart[];
+  suggestions: DatabasePart[];
+}
