@@ -53,9 +53,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Browse auto categories */}
+      {/* 3. Browse auto categories (2 Core Part Types: Engine & Transmission) */}
       <section id="categories" className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between border-b border-neutral-200 pb-4 mb-6">
+        <div className="flex flex-col gap-3 border-b border-neutral-200 pb-4 mb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="text-xs font-extrabold uppercase tracking-wider text-[#e51515]">
               Shop By Department
@@ -64,50 +64,92 @@ export default function HomePage() {
               Popular Auto Parts Categories
             </h2>
           </div>
-          <a
-            href="#products"
-            className="text-xs font-bold text-[#e51515] hover:underline hidden sm:inline"
-          >
-            View All 68+ Categories →
-          </a>
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-xs font-bold text-neutral-700">
+              <span className="h-2 w-2 rounded-full bg-[#e51515]" />2 Core Part Types: Engine &amp; Transmission
+            </span>
+            <a
+              href="#part-search"
+              className="text-xs font-bold text-[#e51515] hover:underline hidden sm:inline"
+            >
+              Search by Vehicle →
+            </a>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {GEARUP_CATEGORIES.map((cat) => (
             <div
               key={cat.id}
-              className="group bg-white rounded-2xl border border-neutral-200 hover:border-[#e51515] p-5 flex items-start justify-between gap-4 transition shadow-sm hover:shadow-md"
+              className="group relative overflow-hidden bg-white rounded-2xl border border-neutral-200 hover:border-[#e51515] p-6 sm:p-7 flex flex-col justify-between gap-6 transition shadow-sm hover:shadow-md"
             >
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-base font-extrabold text-neutral-900 group-hover:text-[#e51515] transition">
-                    {cat.name}
-                  </h3>
-                  <span className="text-[11px] font-semibold bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full">
-                    {cat.itemCount}
-                  </span>
+              <div>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <span className="inline-block rounded-md bg-red-50 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#e51515]">
+                      {cat.badge}
+                    </span>
+                    <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
+                      <h3 className="text-2xl font-black text-neutral-900 group-hover:text-[#e51515] transition">
+                        {cat.name}
+                      </h3>
+                      <span className="text-[11px] font-semibold bg-neutral-100 text-neutral-600 px-2.5 py-0.5 rounded-full">
+                        {cat.itemCount}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-4xl shrink-0 group-hover:scale-105 group-hover:border-red-100 group-hover:bg-red-50/40 transition">
+                    {cat.icon}
+                  </div>
                 </div>
 
-                <ul className="mt-3 space-y-1.5 text-xs text-neutral-500">
-                  {cat.subcategories.map((sub, i) => (
-                    <li key={i}>
-                      <a href="#products" className="hover:text-[#e51515] transition">
-                        {sub}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <p className="mt-3 text-xs sm:text-sm leading-relaxed text-neutral-600">
+                  {cat.description}
+                </p>
 
-                <a
-                  href="#products"
-                  className="inline-block mt-4 text-xs font-bold text-neutral-900 group-hover:text-[#e51515]"
-                >
-                  Shop {cat.name.split(' ')[0]} →
-                </a>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {cat.highlights.map((highlight, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-[11px] font-semibold text-neutral-700"
+                    >
+                      <span className="text-emerald-600 font-bold">✓</span>
+                      {highlight}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-5 border-t border-neutral-100 pt-4">
+                  <p className="text-[11px] font-extrabold uppercase tracking-wider text-neutral-400 mb-2.5">
+                    Available {cat.name} Configurations
+                  </p>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-600">
+                    {cat.subcategories.map((sub, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#e51515] shrink-0" />
+                        <a href="#part-search" className="hover:text-[#e51515] font-medium transition">
+                          {sub}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
-              <div className="w-20 h-20 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-4xl shrink-0 group-hover:scale-105 transition">
-                {cat.icon}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-100 pt-4">
+                <a
+                  href="#part-search"
+                  className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 group-hover:bg-[#e51515] px-4 py-2.5 text-xs font-bold text-white transition"
+                >
+                  Find {cat.name} by Vehicle →
+                </a>
+                <a
+                  href="#products"
+                  className="text-xs font-bold text-neutral-600 hover:text-[#e51515] transition"
+                >
+                  Browse Catalog →
+                </a>
               </div>
             </div>
           ))}

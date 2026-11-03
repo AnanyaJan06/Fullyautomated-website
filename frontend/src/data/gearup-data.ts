@@ -1,9 +1,12 @@
 export interface CategoryItem {
   id: string;
   name: string;
-  slug: string;
-  itemCount: number;
+  slug: 'engine' | 'transmission';
+  badge: string;
+  description: string;
+  itemCount: string;
   subcategories: string[];
+  highlights: string[];
   icon: string;
 }
 
@@ -45,52 +48,40 @@ export const VEHICLE_ENGINES = [
 
 export const GEARUP_CATEGORIES: CategoryItem[] = [
   {
-    id: 'cat-1',
-    name: 'Headlights & Lighting',
-    slug: 'headlights-lighting',
-    itemCount: 142,
-    subcategories: ['Headlights', 'Tail Lights', 'Fog Lights', 'LED Conversion Kits', 'Signal Bulbs'],
-    icon: '💡',
-  },
-  {
-    id: 'cat-2',
-    name: 'Tires & Wheels',
-    slug: 'tires-wheels',
-    itemCount: 98,
-    subcategories: ['All-Season Tires', 'Performance Tires', 'Forged Alloy Wheels', 'Wheel Spacers', 'TPMS Sensors'],
-    icon: '🛞',
-  },
-  {
-    id: 'cat-3',
-    name: 'Brake Systems',
-    slug: 'brake-systems',
-    itemCount: 215,
-    subcategories: ['Ceramic Brake Pads', 'Drilled Rotors', 'Big Brake Kits', 'Brake Calipers', 'Brake Lines'],
-    icon: '🛑',
-  },
-  {
-    id: 'cat-4',
-    name: 'Engine & Drivetrain',
-    slug: 'engine-drivetrain',
-    itemCount: 310,
-    subcategories: ['Turbochargers', 'Cold Air Intakes', 'Timing Belts', 'Spark Plugs', 'Oil Filters'],
+    id: 'cat-engine',
+    name: 'Engine',
+    slug: 'engine',
+    badge: 'Complete Assemblies & Core Units',
+    description:
+      'OEM-verified complete engine assemblies, long blocks, turbo powertrains, and tested replacement motors ready for direct vehicle fitment.',
+    itemCount: 'OEM & Tested Units',
+    subcategories: [
+      'Complete Engine Assemblies',
+      'Turbocharged & Naturally Aspirated Blocks',
+      'Cylinder Heads & Valvetrain Units',
+      'Direct-Fit OEM Replacement Motors',
+      'Performance & Reconditioned Engines',
+    ],
+    highlights: ['Compression & Leak-Down Tested', 'VIN Fitment Verified', 'Warranty Backed'],
     icon: '⚙️',
   },
   {
-    id: 'cat-5',
-    name: 'Suspension & Steering',
-    slug: 'suspension-steering',
-    itemCount: 124,
-    subcategories: ['Coilover Kits', 'Shock Absorbers', 'Control Arms', 'Sway Bars', 'Tie Rod Ends'],
+    id: 'cat-transmission',
+    name: 'Transmission',
+    slug: 'transmission',
+    badge: 'Automatic, Manual & AWD Gearboxes',
+    description:
+      'Precision-inspected automatic, manual, CVT, and dual-clutch transmission assemblies engineered for smooth shifting and long-haul reliability.',
+    itemCount: 'Direct-Fit Gearboxes',
+    subcategories: [
+      'Automatic Transmission Assemblies',
+      'Manual & Dual-Clutch Gearboxes',
+      'CVT & AWD Transfer Case Units',
+      'Torque Converters & Valve Bodies',
+      'Refurbished & Low-Mileage Transmissions',
+    ],
+    highlights: ['Shift & Pressure Tested', 'Exact OEM Gear Ratios', 'Ready to Install'],
     icon: '🔧',
-  },
-  {
-    id: 'cat-6',
-    name: 'Oils, Fluids & Garage Tools',
-    slug: 'oils-fluids-tools',
-    itemCount: 186,
-    subcategories: ['5W-30 Synthetic Oil', 'OBD2 Diagnostic Scanners', 'Torque Wrenches', 'Coolants', 'Battery Chargers'],
-    icon: '🛢️',
   },
 ];
 
