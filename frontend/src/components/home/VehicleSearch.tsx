@@ -326,7 +326,7 @@ export function VehicleSearch() {
               setSearchResult(null);
             }}
             className={selectClassName}
-            disabled={!partType || !searchOptions.makes.length || isOptionsLoading}
+            disabled={!partType}
             required
           >
             <option value="">
@@ -346,7 +346,7 @@ export function VehicleSearch() {
               setSearchResult(null);
             }}
             className={selectClassName}
-            disabled={!make || !searchOptions.models.length || isOptionsLoading}
+            disabled={!make}
             required
           >
             <option value="">
@@ -364,7 +364,7 @@ export function VehicleSearch() {
               setSearchResult(null);
             }}
             className={selectClassName}
-            disabled={!model || !searchOptions.years.length || isOptionsLoading}
+            disabled={!model}
             required
           >
             <option value="">
