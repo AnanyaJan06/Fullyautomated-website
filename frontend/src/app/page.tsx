@@ -40,8 +40,12 @@ export default function HomePage() {
               desc: 'Get help finding the right part',
             },
           ].map((item, index) => (
-            <div key={index} className="flex items-start gap-4 px-2 py-1">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cyan-200 text-xl font-medium text-cyan-500">
+            <div
+              key={index}
+              style={{ animationDelay: `${index * 60}ms` }}
+              className="animate-fade-up group flex items-start gap-4 rounded-xl px-2 py-1 transition-colors hover:bg-neutral-50"
+            >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cyan-200 text-xl font-medium text-cyan-500 transition-transform duration-300 group-hover:scale-110">
                 {item.icon}
               </div>
               <div>
@@ -66,7 +70,7 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-xs font-bold text-neutral-700">
-              <span className="h-2 w-2 rounded-full bg-[#e51515]" />2 Core Part Types: Engine &amp; Transmission
+              <span className="h-2 w-2 rounded-full bg-[#e51515] animate-pulse" />2 Core Part Types: Engine &amp; Transmission
             </span>
             <a
               href="#part-search"
@@ -78,10 +82,11 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {GEARUP_CATEGORIES.map((cat) => (
+          {GEARUP_CATEGORIES.map((cat, idx) => (
             <div
               key={cat.id}
-              className="group relative overflow-hidden bg-white rounded-2xl border border-neutral-200 hover:border-[#e51515] p-6 sm:p-7 flex flex-col justify-between gap-6 transition shadow-sm hover:shadow-md"
+              style={{ animationDelay: `${idx * 100}ms` }}
+              className="animate-fade-up group relative overflow-hidden bg-white rounded-2xl border border-neutral-200 hover:border-[#e51515] p-6 sm:p-7 flex flex-col justify-between gap-6 transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg"
             >
               <div>
                 <div className="flex items-start justify-between gap-4">
@@ -90,7 +95,7 @@ export default function HomePage() {
                       {cat.badge}
                     </span>
                     <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
-                      <h3 className="text-2xl font-black text-neutral-900 group-hover:text-[#e51515] transition">
+                      <h3 className="text-2xl font-black text-neutral-900 group-hover:text-[#e51515] transition-colors">
                         {cat.name}
                       </h3>
                       <span className="text-[11px] font-semibold bg-neutral-100 text-neutral-600 px-2.5 py-0.5 rounded-full">
@@ -99,7 +104,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-4xl shrink-0 group-hover:scale-105 group-hover:border-red-100 group-hover:bg-red-50/40 transition">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-4xl shrink-0 group-hover:scale-110 group-hover:rotate-3 group-hover:border-red-100 group-hover:bg-red-50/40 transition-all duration-300">
                     {cat.icon}
                   </div>
                 </div>
@@ -109,9 +114,9 @@ export default function HomePage() {
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {cat.highlights.map((highlight, idx) => (
+                  {cat.highlights.map((highlight, hIdx) => (
                     <span
-                      key={idx}
+                      key={hIdx}
                       className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-[11px] font-semibold text-neutral-700"
                     >
                       <span className="text-emerald-600 font-bold">✓</span>
@@ -128,7 +133,10 @@ export default function HomePage() {
                     {cat.subcategories.map((sub, i) => (
                       <li key={i} className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-[#e51515] shrink-0" />
-                        <a href="#part-search" className="hover:text-[#e51515] font-medium transition">
+                        <a
+                          href={`#part-search?partType=${cat.slug}`}
+                          className="hover:text-[#e51515] font-medium transition-colors"
+                        >
                           {sub}
                         </a>
                       </li>
@@ -139,14 +147,17 @@ export default function HomePage() {
 
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-100 pt-4">
                 <a
-                  href="#part-search"
-                  className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 group-hover:bg-[#e51515] px-4 py-2.5 text-xs font-bold text-white transition"
+                  href={`#part-search?partType=${cat.slug}`}
+                  className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 group-hover:bg-[#e51515] px-4 py-2.5 text-xs font-bold text-white transition-all duration-200 active:scale-[0.98]"
                 >
-                  Find {cat.name} by Vehicle →
+                  <span>Find {cat.name} by Vehicle</span>
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+                    →
+                  </span>
                 </a>
                 <a
                   href="#products"
-                  className="text-xs font-bold text-neutral-600 hover:text-[#e51515] transition"
+                  className="text-xs font-bold text-neutral-600 hover:text-[#e51515] transition-colors"
                 >
                   Browse Catalog →
                 </a>
@@ -192,7 +203,7 @@ export default function HomePage() {
 
               <a
                 href="#products"
-                className="inline-block bg-neutral-900 hover:bg-[#e51515] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition"
+                className="inline-block bg-neutral-900 hover:bg-[#e51515] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
                 View All 24 Flash Deals →
               </a>
@@ -211,7 +222,7 @@ export default function HomePage() {
       {/* 5. Dual Mid-Page Promotional Banners */}
       <section className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-2xl bg-gradient-to-r from-[#161824] to-[#25293e] text-white p-7 flex items-center justify-between gap-4">
+          <div className="group rounded-2xl bg-gradient-to-r from-[#161824] to-[#25293e] text-white p-7 flex items-center justify-between gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
             <div>
               <span className="inline-block bg-amber-400 text-neutral-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded mb-2">
                 German Engineered
@@ -224,17 +235,17 @@ export default function HomePage() {
               </p>
               <a
                 href="#products"
-                className="inline-block bg-[#e51515] hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition"
+                className="inline-block bg-[#e51515] hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
                 Shop Service Kits →
               </a>
             </div>
-            <div className="text-6xl hidden sm:flex w-24 h-24 rounded-2xl bg-white/10 items-center justify-center shrink-0">
+            <div className="text-6xl hidden sm:flex w-24 h-24 rounded-2xl bg-white/10 items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
               🛢️
             </div>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-r from-[#2c1215] to-[#161824] text-white p-7 flex items-center justify-between gap-4">
+          <div className="group rounded-2xl bg-gradient-to-r from-[#2c1215] to-[#161824] text-white p-7 flex items-center justify-between gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
             <div>
               <span className="inline-block bg-[#e51515] text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded mb-2">
                 Track &amp; Street Series
@@ -247,12 +258,12 @@ export default function HomePage() {
               </p>
               <a
                 href="#products"
-                className="inline-block bg-white hover:bg-neutral-200 text-neutral-900 text-xs font-bold px-4 py-2 rounded-lg transition"
+                className="inline-block bg-white hover:bg-neutral-200 text-neutral-900 text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
                 Shop Suspension →
               </a>
             </div>
-            <div className="text-6xl hidden sm:flex w-24 h-24 rounded-2xl bg-white/10 items-center justify-center shrink-0">
+            <div className="text-6xl hidden sm:flex w-24 h-24 rounded-2xl bg-white/10 items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
               🔧
             </div>
           </div>

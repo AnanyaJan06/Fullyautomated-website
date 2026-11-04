@@ -59,6 +59,95 @@ interface ConfirmedOrder {
   createdAt: string;
 }
 
+function CartSpinner({ className = 'h-3.5 w-3.5' }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={`animate-spin ${className}`}
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        className="opacity-25"
+      />
+      <path
+        d="M21 12a9 9 0 0 0-9-9"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function CartLoadingSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label="Loading cart items"
+      className="animate-fade-in grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start"
+    >
+      <div className="space-y-5 lg:col-span-8">
+        <div className="flex items-center justify-between rounded-xl border border-neutral-200 bg-white px-5 py-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="h-6 w-6 rounded-full skeleton-shimmer" />
+            <div className="h-4 w-56 rounded skeleton-shimmer" />
+          </div>
+          <div className="h-4 w-28 rounded skeleton-shimmer" />
+        </div>
+
+        {Array.from({ length: 2 }).map((_, index) => (
+          <div
+            key={index}
+            className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6 space-y-5"
+          >
+            <div className="flex flex-col gap-5 sm:flex-row">
+              <div className="h-36 w-full rounded-xl skeleton-shimmer sm:w-40 shrink-0" />
+              <div className="flex-1 space-y-3">
+                <div className="flex justify-between gap-4">
+                  <div className="space-y-2 flex-1">
+                    <div className="h-4 w-44 rounded skeleton-shimmer" />
+                    <div className="h-5 w-3/4 rounded skeleton-shimmer" />
+                  </div>
+                  <div className="h-6 w-20 rounded skeleton-shimmer" />
+                </div>
+                <div className="h-3.5 w-full rounded skeleton-shimmer" />
+                <div className="h-8 w-36 rounded-lg skeleton-shimmer" />
+              </div>
+            </div>
+            <div className="h-20 w-full rounded-xl skeleton-shimmer" />
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+              <div className="h-20 rounded-xl skeleton-shimmer" />
+              <div className="h-20 rounded-xl skeleton-shimmer" />
+              <div className="h-20 rounded-xl skeleton-shimmer" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <aside className="space-y-5 lg:col-span-4">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm space-y-4">
+          <div className="h-6 w-48 rounded skeleton-shimmer" />
+          <div className="h-16 w-full rounded-xl skeleton-shimmer" />
+          <div className="h-16 w-full rounded-xl skeleton-shimmer" />
+          <div className="space-y-2.5 pt-2">
+            <div className="h-4 w-full rounded skeleton-shimmer" />
+            <div className="h-4 w-5/6 rounded skeleton-shimmer" />
+            <div className="h-6 w-full rounded skeleton-shimmer" />
+          </div>
+          <div className="h-11 w-full rounded-xl skeleton-shimmer" />
+        </div>
+      </aside>
+    </div>
+  );
+}
+
 export default function CartPage() {
   const [cart, setCart] = useState<CartData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -332,7 +421,7 @@ export default function CartPage() {
         {errorMsg && (
           <div
             role="alert"
-            className="mb-6 flex items-center justify-between gap-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-semibold text-red-800"
+            className="animate-scale-in mb-6 flex items-center justify-between gap-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-semibold text-red-800"
           >
             <span>{errorMsg}</span>
             <button
@@ -347,7 +436,7 @@ export default function CartPage() {
 
         {/* Order Confirmation View */}
         {confirmedOrder && (
-          <div className="mb-8 rounded-2xl border-2 border-emerald-500 bg-white p-6 shadow-md sm:p-8">
+          <div className="animate-scale-in mb-8 rounded-2xl border-2 border-emerald-500 bg-white p-6 shadow-md sm:p-8">
             <div className="flex flex-col justify-between gap-4 border-b border-neutral-200 pb-5 sm:flex-row sm:items-center">
               <div className="flex items-start gap-3.5">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xl font-black text-white">
@@ -400,11 +489,9 @@ export default function CartPage() {
         )}
 
         {isLoading && items.length === 0 ? (
-          <div className="rounded-2xl border border-neutral-200 bg-white p-12 text-center">
-            <p className="text-sm font-bold text-neutral-700">Loading your selected parts from the database...</p>
-          </div>
+          <CartLoadingSkeleton />
         ) : items.length === 0 ? (
-          <div className="rounded-2xl border border-neutral-200 bg-white p-10 text-center shadow-sm sm:p-14">
+          <div className="animate-fade-up rounded-2xl border border-neutral-200 bg-white p-10 text-center shadow-sm sm:p-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-neutral-100 text-3xl">
               🛒
             </div>
@@ -417,20 +504,20 @@ export default function CartPage() {
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/#part-search"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#ef263d] px-6 py-3 text-xs font-extrabold text-white transition hover:bg-[#d91f34]"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#ef263d] px-6 py-3 text-xs font-extrabold text-white transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.98]"
               >
                 Search Database Parts
               </Link>
               <Link
                 href="/#products"
-                className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-6 py-3 text-xs font-extrabold text-neutral-800 transition hover:border-neutral-900"
+                className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-6 py-3 text-xs font-extrabold text-neutral-800 transition-all duration-200 hover:border-neutral-900 active:scale-[0.98]"
               >
                 Browse Trending Catalog
               </Link>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="animate-fade-up grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
             {/* Left 8 Columns: Cart Items + VIN & Warranty Controls */}
             <div className="space-y-5 lg:col-span-8">
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-neutral-200 bg-white px-5 py-3.5 shadow-sm">
@@ -460,7 +547,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {items.map((item) => {
+              {items.map((item, idx) => {
                 const conditionBadge =
                   CONDITION_STYLES[item.condition] ?? CONDITION_STYLES.new;
                 const isItemBusy = busyPartId === item.partId;
@@ -472,8 +559,20 @@ export default function CartPage() {
                 return (
                   <article
                     key={item.partId}
-                    className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:border-neutral-300 sm:p-6"
+                    style={{ animationDelay: `${idx * 60}ms` }}
+                    className={`animate-fade-up relative rounded-2xl border bg-white p-5 shadow-sm transition-all duration-200 sm:p-6 ${
+                      isItemBusy
+                        ? 'border-neutral-300 opacity-85'
+                        : 'border-neutral-200 hover:border-neutral-300'
+                    }`}
                   >
+                    {isItemBusy && (
+                      <div className="animate-fade-in absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-neutral-900/90 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
+                        <CartSpinner className="h-3 w-3 text-[#ef263d]" />
+                        <span>Updating...</span>
+                      </div>
+                    )}
+
                     <div className="flex flex-col gap-5 sm:flex-row">
                       {/* Part Thumbnail */}
                       <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100 sm:h-36 sm:w-40">
@@ -595,7 +694,7 @@ export default function CartPage() {
                           </p>
                         </div>
                         {item.vin && (
-                          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-800">
+                          <span className="animate-scale-in inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-800">
                             ✓ VIN Saved: {item.vin}
                           </span>
                         )}
@@ -613,14 +712,15 @@ export default function CartPage() {
                             }))
                           }
                           placeholder="Enter 17-Digit VIN (e.g. WBS33AY05RFL12345)"
-                          className="h-9 flex-1 rounded-lg border border-neutral-300 bg-white px-3 font-mono text-xs uppercase text-neutral-900 outline-none focus:border-[#ef263d]"
+                          className="h-9 flex-1 rounded-lg border border-neutral-300 bg-white px-3 font-mono text-xs uppercase text-neutral-900 outline-none transition-colors focus:border-[#ef263d]"
                         />
                         <button
                           type="button"
                           disabled={isItemBusy}
                           onClick={() => handleSaveVin(item.partId)}
-                          className="h-9 rounded-lg bg-neutral-900 px-4 text-xs font-bold text-white transition hover:bg-[#ef263d] disabled:opacity-50"
+                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-neutral-900 px-4 text-xs font-bold text-white transition-all duration-200 hover:bg-[#ef263d] active:scale-[0.98] disabled:opacity-50"
                         >
+                          {isItemBusy && <CartSpinner className="h-3 w-3" />}
                           {savedVinPartId === item.partId ? '✓ VIN Saved' : 'Verify & Save VIN'}
                         </button>
                       </div>
@@ -640,7 +740,7 @@ export default function CartPage() {
                               type="button"
                               disabled={isItemBusy}
                               onClick={() => handleWarrantyChange(item.partId, option.id)}
-                              className={`flex flex-col justify-between rounded-xl border p-3 text-left transition ${
+                              className={`flex flex-col justify-between rounded-xl border p-3 text-left transition-all duration-200 ${
                                 isSelected
                                   ? 'border-[#ef263d] bg-red-50/40 ring-1 ring-[#ef263d]'
                                   : 'border-neutral-200 bg-white hover:border-neutral-300'
@@ -842,8 +942,9 @@ export default function CartPage() {
                   <button
                     type="submit"
                     disabled={isSubmittingOrder}
-                    className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#ef263d] px-5 text-xs font-extrabold uppercase tracking-wide text-white shadow-sm transition hover:bg-[#d91f34] disabled:opacity-60"
+                    className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#ef263d] px-5 text-xs font-extrabold uppercase tracking-wide text-white shadow-sm transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.99] disabled:opacity-60"
                   >
+                    {isSubmittingOrder && <CartSpinner className="h-4 w-4 text-white" />}
                     {isSubmittingOrder
                       ? 'Locking Fitment & Processing...'
                       : `Complete Order • $${summary.grandTotal.toFixed(2)}`}

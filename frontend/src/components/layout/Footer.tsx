@@ -38,20 +38,20 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-2.5 mb-4">
             <div className="w-9 h-9 rounded-lg bg-[#e51515] flex items-center justify-center text-white font-black text-lg">
-              G
+              A
             </div>
             <span className="text-2xl font-black tracking-tight text-white">
-              GEARUP<span className="text-[#e51515]">.</span>
+              AUTOMOBILIC<span className="text-[#e51515]">.</span>
             </span>
           </div>
           <p className="text-sm text-neutral-400 leading-relaxed mb-4">
-            Gearup Auto Parts &amp; Performance Tools Store. Verified OEM &amp; aftermarket components
+            Automobilic Auto Parts &amp; Performance Tools Store. Verified OEM &amp; aftermarket components
             with guaranteed vehicle fitment.
           </p>
           <div className="text-sm space-y-1 text-neutral-300">
             <p>📍 1550 Industrial Parkway, Suite 210, Detroit, MI 48202</p>
             <p>📞 (555) 867-5309</p>
-            <p>✉️ support@gearup-autoparts.com</p>
+            <p>✉️ support@automobilic-autoparts.com</p>
           </div>
         </div>
 
@@ -92,28 +92,28 @@ export function Footer() {
           <h4 className="text-white font-bold text-base mb-4">Top Auto Departments</h4>
           <ul className="space-y-2.5 text-sm text-neutral-400">
             <li>
-              <Link href="#categories" className="hover:text-white transition">
-                Headlights &amp; LED Assemblies
+              <Link href="/#part-search?partType=engine" className="hover:text-white transition">
+                Complete Engine Assemblies &amp; Blocks
+              </Link>
+            </li>
+            <li>
+              <Link href="/#part-search?partType=transmission" className="hover:text-white transition">
+                Automatic &amp; Manual Transmissions
               </Link>
             </li>
             <li>
               <Link href="#categories" className="hover:text-white transition">
-                Performance Brake Rotors &amp; Pads
+                Turbocharged &amp; Naturally Aspirated Motors
               </Link>
             </li>
             <li>
               <Link href="#categories" className="hover:text-white transition">
-                All-Season &amp; Track Tires
+                CVT, Dual-Clutch &amp; AWD Gearboxes
               </Link>
             </li>
             <li>
-              <Link href="#categories" className="hover:text-white transition">
-                Suspension Coilovers &amp; Shocks
-              </Link>
-            </li>
-            <li>
-              <Link href="#categories" className="hover:text-white transition">
-                Synthetic Motor Oils &amp; Filters
+              <Link href="#products" className="hover:text-white transition">
+                Synthetic Motor Oils &amp; Service Kits
               </Link>
             </li>
           </ul>
@@ -139,7 +139,7 @@ export function Footer() {
 
       {/* Bottom Copyright */}
       <div className="max-w-7xl mx-auto py-6 px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
-        <p>© {new Date().getFullYear()} Gearup Auto Parts Store . All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Automobilic Auto Parts Store . All rights reserved.</p>
         <div className="flex items-center gap-4">
           <span>Privacy Policy</span>
           <span>Terms &amp; Conditions</span>

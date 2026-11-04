@@ -24,7 +24,7 @@ export default function LoginPage() {
 
     try {
       const response = await authService.signin({ email, password });
-      setSuccessMessage(response.message || 'Signed in! Loading your Gearup Garage...');
+      setSuccessMessage(response.message || 'Signed in! Loading your Automobilic Garage...');
       setTimeout(() => {
         router.push('/');
         router.refresh();
@@ -74,7 +74,7 @@ export default function LoginPage() {
 
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 rounded-full bg-[#ef263d]/20 border border-[#ef263d]/40 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b7b]">
-                <span>⚡ Gearup Digital Garage</span>
+                <span>⚡ Automobilic Digital Garage</span>
               </div>
 
               <h1 className="mt-5 text-3xl sm:text-4xl font-black tracking-tight leading-tight">
@@ -90,12 +90,12 @@ export default function LoginPage() {
                   {
                     badge: 'FITMENT',
                     title: '100% Guaranteed Vehicle Match',
-                    desc: 'Filter 68,000+ brake, suspension & engine components by your saved car.',
+                    desc: 'Filter verified Engine & Transmission assemblies by your saved car.',
                   },
                   {
                     badge: 'PRO TIER',
                     title: 'Commercial & DIY Member Pricing',
-                    desc: 'Unlock exclusive bundle discounts on Brembo, Michelin, Bilstein & Liqui Moly.',
+                    desc: 'Unlock exclusive bundle discounts on OEM powertrains, Brembo, Michelin & Liqui Moly.',
                   },
                   {
                     badge: 'WARRANTY',
@@ -200,7 +200,7 @@ export default function LoginPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="driver@gearup-garage.com"
+                    placeholder="driver@automobilic-garage.com"
                     className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15 transition"
                   />
                 </div>
@@ -264,7 +264,7 @@ export default function LoginPage() {
               <div className="my-7 flex items-center gap-3">
                 <div className="h-px flex-1 bg-neutral-200" />
                 <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
-                  New to Gearup Auto Parts?
+                  New to Automobilic Auto Parts?
                 </span>
                 <div className="h-px flex-1 bg-neutral-200" />
               </div>

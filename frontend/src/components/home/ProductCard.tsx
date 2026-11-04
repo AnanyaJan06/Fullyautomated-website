@@ -16,7 +16,7 @@ export function ProductCard({ product }: { product: ProductItem }) {
   return (
     <article
       data-product-tabs={product.tabCategory.join(' ')}
-      className="group flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 transition-colors hover:border-neutral-300"
+      className="group flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:shadow-md"
     >
       <div>
         <div className="mb-2 flex items-center justify-between">
@@ -36,7 +36,10 @@ export function ProductCard({ product }: { product: ProductItem }) {
         </div>
 
         <div className={`relative mb-3 flex h-44 w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br ${product.imageColor}`}>
-          <span aria-hidden="true" className="text-4xl font-black tracking-tight text-neutral-700/80">
+          <span
+            aria-hidden="true"
+            className="text-4xl font-black tracking-tight text-neutral-700/80 transition-transform duration-300 group-hover:scale-110"
+          >
             {PRODUCT_MARK[product.iconType]}
           </span>
           <span className="mt-2 rounded-full bg-white/80 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-500">
@@ -69,7 +72,7 @@ export function ProductCard({ product }: { product: ProductItem }) {
             )}
           </div>
           <span className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
             In Stock ({product.stockCount})
           </span>
         </div>

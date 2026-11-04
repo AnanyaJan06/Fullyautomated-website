@@ -96,7 +96,7 @@ export default function SignupPage() {
       });
 
       setSuccessMessage(
-        response.message || 'Garage account created! Redirecting to Gearup...'
+        response.message || 'Garage account created! Redirecting to Automobilic...'
       );
       setTimeout(() => {
         router.push('/');
@@ -145,7 +145,7 @@ export default function SignupPage() {
 
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 rounded-full bg-amber-400/20 border border-amber-400/40 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
-                <span>🏁 Free Gearup Garage Membership</span>
+                <span>🏁 Free Automobilic Garage Membership</span>
               </div>
 
               <h1 className="mt-5 text-3xl sm:text-4xl font-black tracking-tight leading-tight">
@@ -189,7 +189,7 @@ export default function SignupPage() {
                     ✓
                   </span>
                   <p>
-                    <strong className="text-white">Priority Warehouse Dispatch:</strong> Same-day shipping on brake kits, coilovers, tires &amp; LED assemblies.
+                    <strong className="text-white">Priority Warehouse Dispatch:</strong> Fast freight and same-day shipping on engines, transmissions &amp; service kits.
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -233,7 +233,7 @@ export default function SignupPage() {
                   New Garage Registration
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-black text-[#202126] mt-1">
-                  Create Your Gearup Account
+                  Create Your Automobilic Account
                 </h2>
               </div>
 
@@ -343,7 +343,7 @@ export default function SignupPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="driver@gearup-garage.com"
+                    placeholder="driver@automobilic-garage.com"
                     className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15"
                   />
                 </div>
@@ -500,7 +500,7 @@ export default function SignupPage() {
               </form>
 
               <p className="mt-5 text-center text-xs text-neutral-500">
-                Already have a Gearup Garage account?{' '}
+                Already have an Automobilic Garage account?{' '}
                 <Link href="/login" className="font-extrabold text-[#ef263d] hover:underline">
                   Sign In Here
                 </Link>

@@ -1,17 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CART_CHANGE_EVENT, cartService } from '@/services/cart.service';
 
 export function HeaderCartLink() {
   const [count, setCount] = useState(0);
+  const [isBumping, setIsBumping] = useState(false);
+  const prevCountRef = useRef(0);
 
   useEffect(() => {
+    const updateCount = (nextCount: number) => {
+      if (nextCount !== prevCountRef.current && nextCount > 0) {
+        setIsBumping(true);
+        setTimeout(() => setIsBumping(false), 420);
+      }
+      prevCountRef.current = nextCount;
+      setCount(nextCount);
+    };
+
     const syncFromCache = () => {
       const cached = cartService.getCachedCart();
       if (cached?.summary) {
-        setCount(cached.summary.totalQuantity || 0);
+        updateCount(cached.summary.totalQuantity || 0);
       }
     };
 
@@ -19,7 +30,7 @@ export function HeaderCartLink() {
     void cartService
       .getCart()
       .then((cart) => {
-        setCount(cart.summary?.totalQuantity || 0);
+        updateCount(cart.summary?.totalQuantity || 0);
       })
       .catch(() => {
         // Ignore if backend is offline on initial load
@@ -37,7 +48,7 @@ export function HeaderCartLink() {
     <Link
       href="/cart"
       aria-label={`Shopping cart (${count} items)`}
-      className="relative rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d]"
+      className="relative rounded-full p-2 text-[#202126] transition-all duration-200 hover:bg-neutral-100 hover:text-[#ef263d] active:scale-95"
     >
       <svg
         aria-hidden="true"
@@ -47,14 +58,18 @@ export function HeaderCartLink() {
         strokeWidth="1.7"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="h-[22px] w-[22px]"
+        className={`h-[22px] w-[22px] transition-transform ${isBumping ? 'animate-cart-bump' : ''}`}
       >
         <path d="M3 4h2l2.1 11.1a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 1.9-1.5L21 8H6" />
         <circle cx="10" cy="20" r="1" />
         <circle cx="18" cy="20" r="1" />
       </svg>
       {count > 0 && (
-        <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#ef263d] px-1 text-[10px] font-extrabold text-white shadow-sm">
+        <span
+          className={`absolute -right-0.5 -top-0.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#ef263d] px-1 text-[10px] font-extrabold text-white shadow-sm ${
+            isBumping ? 'animate-cart-bump' : ''
+          }`}
+        >
           {count > 99 ? '99+' : count}
         </span>
       )}

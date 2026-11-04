@@ -72,12 +72,12 @@ export function Header() {
           </nav>
         </details>
 
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Gearup home">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Automobilic home">
           <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#ef263d] text-xl font-black text-white">
-            G
+            A
           </span>
           <span className="text-[26px] font-extrabold leading-none tracking-tight text-[#202126]">
-            Gearup<span className="text-[#ef263d]">.</span>
+            Automobilic<span className="text-[#ef263d]">.</span>
           </span>
         </Link>
 

@@ -97,7 +97,7 @@ export const signup = async (
         token,
         user: serializeUser(user),
       },
-      'Your Gearup Garage account has been created successfully!',
+      'Your Automobilic Garage account has been created successfully!',
       201
     );
   } catch (error) {
@@ -144,7 +144,7 @@ export const signin = async (
         token,
         user: serializeUser(user),
       },
-      'Welcome back to Gearup!'
+      'Welcome back to Automobilic!'
     );
   } catch (error) {
     next(error);

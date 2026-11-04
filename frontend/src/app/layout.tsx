@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Gearup — Auto Parts, Tires & Performance Tools Store',
+  title: 'Automobilic — Auto Parts, Engines & Transmissions Store',
   description:
-    'Shop OEM and aftermarket auto parts, headlights, brake systems, tires, and garage tools with guaranteed vehicle fitment.',
+    'Shop OEM and aftermarket auto parts, complete engine assemblies, transmissions, and performance gear with guaranteed vehicle fitment.',
 };
 
 export default function RootLayout({
@@ -31,4 +31,3 @@ export default function RootLayout({
     </html>
   );
 }
-
