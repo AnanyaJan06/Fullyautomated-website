@@ -86,7 +86,7 @@ export default function HomePage() {
                   href={`#part-search?partType=${cat.slug}`}
                   className="mt-auto inline-flex items-center gap-3 rounded-md bg-white px-4 py-2.5 text-xs font-extrabold text-neutral-900 transition-colors hover:bg-neutral-100 sm:text-sm"
                 >
-                  Shop now <span aria-hidden="true">Ã¢â€ â€™</span>
+                  Shop now <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function HomePage() {
                 href="#products"
                 className="inline-block bg-neutral-900 hover:bg-[#e51515] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
-                View All 24 Flash Deals ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
+                View All 24 Flash Deals &rarr;
               </a>
             </div>
 
