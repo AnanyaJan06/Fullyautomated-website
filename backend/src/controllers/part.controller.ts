@@ -189,7 +189,7 @@ export const searchParts = async (
     const [matchingDocs, totalInCollection, filteredCount] = await Promise.all([
       Part.find(mongoFilter)
         .select(PART_FIELDS)
-        .sort({ year: -1, createdAt: -1, _id: -1 })
+        .sort(andConditions.length === 0 ? { createdAt: -1, _id: -1 } : { year: -1, createdAt: -1, _id: -1 })
         .skip((page - 1) * pageSize)
         .limit(pageSize + 1)
         .lean(),

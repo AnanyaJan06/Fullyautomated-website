@@ -1,12 +1,23 @@
 import Image from 'next/image';
-import { GEARUP_CATEGORIES, GEARUP_PRODUCTS } from '@/data/gearup-data';
+import { GEARUP_CATEGORIES } from '@/data/gearup-data';
 import { VehicleFilterHero } from '@/components/home/VehicleFilterHero';
 import { VehicleSearch } from '@/components/home/VehicleSearch';
-import { ProductCard } from '@/components/home/ProductCard';
+import { DatabaseProductCard } from '@/components/home/DatabaseProductCard';
+import { WeeklyCountdown } from '@/components/home/WeeklyCountdown';
 import { ProductTabsSection } from '@/components/home/ProductTabsSection';
+import { partService } from '@/services/part.service';
+import type { DatabasePart } from '@/types';
 
-export default function HomePage() {
-  const dealProducts = GEARUP_PRODUCTS.slice(0, 3);
+export default async function HomePage() {
+  let dealProducts: DatabasePart[] = [];
+  let dealsUnavailable = false;
+
+  try {
+    const response = await partService.searchParts({ page: 1, limit: 4 });
+    dealProducts = response.data.parts;
+  } catch {
+    dealsUnavailable = true;
+  }
 
   return (
     <main className="pb-12">
@@ -101,46 +112,38 @@ export default function HomePage() {
             {/* Left Deal Countdown Info */}
             <div className="lg:col-span-3">
               <span className="inline-block bg-[#e51515] text-white text-[11px] font-extrabold uppercase px-3 py-1 rounded mb-3">
-                Flash Deals of the Week
+                Latest Parts This Week
               </span>
               <h2 className="text-2xl font-black text-neutral-900 leading-tight">
-                Don&apos;t Miss Out On Track-Ready Bundles
+                This Week&apos;s Best Picks
               </h2>
               <p className="text-xs text-neutral-600 mt-2 mb-5">
-                Limited warehouse stock on Brembo, Michelin, and Matrix LED assemblies. Prices reset when timer expires!
+                The latest parts added to our catalog. Discount offers are coming soon.
               </p>
 
-              {/* Countdown Timer Boxes */}
-              <div className="flex items-center gap-2 mb-5">
-                {[
-                  { val: '02', label: 'Days' },
-                  { val: '14', label: 'Hrs' },
-                  { val: '38', label: 'Mins' },
-                  { val: '52', label: 'Secs' },
-                ].map((t, i) => (
-                  <div
-                    key={i}
-                    className="bg-[#161824] text-white rounded-lg px-3 py-2 text-center min-w-[54px]"
-                  >
-                    <span className="block text-base font-black leading-none">{t.val}</span>
-                    <span className="text-[10px] text-neutral-400 uppercase">{t.label}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500">Weekly refresh in</p>
+              <WeeklyCountdown />
 
               <a
                 href="#products"
                 className="inline-block bg-neutral-900 hover:bg-[#e51515] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
-                View All 24 Flash Deals &rarr;
+                Browse Parts &rarr;
               </a>
             </div>
 
-            {/* Right 3 Deal Product Cards */}
-            <div className="lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Latest database parts */}
+            <div className="lg:col-span-9 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {dealProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <DatabaseProductCard key={product.id} product={product} />
               ))}
+              {dealProducts.length === 0 && (
+                <p className="rounded-xl border border-neutral-200 bg-white p-6 text-sm text-neutral-600 sm:col-span-2 xl:col-span-4" role="status">
+                  {dealsUnavailable
+                    ? 'The parts catalog is temporarily unavailable. Please try again shortly.'
+                    : 'No parts have been added to the catalog yet.'}
+                </p>
+              )}
             </div>
           </div>
         </div>
