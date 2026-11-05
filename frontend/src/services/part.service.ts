@@ -10,7 +10,7 @@ export const partService = {
     if (params.make) searchParams.set('make', params.make);
     if (params.model) searchParams.set('model', params.model);
 
-    return apiFetcher<ApiResponse<PartSearchOptions>>(
+    return apiFetcher<ApiResponse<Partial<PartSearchOptions>>>(
       `/parts/options?${searchParams.toString()}`,
       { signal }
     );

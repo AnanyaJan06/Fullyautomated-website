@@ -38,26 +38,16 @@ function SearchField({
   label,
   icon,
   hasChevron = true,
-  isFieldLoading = false,
   children,
 }: {
   label: string;
   icon: 'search' | 'part' | 'car' | 'calendar';
   hasChevron?: boolean;
-  isFieldLoading?: boolean;
   children: ReactNode;
 }) {
   return (
     <label className="min-w-0 text-xs font-medium text-neutral-700 lg:border-r lg:border-neutral-200 lg:pr-4">
-      <span className="flex items-center justify-between gap-2">
-        <span>{label}</span>
-        {isFieldLoading && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#ef263d] animate-fade-in">
-            <SpinnerIcon className="h-3 w-3" />
-            Syncing...
-          </span>
-        )}
-      </span>
+      {label}
       <span className="relative mt-1.5 block">
         <svg
           aria-hidden="true"
@@ -95,12 +85,7 @@ function SearchField({
           )}
         </svg>
         {children}
-        {isFieldLoading ? (
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#ef263d]">
-            <SpinnerIcon className="h-3.5 w-3.5" />
-          </span>
-        ) : (
-          hasChevron && (
+        {hasChevron && (
             <svg
               aria-hidden="true"
               viewBox="0 0 16 16"
@@ -115,7 +100,6 @@ function SearchField({
                 strokeLinejoin="round"
               />
             </svg>
-          )
         )}
       </span>
     </label>
@@ -253,7 +237,6 @@ export function VehicleSearch() {
   const [highlightPulse, setHighlightPulse] = useState(false);
 
   const [searchOptions, setSearchOptions] = useState<PartSearchOptions>({ makes: [], models: [], years: [] });
-  const [isOptionsLoading, setIsOptionsLoading] = useState(false);
   const [optionsError, setOptionsError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -279,6 +262,8 @@ export function VehicleSearch() {
           setMake('');
           setModel('');
           setYear('');
+          setSearchOptions({ makes: [], models: [], years: [] });
+          setOptionsError('');
           setSearchResult(null);
           setHighlightPulse(true);
           setTimeout(() => setHighlightPulse(false), 1400);
@@ -298,23 +283,20 @@ export function VehicleSearch() {
     setOptionsError('');
 
     if (!partType) {
-      setIsOptionsLoading(false);
       return () => controller.abort();
     }
 
-    setIsOptionsLoading(true);
     partService
       .getSearchOptions({ partType, make: make || undefined, model: model || undefined }, controller.signal)
       .then((response) => {
-        if (!controller.signal.aborted) setSearchOptions(response.data);
+        if (!controller.signal.aborted) {
+          setSearchOptions((current) => ({ ...current, ...response.data }));
+        }
       })
       .catch((error) => {
         if (!controller.signal.aborted) {
           setOptionsError(error instanceof Error ? error.message : 'Unable to load vehicle options.');
         }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setIsOptionsLoading(false);
       });
 
     return () => controller.abort();
@@ -349,6 +331,8 @@ export function VehicleSearch() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!partType || !make || !model || !year) return;
+
     await runSearch({
       partType,
       make,
@@ -385,10 +369,6 @@ export function VehicleSearch() {
     .join(' • ');
   const visibleError = errorMsg || optionsError;
 
-  const isMakesLoading = isOptionsLoading && Boolean(partType) && !make;
-  const isModelsLoading = isOptionsLoading && Boolean(make) && !model;
-  const isYearsLoading = isOptionsLoading && Boolean(model) && !year;
-
   return (
     <section
       id="part-search"
@@ -423,7 +403,7 @@ export function VehicleSearch() {
           </select>
         </SearchField>
 
-        <SearchField label="Make" icon="car" isFieldLoading={isMakesLoading}>
+        <SearchField label="Make" icon="car">
           <select
             value={make}
             onChange={(event) => {
@@ -434,21 +414,15 @@ export function VehicleSearch() {
               setSearchResult(null);
             }}
             className={selectClassName}
-            disabled={!partType || !searchOptions.makes.length || isOptionsLoading}
+            disabled={!partType}
             required
           >
-            <option value="">
-              {isMakesLoading
-                ? 'Loading makes...'
-                : searchOptions.makes.length || !partType
-                  ? 'Select make'
-                  : 'No makes available'}
-            </option>
+            <option value="">Select make</option>
             {searchOptions.makes.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </SearchField>
 
-        <SearchField label="Model" icon="car" isFieldLoading={isModelsLoading}>
+        <SearchField label="Model" icon="car">
           <select
             value={model}
             onChange={(event) => {
@@ -458,21 +432,15 @@ export function VehicleSearch() {
               setSearchResult(null);
             }}
             className={selectClassName}
-            disabled={!make || !searchOptions.models.length || isOptionsLoading}
+            disabled={!make}
             required
           >
-            <option value="">
-              {isModelsLoading
-                ? 'Loading models...'
-                : searchOptions.models.length || !make
-                  ? 'Select model'
-                  : 'No models available'}
-            </option>
+            <option value="">Select model</option>
             {searchOptions.models.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </SearchField>
 
-        <SearchField label="Year" icon="calendar" isFieldLoading={isYearsLoading}>
+        <SearchField label="Year" icon="calendar">
           <select
             value={year}
             onChange={(event) => {
@@ -480,16 +448,10 @@ export function VehicleSearch() {
               setSearchResult(null);
             }}
             className={selectClassName}
-            disabled={!model || !searchOptions.years.length || isOptionsLoading}
+            disabled={!model}
             required
           >
-            <option value="">
-              {isYearsLoading
-                ? 'Loading years...'
-                : searchOptions.years.length || !model
-                  ? 'Select year'
-                  : 'No years available'}
-            </option>
+            <option value="">Select year</option>
             {searchOptions.years.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </SearchField>
@@ -638,7 +600,8 @@ export function VehicleSearch() {
                     setMake('');
                     setModel('');
                     setYear('');
-                    void runSearch({ partType });
+                    const resultPartType = searchResult.filters.partType;
+                    if (resultPartType) void runSearch({ partType: resultPartType });
                   }}
                   className="rounded-lg bg-neutral-900 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-[#ef263d]"
                 >

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { GEARUP_CATEGORIES, GEARUP_PRODUCTS } from '@/data/gearup-data';
 import { VehicleFilterHero } from '@/components/home/VehicleFilterHero';
 import { VehicleSearch } from '@/components/home/VehicleSearch';
@@ -17,39 +18,28 @@ export default function HomePage() {
 
       {/* 2. Service Guarantees Bar */}
       <section className="mx-auto mt-8 max-w-[1440px] px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-4 border-b border-neutral-100 py-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm sm:grid-cols-2 lg:grid-cols-4">
           {[
-            {
-              icon: '🚚',
-              title: 'Fast, reliable shipping',
-              desc: 'Free delivery on orders over $150',
-            },
-            {
-              icon: '🛡️',
-              title: 'Fitment confidence',
-              desc: 'Parts selected for your vehicle',
-            },
-            {
-              icon: '🔄',
-              title: 'Easy 30-day returns',
-              desc: 'Simple returns on eligible orders',
-            },
-            {
-              icon: '🎧',
-              title: 'Parts support',
-              desc: 'Get help finding the right part',
-            },
+            { icon: 'shipping', title: 'Fast, reliable shipping', desc: 'Free delivery on orders over $150' },
+            { icon: 'fitment', title: 'Fitment confidence', desc: 'Parts selected for your vehicle' },
+            { icon: 'returns', title: 'Easy 30-day returns', desc: 'Simple returns on eligible orders' },
+            { icon: 'support', title: 'Parts support', desc: 'Get help finding the right part' },
           ].map((item, index) => (
             <div
-              key={index}
+              key={item.icon}
               style={{ animationDelay: `${index * 60}ms` }}
-              className="animate-fade-up group flex items-start gap-4 rounded-xl px-2 py-1 transition-colors hover:bg-neutral-50"
+              className="animate-fade-up group flex min-h-[112px] items-center gap-4 border-neutral-100 p-5 transition-colors hover:bg-neutral-50 sm:border-r sm:px-6 sm:last:border-r-0 lg:border-b-0"
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cyan-200 text-xl font-medium text-cyan-500 transition-transform duration-300 group-hover:scale-110">
-                {item.icon}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-50 text-[#d92727] ring-1 ring-inset ring-red-100 transition-all duration-200 group-hover:bg-[#d92727] group-hover:text-white group-hover:ring-[#d92727]">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+                  {item.icon === 'shipping' && <><path d="M3 7h11v10H3z" /><path d="M14 10h4l3 3v4h-7z" /><circle cx="7.5" cy="18" r="1.5" /><circle cx="17.5" cy="18" r="1.5" /><path d="M5 10h5M5 13h3" /></>}
+                  {item.icon === 'fitment' && <><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" /><circle cx="12" cy="10" r="2.5" /><path d="m9.5 16 1.5 1.5 3.5-3.5" /></>}
+                  {item.icon === 'returns' && <><path d="M3 11a9 9 0 1 1 2.2 6" /><path d="M3 5v6h6" /><path d="M12 7v5l3 2" /></>}
+                  {item.icon === 'support' && <><path d="M4 13v-2a8 8 0 0 1 16 0v2" /><path d="M4 13h3v6H6a2 2 0 0 1-2-2zM20 13h-3v6h1a2 2 0 0 0 2-2z" /><path d="M17 19a5 5 0 0 1-5 2" /></>}
+                </svg>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-neutral-900">{item.title}</h3>
+                <h3 className="text-sm font-bold text-neutral-900">{item.title}</h3>
                 <p className="mt-1 text-xs leading-5 text-neutral-500">{item.desc}</p>
               </div>
             </div>
@@ -61,105 +51,42 @@ export default function HomePage() {
       <section id="categories" className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-3 border-b border-neutral-200 pb-4 mb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#e51515]">
-              Shop By Department
-            </span>
             <h2 className="text-2xl font-black text-neutral-900 mt-0.5">
               Popular Auto Parts Categories
             </h2>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-xs font-bold text-neutral-700">
-              <span className="h-2 w-2 rounded-full bg-[#e51515] animate-pulse" />2 Core Part Types: Engine &amp; Transmission
-            </span>
-            <a
-              href="#part-search"
-              className="text-xs font-bold text-[#e51515] hover:underline hidden sm:inline"
-            >
-              Search by Vehicle →
-            </a>
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {GEARUP_CATEGORIES.map((cat, idx) => (
             <div
               key={cat.id}
               style={{ animationDelay: `${idx * 100}ms` }}
-              className="animate-fade-up group relative overflow-hidden bg-white rounded-2xl border border-neutral-200 hover:border-[#e51515] p-6 sm:p-7 flex flex-col justify-between gap-6 transition-all duration-300 shadow-sm hover:-translate-y-1 hover:shadow-lg"
+              className={`animate-fade-up group relative flex min-h-[270px] items-stretch overflow-hidden rounded-lg text-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:min-h-[310px] ${cat.slug === 'engine' ? 'bg-[#075291]' : 'bg-[#bd3d1e]'}`}
             >
-              <div>
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <span className="inline-block rounded-md bg-red-50 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#e51515]">
-                      {cat.badge}
-                    </span>
-                    <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
-                      <h3 className="text-2xl font-black text-neutral-900 group-hover:text-[#e51515] transition-colors">
-                        {cat.name}
-                      </h3>
-                      <span className="text-[11px] font-semibold bg-neutral-100 text-neutral-600 px-2.5 py-0.5 rounded-full">
-                        {cat.itemCount}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-4xl shrink-0 group-hover:scale-110 group-hover:rotate-3 group-hover:border-red-100 group-hover:bg-red-50/40 transition-all duration-300">
-                    {cat.icon}
-                  </div>
-                </div>
-
-                <p className="mt-3 text-xs sm:text-sm leading-relaxed text-neutral-600">
-                  {cat.description}
+              <Image
+                src={cat.slug === 'engine' ? '/images/engines.jpg' : '/images/transmissions.jpg'}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/10" aria-hidden="true" />
+              <div className="relative z-10 flex w-[58%] flex-col items-start p-6 sm:p-8">
+                <span className="rounded-md bg-emerald-500 px-2.5 py-1 text-[10px] font-extrabold text-white sm:text-xs">
+                  {cat.slug === 'engine' ? 'Top Brands' : 'Up to 40% Off'}
+                </span>
+                <h3 className="mt-3 max-w-[12ch] text-3xl font-black uppercase leading-[1.05] tracking-tight sm:text-4xl">
+                  {cat.name} Essentials
+                </h3>
+                <p className="mt-2 text-sm font-semibold text-white/90 sm:text-base">
+                  {cat.slug === 'engine' ? 'Maximize & Maintain' : 'Power through every drive'}
                 </p>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {cat.highlights.map((highlight, hIdx) => (
-                    <span
-                      key={hIdx}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-[11px] font-semibold text-neutral-700"
-                    >
-                      <span className="text-emerald-600 font-bold">✓</span>
-                      {highlight}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-5 border-t border-neutral-100 pt-4">
-                  <p className="text-[11px] font-extrabold uppercase tracking-wider text-neutral-400 mb-2.5">
-                    Available {cat.name} Configurations
-                  </p>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-600">
-                    {cat.subcategories.map((sub, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#e51515] shrink-0" />
-                        <a
-                          href={`#part-search?partType=${cat.slug}`}
-                          className="hover:text-[#e51515] font-medium transition-colors"
-                        >
-                          {sub}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-neutral-100 pt-4">
                 <a
                   href={`#part-search?partType=${cat.slug}`}
-                  className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 group-hover:bg-[#e51515] px-4 py-2.5 text-xs font-bold text-white transition-all duration-200 active:scale-[0.98]"
+                  className="mt-auto inline-flex items-center gap-3 rounded-md bg-white px-4 py-2.5 text-xs font-extrabold text-neutral-900 transition-colors hover:bg-neutral-100 sm:text-sm"
                 >
-                  <span>Find {cat.name} by Vehicle</span>
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
-                    →
-                  </span>
-                </a>
-                <a
-                  href="#products"
-                  className="text-xs font-bold text-neutral-600 hover:text-[#e51515] transition-colors"
-                >
-                  Browse Catalog →
+                  Shop now <span aria-hidden="true">Ã¢â€ â€™</span>
                 </a>
               </div>
             </div>
@@ -205,7 +132,7 @@ export default function HomePage() {
                 href="#products"
                 className="inline-block bg-neutral-900 hover:bg-[#e51515] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
-                View All 24 Flash Deals →
+                View All 24 Flash Deals ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
               </a>
             </div>
 
@@ -219,54 +146,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. Dual Mid-Page Promotional Banners */}
+      {/* 5. Parts expert support and service benefits */}
       <section className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="group rounded-2xl bg-gradient-to-r from-[#161824] to-[#25293e] text-white p-7 flex items-center justify-between gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+        <div className="overflow-hidden rounded-lg bg-[#0870b8] px-6 py-7 text-white shadow-sm sm:px-10 lg:px-16">
+          <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
             <div>
-              <span className="inline-block bg-amber-400 text-neutral-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded mb-2">
-                German Engineered
-              </span>
-              <h3 className="text-xl font-black">
-                Full-Synthetic Motor Oils &amp; Additives
-              </h3>
-              <p className="text-xs text-neutral-300 mt-1 mb-4 max-w-sm">
-                Keep your turbo &amp; high-mileage engine protected with Liqui Moly and Motul 5W-40 kits.
+              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+                Need Help Finding the Right Product?
+              </h2>
+              <p className="mt-1 text-sm text-blue-100 sm:text-base">
+                Our Parts Experts Can Help. Call for immediate assistance.
               </p>
-              <a
-                href="#products"
-                className="inline-block bg-[#e51515] hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 active:scale-[0.98]"
-              >
-                Shop Service Kits →
-              </a>
             </div>
-            <div className="text-6xl hidden sm:flex w-24 h-24 rounded-2xl bg-white/10 items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
-              🛢️
-            </div>
+            <a
+              href="tel:+18001234567890"
+              className="inline-flex shrink-0 items-center justify-center rounded-lg bg-white px-6 py-3 text-sm font-bold text-neutral-900 transition-colors hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Request a Call
+            </a>
+            <a href="tel:+18001234567890" className="text-center transition-opacity hover:opacity-80">
+              <span className="block text-xl font-extrabold sm:text-2xl">+(800) 1234 5678 90</span>
+              <span className="mt-0.5 block text-xs text-blue-100 sm:text-sm">You can contact us 24/7.</span>
+            </a>
           </div>
+        </div>
 
-          <div className="group rounded-2xl bg-gradient-to-r from-[#2c1215] to-[#161824] text-white p-7 flex items-center justify-between gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-            <div>
-              <span className="inline-block bg-[#e51515] text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded mb-2">
-                Track &amp; Street Series
-              </span>
-              <h3 className="text-xl font-black">
-                Coilover Suspension &amp; Sway Bar Kits
-              </h3>
-              <p className="text-xs text-neutral-300 mt-1 mb-4 max-w-sm">
-                Precision ride height and 10-stage damping control from Bilstein, KW, and Ohlins.
-              </p>
-              <a
-                href="#products"
-                className="inline-block bg-white hover:bg-neutral-200 text-neutral-900 text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 active:scale-[0.98]"
-              >
-                Shop Suspension →
-              </a>
+        <div className="grid grid-cols-1 border-b border-neutral-200 py-7 sm:grid-cols-3 sm:py-8">
+          {[
+            { icon: 'quality', title: 'Original Products', desc: 'Quality parts from trusted brands.' },
+            { icon: 'price', title: 'Affordable Rates', desc: 'Great value across our catalog.' },
+            { icon: 'variety', title: 'Wide variety', desc: 'Find the right parts for your vehicle.' },
+          ].map((benefit, index) => (
+            <div
+              key={benefit.icon}
+              className={`flex items-center gap-4 px-5 py-4 sm:px-8 ${index < 2 ? 'sm:border-r sm:border-neutral-200' : ''}`}
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center text-[#0870b8]">
+                <svg aria-hidden="true" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-11 w-11">
+                  {benefit.icon === 'quality' && <><path d="m24 5 5 3 6-1 2 6 5 4-3 6 1 6-6 2-4 5-6-3-6 2-3-6-5-3 2-6-2-6 6-3 3-6z" /><circle cx="24" cy="21" r="8" /><path d="m18 31-2 11 8-4 8 4-2-11" /><path d="m21 21 2 2 4-5" /></>}
+                  {benefit.icon === 'price' && <><path d="M8 12h26v16H8z" /><path d="M12 16h18M12 24h8" /><circle cx="28" cy="22" r="3" /><path d="M12 32h26v5H12zM7 37h5" /><path d="m17 9 3-4 4 4" /></>}
+                  {benefit.icon === 'variety' && <><circle cx="23" cy="23" r="17" /><circle cx="23" cy="23" r="12" /><circle cx="23" cy="23" r="7" /><path d="m23 23 15-15M31 8h7v7" /><path d="m20 26 3-3 4 1" /></>}
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-neutral-900 sm:text-base">{benefit.title}</h3>
+                <p className="mt-1 text-xs leading-5 text-neutral-500 sm:text-sm">{benefit.desc}</p>
+              </div>
             </div>
-            <div className="text-6xl hidden sm:flex w-24 h-24 rounded-2xl bg-white/10 items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
-              🔧
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
