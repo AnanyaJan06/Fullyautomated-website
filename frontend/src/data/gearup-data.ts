@@ -26,6 +26,7 @@ export interface ProductItem {
   badge?: 'HOT' | 'SALE' | 'NEW';
   tabCategory: ('featured' | 'bestseller' | 'onsale')[];
   specs: string[];
+  images: string[];
   imageColor: string;
   iconType: 'brake' | 'headlight' | 'tire' | 'battery' | 'oil' | 'suspension' | 'spark' | 'exhaust';
 }
@@ -102,6 +103,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'SALE',
     tabCategory: ['featured', 'bestseller', 'onsale'],
     specs: ['Fitment: Direct OEM Replacement', 'Material: High-Carbon Cast Iron'],
+    images: [
+      '/images/gearup-hero-2.webp',
+      '/images/gearup-hero-1.webp',
+      '/images/parts/engine-assembly-3.svg',
+    ],
     imageColor: 'from-red-50 to-slate-100',
     iconType: 'brake',
   },
@@ -121,6 +127,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'HOT',
     tabCategory: ['featured', 'bestseller'],
     specs: ['Color Temp: 6000K Diamond White', 'Plug & Play Harness Included'],
+    images: [
+      '/images/gearup-hero-1.webp',
+      '/images/parts/transmission-assembly-3.svg',
+      '/images/gearup-hero-2.webp',
+    ],
     imageColor: 'from-blue-50 to-slate-100',
     iconType: 'headlight',
   },
@@ -140,6 +151,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'SALE',
     tabCategory: ['featured', 'bestseller', 'onsale'],
     specs: ['Speed Rating: Y (186 mph)', 'Dynamic Response Technology'],
+    images: [
+      '/images/gearup-hero-1.webp',
+      '/images/gearup-hero-2.webp',
+      '/images/parts/transmission-assembly-2.svg',
+    ],
     imageColor: 'from-zinc-100 to-slate-200',
     iconType: 'tire',
   },
@@ -159,6 +175,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'HOT',
     tabCategory: ['bestseller', 'onsale'],
     specs: ['Made in Germany', 'OEM Approved: BMW LL-01 / MB 229.5'],
+    images: [
+      '/images/parts/engine-assembly-1.svg',
+      '/images/parts/engine-assembly-3.svg',
+      '/images/gearup-hero-1.webp',
+    ],
     imageColor: 'from-amber-50 to-orange-100',
     iconType: 'oil',
   },
@@ -178,6 +199,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'NEW',
     tabCategory: ['featured', 'onsale'],
     specs: ['10-Stage Damping Adjustment', 'Monotube Gas Pressure Design'],
+    images: [
+      '/images/parts/transmission-assembly-1.svg',
+      '/images/parts/transmission-assembly-2.svg',
+      '/images/gearup-hero-2.webp',
+    ],
     imageColor: 'from-yellow-50 to-slate-100',
     iconType: 'suspension',
   },
@@ -197,6 +223,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'SALE',
     tabCategory: ['featured', 'bestseller', 'onsale'],
     specs: ['Cold Cranking Amps: 720 CCA', 'Spill-Proof SpiralCell AGM'],
+    images: [
+      '/images/parts/engine-assembly-2.svg',
+      '/images/parts/engine-assembly-1.svg',
+      '/images/parts/engine-assembly-3.svg',
+    ],
     imageColor: 'from-rose-50 to-zinc-100',
     iconType: 'battery',
   },
@@ -216,6 +247,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'HOT',
     tabCategory: ['bestseller'],
     specs: ['Fine Wire Center Electrode', 'Pre-Gapped for Turbo Engines'],
+    images: [
+      '/images/parts/engine-assembly-3.svg',
+      '/images/parts/engine-assembly-1.svg',
+      '/images/parts/engine-assembly-2.svg',
+    ],
     imageColor: 'from-emerald-50 to-slate-100',
     iconType: 'spark',
   },
@@ -235,6 +271,11 @@ export const GEARUP_PRODUCTS: ProductItem[] = [
     badge: 'NEW',
     tabCategory: ['featured', 'onsale'],
     specs: ['Carbon Fiber Tailpipes', '+14.2 HP Dyno Proven Gain'],
+    images: [
+      '/images/parts/transmission-assembly-2.svg',
+      '/images/parts/engine-assembly-2.svg',
+      '/images/gearup-hero-2.webp',
+    ],
     imageColor: 'from-purple-50 to-slate-100',
     iconType: 'exhaust',
   },

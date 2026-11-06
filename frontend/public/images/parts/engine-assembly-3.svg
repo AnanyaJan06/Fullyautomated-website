@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <rect width="800" height="560" fill="#131722"/>
+  <!-- Spec Inspection Card -->
+  <rect x="110" y="105" width="580" height="330" rx="18" fill="#1e2436" stroke="#334155" stroke-width="3"/>
+  <rect x="145" y="140" width="230" height="260" rx="12" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+  <!-- Piston & Connecting Rod Diagram -->
+  <rect x="215" y="175" width="90" height="70" rx="8" fill="#94a3b8" stroke="#f8fafc" stroke-width="3"/>
+  <line x1="215" y1="192" x2="305" y2="192" stroke="#ef263d" stroke-width="3"/>
+  <line x1="215" y1="204" x2="305" y2="204" stroke="#ef263d" stroke-width="3"/>
+  <path d="M248 245 H272 L282 335 H238 Z" fill="#64748b" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="260" cy="350" r="24" fill="#0f172a" stroke="#ef263d" stroke-width="5"/>
+  <!-- Quality Check Metrics -->
+  <text x="405" y="175" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="18" font-weight="800">DYNO &amp; QA INSPECTION SHEET</text>
+  <rect x="405" y="195" width="245" height="44" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="422" y="222" fill="#10b981" font-family="monospace" font-size="14" font-weight="700">✓ COMPRESSION: 185 PSI EVEN</text>
+  <rect x="405" y="252" width="245" height="44" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="422" y="279" fill="#10b981" font-family="monospace" font-size="14" font-weight="700">✓ OIL PRESSURE: 62 PSI RATED</text>
+  <rect x="405" y="309" width="245" height="44" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="422" y="336" fill="#10b981" font-family="monospace" font-size="14" font-weight="700">✓ BLOCK DECK: +/- 0.001 IN</text>
+  <text x="405" y="385" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Includes Gaskets • Pre-Lubed • Warranty Tagged</text>
+  <rect x="32" y="28" width="235" height="36" rx="8" fill="#10b981"/>
+  <text x="149" y="51" text-anchor="middle" fill="#052e16" font-family="system-ui, sans-serif" font-size="13" font-weight="900" letter-spacing="1.5">SLIDE 3 • QA &amp; FITMENT SPEC</text>
+  <text x="400" y="492" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="22" font-weight="800">Certified Inspection &amp; Internal Clearances</text>
+  <text x="400" y="520" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14" font-weight="600">100% Ultrasonic Cleaned &amp; Pressure Verified Before Dispatch</text>
+</svg>

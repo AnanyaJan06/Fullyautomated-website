@@ -4,6 +4,22 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'rea
 import { partService } from '@/services/part.service';
 import type { DatabasePart, PartSearchOptions, PartSearchParams, PartSearchResponse, PartType } from '@/types';
 import { AddToCartButton } from './AddToCartButton';
+import { PartImageGallery } from './PartImageGallery';
+
+const FALLBACK_GALLERY_BY_TYPE: Record<PartType, string[]> = {
+  engine: [
+    '/images/parts/engine-assembly-1.svg',
+    '/images/parts/engine-assembly-2.svg',
+    '/images/parts/engine-assembly-3.svg',
+    '/images/gearup-hero-1.webp',
+  ],
+  transmission: [
+    '/images/parts/transmission-assembly-1.svg',
+    '/images/parts/transmission-assembly-2.svg',
+    '/images/parts/transmission-assembly-3.svg',
+    '/images/gearup-hero-2.webp',
+  ],
+};
 
 const selectClassName =
   'h-[42px] w-full appearance-none rounded-md border border-neutral-200 bg-white pl-9 pr-8 text-xs font-normal text-neutral-700 outline-none transition-all duration-200 focus:border-[#ef263d] focus:ring-2 focus:ring-[#ef263d]/15 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400';
@@ -139,7 +155,14 @@ const CONDITION_BADGE: Record<DatabasePart['condition'], { label: string; classN
 
 function DatabasePartCard({ item, index = 0 }: { item: DatabasePart; index?: number }) {
   const conditionBadge = CONDITION_BADGE[item.condition] ?? CONDITION_BADGE.new;
-  const primaryImage = item.images?.[0];
+  const fallbackGallery =
+    item.partType && FALLBACK_GALLERY_BY_TYPE[item.partType]
+      ? FALLBACK_GALLERY_BY_TYPE[item.partType]
+      : FALLBACK_GALLERY_BY_TYPE.engine;
+  const galleryImages =
+    Array.isArray(item.images) && item.images.filter(Boolean).length > 0
+      ? item.images.filter(Boolean)
+      : fallbackGallery;
 
   return (
     <article
@@ -159,22 +182,16 @@ function DatabasePartCard({ item, index = 0 }: { item: DatabasePart; index?: num
           </span>
         </div>
 
-        <div className="relative mb-3 flex h-44 w-full items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
-          {primaryImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={primaryImage}
-              alt={item.part}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-          ) : (
-            <span className="text-2xl font-black text-neutral-400">PART</span>
-          )}
-          <span className="absolute bottom-2 left-2 rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-            {item.year} {item.make} {item.model}
-          </span>
-        </div>
+        <PartImageGallery
+          images={galleryImages}
+          title={item.part}
+          subtitle={`${item.year} ${item.make} ${item.model} • ${conditionBadge.label}`}
+          overlayBadge={
+            <span className="rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+              {item.year} {item.make} {item.model}
+            </span>
+          }
+        />
 
         <h3 className="line-clamp-2 min-h-[40px] text-sm font-bold text-neutral-900 transition-colors group-hover:text-[#e51515]">
           {item.part}
@@ -206,7 +223,7 @@ function DatabasePartCard({ item, index = 0 }: { item: DatabasePart; index?: num
               ? `${item.partType.charAt(0).toUpperCase()}${item.partType.slice(1)} Assembly`
               : `${item.make} OEM / Performance Part`,
             description: item.description,
-            image: item.images?.[0] || '',
+            image: galleryImages[0] || '',
             price: item.price,
             quantity: 1,
           }}
@@ -227,7 +244,12 @@ function PartCardSkeleton() {
           <div className="h-5 w-28 rounded-full skeleton-shimmer" />
           <div className="h-4 w-14 rounded skeleton-shimmer" />
         </div>
-        <div className="mb-3 h-44 w-full rounded-lg skeleton-shimmer" />
+        <div className="mb-2 h-44 w-full rounded-lg skeleton-shimmer" />
+        <div className="mb-3 grid grid-cols-4 gap-1.5">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div key={idx} className="h-10 rounded-md skeleton-shimmer" />
+          ))}
+        </div>
         <div className="space-y-2">
           <div className="h-4 w-full rounded skeleton-shimmer" />
           <div className="h-4 w-3/4 rounded skeleton-shimmer" />

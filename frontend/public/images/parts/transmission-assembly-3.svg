@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <rect width="800" height="560" fill="#0f172a"/>
+  <!-- Valve Body & Solenoid Testing Panel -->
+  <rect x="115" y="105" width="570" height="330" rx="18" fill="#1e293b" stroke="#475569" stroke-width="3"/>
+  <!-- Hydraulic Labyrinth -->
+  <rect x="150" y="140" width="235" height="260" rx="12" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+  <path d="M180 175 H345 V215 H210 V255 H345 V295 H180 V345 H350" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Solenoids -->
+  <g fill="#ef263d" stroke="#ffffff" stroke-width="2">
+    <rect x="175" y="355" width="34" height="24" rx="4"/>
+    <rect x="225" y="355" width="34" height="24" rx="4"/>
+    <rect x="275" y="355" width="34" height="24" rx="4"/>
+    <rect x="325" y="355" width="34" height="24" rx="4"/>
+  </g>
+  <text x="415" y="175" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="18" font-weight="800">VALVE BODY &amp; TCM VERIFIED</text>
+  <rect x="415" y="195" width="235" height="44" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="430" y="222" fill="#10b981" font-family="monospace" font-size="14" font-weight="700">✓ LINE PRESSURE: PASS</text>
+  <rect x="415" y="252" width="235" height="44" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="430" y="279" fill="#10b981" font-family="monospace" font-size="14" font-weight="700">✓ SOLENOID OHM: 100% OK</text>
+  <rect x="415" y="309" width="235" height="44" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+  <text x="430" y="336" fill="#10b981" font-family="monospace" font-size="14" font-weight="700">✓ CONVERTER LOCKUP: OK</text>
+  <text x="415" y="385" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Pre-Programmed • New Filter &amp; Pan Gasket</text>
+  <rect x="32" y="28" width="250" height="36" rx="8" fill="#10b981"/>
+  <text x="157" y="51" text-anchor="middle" fill="#052e16" font-family="system-ui, sans-serif" font-size="13" font-weight="900" letter-spacing="1.5">SLIDE 3 • HYDRAULIC DYNO</text>
+  <text x="400" y="492" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="22" font-weight="800">Electronic Solenoid &amp; Hydraulic Shift Calibration</text>
+  <text x="400" y="520" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Simulated Road Load Dyno Tested Across All Forward &amp; Reverse Gears</text>
+</svg>

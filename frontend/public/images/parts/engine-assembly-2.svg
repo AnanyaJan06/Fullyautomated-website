@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="800" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="chrome" x1="220" y1="120" x2="580" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="560" fill="url(#bg2)"/>
+  <circle cx="400" cy="270" r="210" fill="#38bdf8" fill-opacity="0.08"/>
+  <!-- Turbocharger Snail Shell & Turbine -->
+  <circle cx="345" cy="275" r="115" fill="url(#chrome)" stroke="#e2e8f0" stroke-width="4"/>
+  <path d="M345 160 H535 A42 42 0 0 1 577 202 V235 A42 42 0 0 1 535 277 H455" fill="url(#chrome)" stroke="#e2e8f0" stroke-width="4"/>
+  <circle cx="345" cy="275" r="72" fill="#0f172a" stroke="#ef263d" stroke-width="4"/>
+  <!-- Turbine Blades -->
+  <g stroke="#cbd5e1" stroke-width="4" stroke-linecap="round">
+    <line x1="345" y1="210" x2="345" y2="340"/>
+    <line x1="280" y1="275" x2="410" y2="275"/>
+    <line x1="299" y1="229" x2="391" y2="321"/>
+    <line x1="391" y1="229" x2="299" y2="321"/>
+  </g>
+  <circle cx="345" cy="275" r="18" fill="#ef263d" stroke="#ffffff" stroke-width="3"/>
+  <!-- Boost Actuator & Manifold Runners -->
+  <rect x="485" y="295" width="110" height="80" rx="12" fill="#334155" stroke="#94a3b8" stroke-width="3"/>
+  <line x1="450" y1="335" x2="485" y2="335" stroke="#ef263d" stroke-width="6"/>
+  <rect x="32" y="28" width="235" height="36" rx="8" fill="#0284c7"/>
+  <text x="149" y="51" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="800" letter-spacing="1.5">SLIDE 2 • INDUCTION &amp; TURBO</text>
+  <text x="400" y="492" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="22" font-weight="800">Precision Balanced Induction &amp; Valvetrain</text>
+  <text x="400" y="520" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14" font-weight="600">High-Flow Runners • New Seals &amp; Bearings • Leak-Down Verified</text>
+</svg>

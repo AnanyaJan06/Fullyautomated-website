@@ -15,8 +15,35 @@ type PartSearchDocument = Pick<
 
 const SEARCHABLE_PART_TYPES = ['engine', 'transmission'] as const;
 
+const DEFAULT_PART_IMAGES: Record<PartType, string[]> = {
+  engine: [
+    '/images/parts/engine-assembly-1.svg',
+    '/images/parts/engine-assembly-2.svg',
+    '/images/parts/engine-assembly-3.svg',
+    '/images/gearup-hero-1.webp',
+  ],
+  transmission: [
+    '/images/parts/transmission-assembly-1.svg',
+    '/images/parts/transmission-assembly-2.svg',
+    '/images/parts/transmission-assembly-3.svg',
+    '/images/gearup-hero-2.webp',
+  ],
+};
+
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function resolvePartImages(doc: PartSearchDocument): string[] {
+  const validImages = Array.isArray(doc.images)
+    ? doc.images.map((img) => (typeof img === 'string' ? img.trim() : '')).filter(Boolean)
+    : [];
+
+  if (validImages.length > 0) {
+    return validImages;
+  }
+
+  return DEFAULT_PART_IMAGES[doc.partType] ?? DEFAULT_PART_IMAGES.engine;
 }
 
 function serializePart(doc: PartSearchDocument) {
@@ -29,7 +56,7 @@ function serializePart(doc: PartSearchDocument) {
     year: doc.year,
     condition: doc.condition,
     description: doc.description || '',
-    images: Array.isArray(doc.images) ? doc.images : [],
+    images: resolvePartImages(doc),
     price: doc.price,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
