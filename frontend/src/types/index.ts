@@ -82,8 +82,7 @@ export interface PartSearchOptions {
 }
 
 export interface PartSearchParams {
-  q?: string;
-  partType?: PartType | string;
+  partType?: PartType;
   make?: string;
   model?: string;
   year?: string | number;
@@ -95,11 +94,10 @@ export interface PartSearchParams {
 export interface PartSearchResponse {
   existsInCollection: boolean;
   count: number;
-  countIsEstimate?: boolean;
+  countIsEstimate: boolean;
   totalInCollection: number;
   filters: {
-    q?: string;
-    partType?: PartType | string;
+    partType?: PartType;
     make?: string;
     model?: string;
     year?: number;

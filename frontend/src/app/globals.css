@@ -106,15 +106,13 @@ body {
   animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-#products:has(#product-filter-featured:checked) [data-product-tabs],
-#products:has(#product-filter-bestseller:checked) [data-product-tabs],
-#products:has(#product-filter-onsale:checked) [data-product-tabs] {
+#products:has(#product-filter-engine:checked) [data-product-tabs],
+#products:has(#product-filter-transmission:checked) [data-product-tabs] {
   display: none;
 }
 
-#products:has(#product-filter-featured:checked) [data-product-tabs~='featured'],
-#products:has(#product-filter-bestseller:checked) [data-product-tabs~='bestseller'],
-#products:has(#product-filter-onsale:checked) [data-product-tabs~='onsale'] {
+#products:has(#product-filter-engine:checked) [data-product-tabs~='engine'],
+#products:has(#product-filter-transmission:checked) [data-product-tabs~='transmission'] {
   display: flex;
 }
 

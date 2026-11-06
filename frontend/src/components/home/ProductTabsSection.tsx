@@ -1,14 +1,23 @@
-import { GEARUP_PRODUCTS } from '@/data/gearup-data';
-import { ProductCard } from './ProductCard';
+import { partService } from '@/services/part.service';
+import { DatabaseProductCard } from './DatabaseProductCard';
 
 const tabs = [
   { id: 'all', label: 'All Parts' },
-  { id: 'featured', label: 'Featured' },
-  { id: 'bestseller', label: 'Best Sellers' },
-  { id: 'onsale', label: 'On Sale' },
+  { id: 'engine', label: 'Engines' },
+  { id: 'transmission', label: 'Transmissions' },
 ] as const;
 
-export function ProductTabsSection() {
+export async function ProductTabsSection() {
+  let products = [] as Awaited<ReturnType<typeof partService.searchParts>>['data']['parts'];
+  let unavailable = false;
+
+  try {
+    const response = await partService.searchParts({ page: 1, limit: 8 });
+    products = response.data.parts;
+  } catch {
+    unavailable = true;
+  }
+
   return (
     <section id="products" className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4 border-b border-neutral-200 pb-4 mb-6 sm:flex-row sm:items-end sm:justify-between">
@@ -43,10 +52,17 @@ export function ProductTabsSection() {
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {GEARUP_PRODUCTS.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {products.map((product) => (
+          <DatabaseProductCard key={product.id} product={product} />
         ))}
       </div>
+      {products.length === 0 && (
+        <p className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 text-sm text-neutral-600" role="status">
+          {unavailable
+            ? 'The parts catalog is temporarily unavailable. Please try again shortly.'
+            : 'No engine or transmission parts are available in the catalog yet.'}
+        </p>
+      )}
     </section>
   );
 }

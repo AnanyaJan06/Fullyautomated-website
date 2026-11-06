@@ -30,10 +30,6 @@ const DEFAULT_PART_IMAGES: Record<PartType, string[]> = {
   ],
 };
 
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 function resolvePartImages(doc: PartSearchDocument): string[] {
   const validImages = Array.isArray(doc.images)
     ? doc.images.map((img) => (typeof img === 'string' ? img.trim() : '')).filter(Boolean)
@@ -97,21 +93,22 @@ export const getPartSearchOptions = async (
     }
 
     const partType = rawPartType as PartType;
-    const makeFilter = rawMake ? { $regex: `^${escapeRegex(rawMake)}$`, $options: 'i' } : undefined;
-    const modelFilter = rawModel ? { $regex: `^${escapeRegex(rawModel)}$`, $options: 'i' } : undefined;
-    const [makes, models, years] = await Promise.all([
-      Part.distinct('make', { partType }),
-      rawMake ? Part.distinct('model', { partType, make: makeFilter }) : Promise.resolve([]),
-      rawModel
-        ? Part.distinct('year', { partType, make: makeFilter, model: modelFilter })
-        : Promise.resolve([]),
-    ]);
+    res.set('Cache-Control', 'public, max-age=15, stale-while-revalidate=60');
 
-    ApiResponse.success(res, {
-      makes: (makes as string[]).sort((a, b) => a.localeCompare(b)),
-      models: (models as string[]).sort((a, b) => a.localeCompare(b)),
-      years: (years as number[]).sort((a, b) => b - a),
-    }, 'Available vehicle options loaded.');
+    if (rawModel) {
+      const years = await Part.distinct('year', { partType, make: rawMake, model: rawModel });
+      ApiResponse.success(res, { years: (years as number[]).sort((a, b) => b - a) }, 'Available years loaded.');
+      return;
+    }
+
+    if (rawMake) {
+      const models = await Part.distinct('model', { partType, make: rawMake });
+      ApiResponse.success(res, { models: (models as string[]).sort((a, b) => a.localeCompare(b)) }, 'Available models loaded.');
+      return;
+    }
+
+    const makes = await Part.distinct('make', { partType });
+    ApiResponse.success(res, { makes: (makes as string[]).sort((a, b) => a.localeCompare(b)) }, 'Available makes loaded.');
   } catch (error) {
     next(error);
   }
@@ -156,7 +153,7 @@ export const searchParts = async (
       return;
     }
 
-    if (!(SEARCHABLE_PART_TYPES as readonly string[]).includes(partType)) {
+    if (partType && !(SEARCHABLE_PART_TYPES as readonly string[]).includes(partType)) {
       ApiResponse.error(res, 'Part type must be engine or transmission.', 400);
       return;
     }
@@ -190,18 +187,16 @@ export const searchParts = async (
 
     const andConditions: FilterQuery<IPart>[] = [];
 
-    andConditions.push({ partType: partType as PartType });
+    if (partType) {
+      andConditions.push({ partType: partType as PartType });
+    }
 
     if (make) {
-      andConditions.push({
-        make: { $regex: `^${escapeRegex(make)}$`, $options: 'i' },
-      });
+      andConditions.push({ make });
     }
 
     if (model) {
-      andConditions.push({
-        model: { $regex: `^${escapeRegex(model)}$`, $options: 'i' },
-      });
+      andConditions.push({ model });
     }
 
     if (parsedYear !== undefined) {
@@ -221,7 +216,7 @@ export const searchParts = async (
     const [matchingDocs, totalInCollection, filteredCount] = await Promise.all([
       Part.find(mongoFilter)
         .select(PART_FIELDS)
-        .sort({ year: -1, createdAt: -1, _id: -1 })
+        .sort(andConditions.length === 0 ? { createdAt: -1, _id: -1 } : { year: -1, createdAt: -1, _id: -1 })
         .skip((page - 1) * pageSize)
         .limit(pageSize + 1)
         .lean(),
@@ -239,15 +234,10 @@ export const searchParts = async (
     if (!existsInCollection && andConditions.length > 0) {
       const suggestionOr: FilterQuery<IPart>[] = [];
       if (make && model) {
-        suggestionOr.push({
-          make: { $regex: `^${escapeRegex(make)}$`, $options: 'i' },
-          model: { $regex: `^${escapeRegex(model)}$`, $options: 'i' },
-        });
+        suggestionOr.push({ make, model });
       }
       if (make) {
-        suggestionOr.push({
-          make: { $regex: `^${escapeRegex(make)}$`, $options: 'i' },
-        });
+        suggestionOr.push({ make });
       }
 
       if (suggestionOr.length > 0) {
