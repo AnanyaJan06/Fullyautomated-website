@@ -39,6 +39,24 @@ const VEHICLES = [
   { make: 'Chevrolet', model: 'Silverado', year: 2020 },
 ] as const;
 
+const ENGINE_IMAGE_GALLERY = [
+  '/images/parts/engine-assembly-1.svg',
+  '/images/parts/engine-assembly-2.svg',
+  '/images/parts/engine-assembly-3.svg',
+  '/images/gearup-hero-1.webp',
+] as const;
+
+const TRANSMISSION_IMAGE_GALLERY = [
+  '/images/parts/transmission-assembly-1.svg',
+  '/images/parts/transmission-assembly-2.svg',
+  '/images/parts/transmission-assembly-3.svg',
+  '/images/gearup-hero-2.webp',
+] as const;
+
+function buildPartImages(gallery: readonly string[], offset: number): string[] {
+  return gallery.map((_, index) => gallery[(index + offset) % gallery.length]);
+}
+
 const GENERATED_PARTS: (SeedPartItem & { partType: 'engine' | 'transmission' })[] = [
   ...ENGINE_PRODUCTS.flatMap(([name, description, price], productIndex) =>
     VEHICLES.map((vehicle, vehicleIndex) => ({
@@ -50,7 +68,7 @@ const GENERATED_PARTS: (SeedPartItem & { partType: 'engine' | 'transmission' })[
       model: vehicle.model,
       price: price + vehicleIndex * 25,
       condition: productIndex % 4 === 0 ? 'refurbished' as const : 'new' as const,
-      images: [],
+      images: buildPartImages(ENGINE_IMAGE_GALLERY, productIndex + vehicleIndex),
     }))
   ),
   ...TRANSMISSION_PRODUCTS.flatMap(([name, description, price], productIndex) =>
@@ -63,7 +81,7 @@ const GENERATED_PARTS: (SeedPartItem & { partType: 'engine' | 'transmission' })[
       model: vehicle.model,
       price: price + vehicleIndex * 25,
       condition: productIndex % 4 === 0 ? 'refurbished' as const : 'new' as const,
-      images: [],
+      images: buildPartImages(TRANSMISSION_IMAGE_GALLERY, productIndex + vehicleIndex),
     }))
   ),
 ];

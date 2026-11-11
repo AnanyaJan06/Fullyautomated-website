@@ -1,9 +1,29 @@
-import type { DatabasePart } from '@/types';
+import type { DatabasePart, PartType } from '@/types';
 import { AddToCartButton } from './AddToCartButton';
+import { PartImageGallery } from './PartImageGallery';
+
+const FALLBACK_GALLERY_BY_TYPE: Record<PartType, string[]> = {
+  engine: [
+    '/images/parts/engine-assembly-1.svg',
+    '/images/parts/engine-assembly-2.svg',
+    '/images/parts/engine-assembly-3.svg',
+    '/images/gearup-hero-1.webp',
+  ],
+  transmission: [
+    '/images/parts/transmission-assembly-1.svg',
+    '/images/parts/transmission-assembly-2.svg',
+    '/images/parts/transmission-assembly-3.svg',
+    '/images/gearup-hero-2.webp',
+  ],
+};
 
 export function DatabaseProductCard({ product }: { product: DatabasePart }) {
   const fitment = [product.year, product.make, product.model].filter(Boolean).join(' ');
   const category = product.partType === 'transmission' ? 'Transmission' : 'Engine';
+  const images = Array.isArray(product.images) ? product.images.filter(Boolean) : [];
+  const galleryImages = images.length
+    ? images
+    : FALLBACK_GALLERY_BY_TYPE[product.partType ?? 'engine'];
 
   return (
     <article
@@ -18,17 +38,19 @@ export function DatabaseProductCard({ product }: { product: DatabasePart }) {
           <span className="text-[11px] text-neutral-400">{category}</span>
         </div>
 
-        <div className="relative mb-3 flex h-44 w-full items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
-          {product.images[0] ? (
-            // Catalog images may be stored on a remote media host that is not configured in next/image.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.images[0]} alt={product.part} className="h-full w-full object-contain" />
-          ) : (
-            <span className="px-5 text-center text-2xl font-black uppercase tracking-wide text-neutral-400">
-              {category}
-            </span>
-          )}
-        </div>
+        <PartImageGallery
+          images={galleryImages}
+          title={product.part}
+          subtitle={`${fitment} • ${category}`}
+          fallbackMark={category}
+          overlayBadge={
+            fitment ? (
+              <span className="rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+                {fitment}
+              </span>
+            ) : undefined
+          }
+        />
 
         <p className="mb-1 text-xs font-semibold text-neutral-500">{fitment}</p>
         <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900">
@@ -52,7 +74,7 @@ export function DatabaseProductCard({ product }: { product: DatabasePart }) {
             condition: product.condition,
             category,
             description: product.description,
-            image: product.images[0],
+            image: galleryImages[0] ?? '',
             price: product.price,
             quantity: 1,
           }}

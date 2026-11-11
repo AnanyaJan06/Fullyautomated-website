@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <rect width="800" height="560" fill="#111827"/>
+  <circle cx="400" cy="270" r="210" fill="#ef263d" fill-opacity="0.07"/>
+  <!-- Planetary Gear Set & Clutch Pack -->
+  <circle cx="310" cy="275" r="110" fill="#1f2937" stroke="#94a3b8" stroke-width="6" stroke-dasharray="18 10"/>
+  <circle cx="310" cy="275" r="44" fill="#ef263d" stroke="#f8fafc" stroke-width="4"/>
+  <circle cx="310" cy="195" r="24" fill="#cbd5e1" stroke="#0f172a" stroke-width="4"/>
+  <circle cx="240" cy="315" r="24" fill="#cbd5e1" stroke="#0f172a" stroke-width="4"/>
+  <circle cx="380" cy="315" r="24" fill="#cbd5e1" stroke="#0f172a" stroke-width="4"/>
+  <!-- Secondary Helical Gear -->
+  <circle cx="515" cy="275" r="82" fill="#334155" stroke="#e2e8f0" stroke-width="5" stroke-dasharray="14 8"/>
+  <circle cx="515" cy="275" r="30" fill="#0f172a" stroke="#f59e0b" stroke-width="4"/>
+  <rect x="32" y="28" width="245" height="36" rx="8" fill="#f59e0b"/>
+  <text x="154" y="51" text-anchor="middle" fill="#111827" font-family="system-ui, sans-serif" font-size="13" font-weight="900" letter-spacing="1.5">SLIDE 2 • PLANETARY GEARS</text>
+  <text x="400" y="492" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="22" font-weight="800">Hardened Gear Sets, Synchronizers &amp; Clutch Packs</text>
+  <text x="400" y="520" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Zero-Slippage Friction Discs • Precision Splined Shafts</text>
+</svg>

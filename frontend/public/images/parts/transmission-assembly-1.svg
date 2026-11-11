@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <defs>
+    <linearGradient id="tbg1" x1="0" y1="0" x2="800" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#141824"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="caseGrad" x1="180" y1="150" x2="620" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="560" fill="url(#tbg1)"/>
+  <circle cx="400" cy="275" r="220" fill="#f59e0b" fill-opacity="0.08"/>
+  <!-- Bellhousing + Gearbox Case -->
+  <path d="M180 155 L295 190 H520 L610 225 V330 L520 365 H295 L180 400 Z" fill="url(#caseGrad)" stroke="#f8fafc" stroke-width="3"/>
+  <!-- Cooling Ribs -->
+  <g stroke="#334155" stroke-width="4" stroke-linecap="round">
+    <line x1="320" y1="215" x2="320" y2="340"/>
+    <line x1="360" y1="215" x2="360" y2="340"/>
+    <line x1="400" y1="215" x2="400" y2="340"/>
+    <line x1="440" y1="215" x2="440" y2="340"/>
+    <line x1="480" y1="215" x2="480" y2="340"/>
+  </g>
+  <!-- Input Shaft & Output Flange -->
+  <circle cx="235" cy="278" r="46" fill="#0f172a" stroke="#ef263d" stroke-width="4"/>
+  <circle cx="235" cy="278" r="18" fill="#ef263d"/>
+  <rect x="610" y="252" width="38" height="52" rx="6" fill="#ef263d" stroke="#fca5a5" stroke-width="2"/>
+  <!-- Transmission Pan -->
+  <rect x="295" y="365" width="225" height="32" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="32" y="28" width="235" height="36" rx="8" fill="#ef263d"/>
+  <text x="149" y="51" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="800" letter-spacing="1.5">SLIDE 1 • GEARBOX HOUSING</text>
+  <text x="400" y="492" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="22" font-weight="800">Complete Transmission &amp; Bellhousing Assembly</text>
+  <text x="400" y="520" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Dyno Shift Tested • Exact Gear Ratios • Torque Converter Included</text>
+</svg>

@@ -1,5 +1,6 @@
 import type { ProductItem } from '@/data/gearup-data';
 import { AddToCartButton } from './AddToCartButton';
+import { PartImageGallery } from './PartImageGallery';
 
 const PRODUCT_MARK: Record<ProductItem['iconType'], string> = {
   brake: 'BR',
@@ -35,17 +36,18 @@ export function ProductCard({ product }: { product: ProductItem }) {
           <span className="font-mono text-[11px] text-neutral-400">SKU: {product.sku}</span>
         </div>
 
-        <div className={`relative mb-3 flex h-44 w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br ${product.imageColor}`}>
-          <span
-            aria-hidden="true"
-            className="text-4xl font-black tracking-tight text-neutral-700/80 transition-transform duration-300 group-hover:scale-110"
-          >
-            {PRODUCT_MARK[product.iconType]}
-          </span>
-          <span className="mt-2 rounded-full bg-white/80 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-500">
-            {product.category}
-          </span>
-        </div>
+        <PartImageGallery
+          images={product.images}
+          title={product.title}
+          subtitle={`${product.category} • SKU: ${product.sku}`}
+          fallbackMark={PRODUCT_MARK[product.iconType]}
+          fallbackGradient={product.imageColor}
+          overlayBadge={
+            <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-700 shadow-sm backdrop-blur-sm">
+              {product.category}
+            </span>
+          }
+        />
 
         <div className="mb-1.5 flex items-center gap-1.5 text-xs">
           <span aria-hidden="true" className="font-bold text-amber-400">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -84,6 +86,7 @@ export function ProductCard({ product }: { product: ProductItem }) {
             category: product.category,
             condition: 'new',
             description: product.specs.join(' • '),
+            image: product.images[0] || '',
             price: product.price,
             quantity: 1,
           }}

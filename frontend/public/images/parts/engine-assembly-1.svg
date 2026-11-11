@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" fill="none">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="800" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#111420"/>
+      <stop offset="55%" stop-color="#1d2233"/>
+      <stop offset="100%" stop-color="#0f111a"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="200" y1="120" x2="600" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef263d"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="560" fill="url(#bg1)"/>
+  <circle cx="400" cy="280" r="220" fill="#ef263d" fill-opacity="0.08"/>
+  <g stroke="#334155" stroke-width="1" opacity="0.35">
+    <line x1="0" y1="112" x2="800" y2="112"/>
+    <line x1="0" y1="224" x2="800" y2="224"/>
+    <line x1="0" y1="336" x2="800" y2="336"/>
+    <line x1="0" y1="448" x2="800" y2="448"/>
+    <line x1="160" y1="0" x2="160" y2="560"/>
+    <line x1="320" y1="0" x2="320" y2="560"/>
+    <line x1="480" y1="0" x2="480" y2="560"/>
+    <line x1="640" y1="0" x2="640" y2="560"/>
+  </g>
+  <!-- Engine Block Illustration -->
+  <rect x="230" y="135" width="340" height="52" rx="10" fill="url(#accent)" stroke="#fca5a5" stroke-width="2"/>
+  <text x="400" y="167" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="800" letter-spacing="3">DOHC POWERTRAIN • OEM SPEC</text>
+  <!-- Cylinder Head & Block -->
+  <rect x="210" y="195" width="380" height="175" rx="16" fill="url(#metal)" stroke="#cbd5e1" stroke-width="3"/>
+  <!-- Pistons / Cylinders -->
+  <g fill="#1e293b" stroke="#64748b" stroke-width="3">
+    <circle cx="275" cy="265" r="34"/>
+    <circle cx="358" cy="265" r="34"/>
+    <circle cx="442" cy="265" r="34"/>
+    <circle cx="525" cy="265" r="34"/>
+  </g>
+  <g fill="#ef263d">
+    <circle cx="275" cy="265" r="12"/>
+    <circle cx="358" cy="265" r="12"/>
+    <circle cx="442" cy="265" r="12"/>
+    <circle cx="525" cy="265" r="12"/>
+  </g>
+  <!-- Timing Pulley & Belt -->
+  <circle cx="290" cy="340" r="24" fill="#0f172a" stroke="#e2e8f0" stroke-width="4"/>
+  <circle cx="510" cy="340" r="24" fill="#0f172a" stroke="#e2e8f0" stroke-width="4"/>
+  <circle cx="400" cy="348" r="32" fill="#0f172a" stroke="#ef263d" stroke-width="5"/>
+  <!-- Oil Pan -->
+  <path d="M240 375 H560 L530 430 H270 Z" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
+  <!-- Top Badge -->
+  <rect x="32" y="28" width="210" height="36" rx="8" fill="#ef263d"/>
+  <text x="137" y="51" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="800" letter-spacing="1.5">SLIDE 1 • FRONT ASSEMBLY</text>
+  <text x="400" y="492" text-anchor="middle" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="22" font-weight="800">OEM Engine Assembly &amp; Long Block</text>
+  <text x="400" y="520" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Compression Tested • Machined Deck • Direct VIN Fitment</text>
+</svg>
