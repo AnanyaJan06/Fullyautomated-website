@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { partService } from '@/services/part.service';
-import type { DatabasePart, PartSearchOptions, PartSearchParams, PartSearchResponse, PartType } from '@/types';
-import { AddToCartButton } from './AddToCartButton';
+import type { PartSearchOptions, PartSearchParams, PartSearchResponse, PartType } from '@/types';
+import { DatabaseProductCard } from './DatabaseProductCard';
 
 const selectClassName =
   'h-[42px] w-full appearance-none rounded-md border border-neutral-200 bg-white pl-9 pr-8 text-xs font-normal text-neutral-700 outline-none transition-all duration-200 focus:border-[#ef263d] focus:ring-2 focus:ring-[#ef263d]/15 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400';
@@ -103,100 +103,6 @@ function SearchField({
         )}
       </span>
     </label>
-  );
-}
-
-const CONDITION_BADGE: Record<DatabasePart['condition'], { label: string; className: string }> = {
-  new: {
-    label: 'New',
-    className: 'bg-emerald-600 text-white',
-  },
-  refurbished: {
-    label: 'Refurbished',
-    className: 'bg-amber-500 text-neutral-950',
-  },
-  used: {
-    label: 'Used',
-    className: 'bg-neutral-700 text-white',
-  },
-};
-
-function DatabasePartCard({ item, index = 0 }: { item: DatabasePart; index?: number }) {
-  const conditionBadge = CONDITION_BADGE[item.condition] ?? CONDITION_BADGE.new;
-  const primaryImage = item.images?.[0];
-
-  return (
-    <article
-      style={{ animationDelay: `${Math.min(index * 60, 300)}ms` }}
-      className="animate-fade-up group flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#e51515]/50 hover:shadow-md"
-    >
-      <div>
-        <div className="mb-2.5 flex flex-wrap items-center justify-between gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 border border-emerald-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
-            In Database (parts)
-          </span>
-          <span
-            className={`rounded px-2 py-0.5 text-[10px] font-extrabold uppercase ${conditionBadge.className}`}
-          >
-            {conditionBadge.label}
-          </span>
-        </div>
-
-        <div className="relative mb-3 flex h-44 w-full items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
-          {primaryImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={primaryImage}
-              alt={item.part}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-          ) : (
-            <span className="text-2xl font-black text-neutral-400">PART</span>
-          )}
-          <span className="absolute bottom-2 left-2 rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-            {item.year} {item.make} {item.model}
-          </span>
-        </div>
-
-        <h3 className="line-clamp-2 min-h-[40px] text-sm font-bold text-neutral-900 transition-colors group-hover:text-[#e51515]">
-          {item.part}
-        </h3>
-
-        {item.description && (
-          <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-neutral-500">
-            {item.description}
-          </p>
-        )}
-      </div>
-
-      <div className="mt-4 border-t border-neutral-100 pt-3">
-        <div className="mb-2.5 flex items-baseline justify-between">
-          <span className="text-lg font-black text-[#e51515]">${Number(item.price).toFixed(2)}</span>
-          <span className="text-[11px] font-semibold text-emerald-600">Available in DB</span>
-        </div>
-        <AddToCartButton
-          item={{
-            partId: item.id,
-            part: item.part,
-            partType: item.partType,
-            sku: `DB-${item.id.slice(-6).toUpperCase()}`,
-            make: item.make,
-            model: item.model,
-            year: item.year,
-            condition: item.condition,
-            category: item.partType
-              ? `${item.partType.charAt(0).toUpperCase()}${item.partType.slice(1)} Assembly`
-              : `${item.make} OEM / Performance Part`,
-            description: item.description,
-            image: item.images?.[0] || '',
-            price: item.price,
-            quantity: 1,
-          }}
-        />
-      </div>
-    </article>
   );
 }
 
@@ -318,7 +224,7 @@ export function VehicleSearch() {
       const message =
         error instanceof Error
           ? error.message
-          : 'Unable to query the database parts collection. Please make sure the backend server is running.';
+          : 'Unable to search parts right now. Please try again.';
       setErrorMsg(message);
       setSearchResult(null);
     } finally {
@@ -366,7 +272,7 @@ export function VehicleSearch() {
     searchResult?.filters.condition ? `Condition: ${searchResult.filters.condition}` : null,
   ]
     .filter(Boolean)
-    .join(' • ');
+    .join(', ');
   const visibleError = errorMsg || optionsError;
 
   return (
@@ -526,10 +432,10 @@ export function VehicleSearch() {
             </span>
             <div className="flex-1 space-y-1.5">
               <p className="text-xs font-extrabold uppercase tracking-wider text-[#ef263d]">
-                Querying MongoDB Parts Collection...
+                Searching the parts catalog...
               </p>
               <p className="text-xs text-neutral-500">
-                Checking verified {partType === 'engine' ? 'Engine' : partType === 'transmission' ? 'Transmission' : 'powertrain'} fitment records for{' '}
+                Checking {partType === 'engine' ? 'engine' : partType === 'transmission' ? 'transmission' : 'vehicle'} fitment for{' '}
                 {[year, make, model].filter(Boolean).join(' ') || 'your selected filters'}.
               </p>
             </div>
@@ -560,7 +466,7 @@ export function VehicleSearch() {
                   searchResult.existsInCollection ? 'bg-emerald-600' : 'bg-amber-600'
                 }`}
               >
-                {searchResult.existsInCollection ? '✓' : '✕'}
+                {searchResult.existsInCollection ? <>&#10003;</> : <>&#10005;</>}
               </span>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -569,21 +475,16 @@ export function VehicleSearch() {
                       searchResult.existsInCollection ? 'bg-emerald-700' : 'bg-amber-700'
                     }`}
                   >
-                    {searchResult.existsInCollection
-                      ? 'Available in Database (parts collection)'
-                      : 'Not Found in Database (parts collection)'}
-                  </span>
-                  <span className="text-xs font-semibold opacity-75">
-                    About {searchResult.totalInCollection} records in MongoDB
+                    {searchResult.existsInCollection ? 'Parts found' : 'No exact match'}
                   </span>
                 </div>
 
                 <h3 className="mt-1 text-base font-extrabold">
                   {searchResult.existsInCollection
                     ? searchResult.countIsEstimate
-                      ? 'Yes — parts are listed in the database collection.'
-                      : `Yes — ${searchResult.count} matching part${searchResult.count === 1 ? ' is' : 's are'} listed in the database collection.`
-                    : 'No parts match these filters. Related parts may be available below.'}
+                      ? 'Parts found in the catalog.'
+                      : `Found ${searchResult.count} matching part${searchResult.count === 1 ? '' : 's'}.`
+                    : 'No exact match for this vehicle. Try related parts below.'}
                 </h3>
 
                 {activeFilterSummary && (
@@ -605,7 +506,7 @@ export function VehicleSearch() {
                   }}
                   className="rounded-lg bg-neutral-900 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-[#ef263d]"
                 >
-                  Show All {partType === 'engine' ? 'Engine' : 'Transmission'} Parts
+                  Browse all {partType === 'engine' ? 'engine' : 'transmission'} parts
                 </button>
               )}
               <button
@@ -613,7 +514,7 @@ export function VehicleSearch() {
                 onClick={handleReset}
                 className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100"
               >
-                Close Results
+                Clear Search
               </button>
             </div>
           </div>
@@ -627,8 +528,8 @@ export function VehicleSearch() {
                   : `Showing ${searchResult.parts.length} of ${searchResult.count} matching parts.`}
               </p>
               <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {searchResult.parts.map((item, idx) => (
-                  <DatabasePartCard key={item.id} item={item} index={idx} />
+                {searchResult.parts.map((item) => (
+                  <DatabaseProductCard key={item.id} product={item} />
                 ))}
               </div>
               {(searchResult.pagination.page > 1 || searchResult.pagination.hasNextPage) && (
@@ -661,11 +562,11 @@ export function VehicleSearch() {
           {!searchResult.existsInCollection && searchResult.suggestions.length > 0 && (
             <div className="mt-5">
               <h4 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-neutral-600">
-                Other Parts Available in the Database Collection for Related Filters:
+                Similar parts you may want to consider
               </h4>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {searchResult.suggestions.map((item, idx) => (
-                  <DatabasePartCard key={item.id} item={item} index={idx} />
+                {searchResult.suggestions.map((item) => (
+                  <DatabaseProductCard key={item.id} product={item} />
                 ))}
               </div>
             </div>

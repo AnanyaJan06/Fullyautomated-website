@@ -14,7 +14,7 @@ export default async function HomePage() {
 
   try {
     const response = await partService.searchParts({ page: 1, limit: 4 });
-    dealProducts = response.data.parts;
+    dealProducts = response.data.parts; 
   } catch {
     dealsUnavailable = true;
   }
