@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { FilterQuery } from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 import { Part, IPart, PartType } from '../models/Part.model';
 import { ApiResponse } from '../utils/ApiResponse';
 
@@ -109,6 +109,30 @@ export const getPartSearchOptions = async (
 
     const makes = await Part.distinct('make', { partType });
     ApiResponse.success(res, { makes: (makes as string[]).sort((a, b) => a.localeCompare(b)) }, 'Available makes loaded.');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPartById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      ApiResponse.error(res, 'Part not found.', 404);
+      return;
+    }
+
+    const part = await Part.findById(id).select(PART_FIELDS).lean<PartSearchDocument>();
+    if (!part) {
+      ApiResponse.error(res, 'Part not found.', 404);
+      return;
+    }
+
+    ApiResponse.success(res, serializePart(part), 'Part details loaded.');
   } catch (error) {
     next(error);
   }

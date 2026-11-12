@@ -1,7 +1,10 @@
 import { apiFetcher } from '@/lib/api';
-import type { ApiResponse, PartSearchOptions, PartSearchParams, PartSearchResponse } from '@/types';
+import type { ApiResponse, DatabasePart, PartSearchOptions, PartSearchParams, PartSearchResponse } from '@/types';
 
 export const partService = {
+  getPartById: async (id: string) =>
+    apiFetcher<ApiResponse<DatabasePart>>(`/parts/${encodeURIComponent(id)}`),
+
   getSearchOptions: async (
     params: { partType: string; make?: string; model?: string },
     signal?: AbortSignal

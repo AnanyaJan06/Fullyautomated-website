@@ -1,4 +1,5 @@
 import type { DatabasePart, PartType } from '@/types';
+import Link from 'next/link';
 import { AddToCartButton } from './AddToCartButton';
 import { PartImageGallery } from './PartImageGallery';
 
@@ -53,8 +54,10 @@ export function DatabaseProductCard({ product }: { product: DatabasePart }) {
         />
 
         <p className="mb-1 text-xs font-semibold text-neutral-500">{fitment}</p>
-        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900">
+        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors hover:text-[#e51515]">
+          <Link href={`/parts/${encodeURIComponent(product.id)}`} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e51515]">
           {product.part}
+          </Link>
         </h3>
         {product.description && (
           <p className="mt-2 line-clamp-2 text-[11px] text-neutral-500">{product.description}</p>
