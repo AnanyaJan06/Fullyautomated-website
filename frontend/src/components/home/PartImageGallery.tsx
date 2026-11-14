@@ -10,6 +10,8 @@ interface PartImageGalleryProps {
   overlayBadge?: ReactNode;
   fallbackMark?: string;
   fallbackGradient?: string;
+  priority?: boolean;
+  size?: 'card' | 'detail';
 }
 
 export function PartImageGallery({
@@ -19,6 +21,8 @@ export function PartImageGallery({
   overlayBadge,
   fallbackMark = 'PART',
   fallbackGradient = 'from-neutral-100 to-neutral-200',
+  priority = false,
+  size = 'card',
 }: PartImageGalleryProps) {
   const validImages = Array.isArray(images)
     ? images.map((src) => (typeof src === 'string' ? src.trim() : '')).filter(Boolean)
@@ -97,7 +101,7 @@ export function PartImageGallery({
     <div className="mb-3">
       {/* Main Card Slide Viewport */}
       <div
-        className={`group/slider relative flex h-44 w-full items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br ${fallbackGradient} border border-neutral-200/80`}
+        className={`group/slider relative flex w-full items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br ${fallbackGradient} border border-neutral-200/80 ${size === 'detail' ? 'h-[320px] sm:h-[420px]' : 'h-44'}`}
       >
         {currentImage ? (
           <>
@@ -108,7 +112,9 @@ export function PartImageGallery({
               alt={`${title} - Slide ${safeIndex + 1} of ${totalSlides}`}
               onClick={openPreview}
               className="h-full w-full cursor-zoom-in object-cover transition-transform duration-500 group-hover/slider:scale-105"
-              loading="lazy"
+              loading={priority ? 'eager' : 'lazy'}
+              fetchPriority={priority ? 'high' : 'auto'}
+              decoding="async"
             />
 
             {/* Top Left Slide Counter Badge */}

@@ -3,7 +3,9 @@ import type { ApiResponse, DatabasePart, PartSearchOptions, PartSearchParams, Pa
 
 export const partService = {
   getPartById: async (id: string) =>
-    apiFetcher<ApiResponse<DatabasePart>>(`/parts/${encodeURIComponent(id)}`),
+    apiFetcher<ApiResponse<DatabasePart>>(`/parts/${encodeURIComponent(id)}`, {
+      next: { revalidate: 60, tags: [`part:${id}`] },
+    }),
 
   getSearchOptions: async (
     params: { partType: string; make?: string; model?: string },
