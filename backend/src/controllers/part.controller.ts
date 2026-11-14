@@ -120,8 +120,8 @@ export const getPartById = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    const id = req.params.id;
+    if (typeof id !== 'string' || !mongoose.Types.ObjectId.isValid(id)) {
       ApiResponse.error(res, 'Part not found.', 404);
       return;
     }
