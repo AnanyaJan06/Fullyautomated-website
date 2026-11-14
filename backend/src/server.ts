@@ -31,7 +31,7 @@ const startServer = async () => {
     setTimeout(() => process.exit(1), 10_000).unref();
   };
 
-  process.once('SIGINT', () => shutdown('SIGINT'));
+  process.once('SIGINT', () => shutdown('SIGINT'));  
   process.once('SIGTERM', () => shutdown('SIGTERM'));
 };
 
