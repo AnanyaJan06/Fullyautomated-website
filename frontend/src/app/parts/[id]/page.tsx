@@ -26,7 +26,7 @@ export default async function PartDetailsPage({ params }: { params: Promise<{ id
         <section className="grid gap-8 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm md:grid-cols-2 md:gap-10 md:p-8">
           <PartImageGallery
             images={images}
-            title={part.part}
+            title={part.part}  
             subtitle={`${fitment} · ${category}`}
             fallbackMark={category}
           />
