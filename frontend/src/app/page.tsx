@@ -9,14 +9,21 @@ import { partService } from '@/services/part.service';
 import type { DatabasePart } from '@/types';
 
 export default async function HomePage() {
+  let catalogProducts: DatabasePart[] = [];
   let dealProducts: DatabasePart[] = [];
-  let dealsUnavailable = false;
+  let catalogUnavailable = false;
 
   try {
-    const response = await partService.searchParts({ page: 1, limit: 4 });
-    dealProducts = response.data.parts; 
-  } catch {
-    dealsUnavailable = true;
+    const response = await partService.searchParts(
+      { page: 1, limit: 8 },
+      undefined,
+      { next: { revalidate: 60, tags: ['parts-catalog'] } }
+    );
+    catalogProducts = response.data.parts;
+    dealProducts = catalogProducts.slice(0, 4);
+  } catch (error) {
+    console.error('Failed to load homepage parts catalog:', error);
+    catalogUnavailable = true;
   }
 
   return (
@@ -139,7 +146,7 @@ export default async function HomePage() {
               ))}
               {dealProducts.length === 0 && (
                 <p className="rounded-xl border border-neutral-200 bg-white p-6 text-sm text-neutral-600 sm:col-span-2 xl:col-span-4" role="status">
-                  {dealsUnavailable
+                  {catalogUnavailable
                     ? 'The parts catalog is temporarily unavailable. Please try again shortly.'
                     : 'No parts have been added to the catalog yet.'}
                 </p>
@@ -201,7 +208,7 @@ export default async function HomePage() {
       </section>
 
       {/* 6. Tabbed Product Catalog Section */}
-      <ProductTabsSection />
+      <ProductTabsSection products={catalogProducts} unavailable={catalogUnavailable} />
     </main>
   );
 }

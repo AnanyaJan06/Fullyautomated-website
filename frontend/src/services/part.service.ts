@@ -21,7 +21,11 @@ export const partService = {
     );
   },
 
-  searchParts: async (params: PartSearchParams = {}, signal?: AbortSignal) => {
+  searchParts: async (
+    params: PartSearchParams = {},
+    signal?: AbortSignal,
+    requestOptions: RequestInit = {}
+  ) => {
     const searchParams = new URLSearchParams();
 
     if (params.partType && params.partType.trim()) {
@@ -48,6 +52,9 @@ export const partService = {
 
     const queryString = searchParams.toString();
     const endpoint = queryString ? `/parts/search?${queryString}` : '/parts/search';
-    return apiFetcher<ApiResponse<PartSearchResponse>>(endpoint, { signal });
+    return apiFetcher<ApiResponse<PartSearchResponse>>(endpoint, {
+      ...requestOptions,
+      ...(signal ? { signal } : {}),
+    });
   },
 };

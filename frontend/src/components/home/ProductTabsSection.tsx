@@ -1,5 +1,5 @@
-import { partService } from '@/services/part.service';
 import { DatabaseProductCard } from './DatabaseProductCard';
+import type { DatabasePart } from '@/types';
 
 const tabs = [
   { id: 'all', label: 'All Parts' },
@@ -7,17 +7,13 @@ const tabs = [
   { id: 'transmission', label: 'Transmissions' },
 ] as const;
 
-export async function ProductTabsSection() {
-  let products = [] as Awaited<ReturnType<typeof partService.searchParts>>['data']['parts'];
-  let unavailable = false;
-
-  try {
-    const response = await partService.searchParts({ page: 1, limit: 8 });
-    products = response.data.parts;
-  } catch {
-    unavailable = true;
-  }
-
+export function ProductTabsSection({
+  products,
+  unavailable,
+}: {
+  products: DatabasePart[];
+  unavailable: boolean;
+}) {
   return (
     <section id="products" className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4 border-b border-neutral-200 pb-4 mb-6 sm:flex-row sm:items-end sm:justify-between">
