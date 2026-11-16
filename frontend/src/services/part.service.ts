@@ -8,17 +8,18 @@ export const partService = {
     }),
 
   getSearchOptions: async (
-    params: { partType: string; make?: string; model?: string },
+    params: { partType?: string; make?: string; model?: string } = {},
     signal?: AbortSignal
   ) => {
-    const searchParams = new URLSearchParams({ partType: params.partType });
+    const searchParams = new URLSearchParams();
+    if (params.partType) searchParams.set('partType', params.partType);
     if (params.make) searchParams.set('make', params.make);
     if (params.model) searchParams.set('model', params.model);
 
-    return apiFetcher<ApiResponse<Partial<PartSearchOptions>>>(
-      `/parts/options?${searchParams.toString()}`,
-      { signal }
-    );
+    const queryString = searchParams.toString();
+    const endpoint = queryString ? `/parts/options?${queryString}` : '/parts/options';
+
+    return apiFetcher<ApiResponse<Partial<PartSearchOptions>>>(endpoint, { signal });
   },
 
   searchParts: async (
@@ -42,6 +43,18 @@ export const partService = {
     }
     if (params.condition && params.condition.trim()) {
       searchParams.set('condition', params.condition.trim());
+    }
+    if (params.q && params.q.trim()) {
+      searchParams.set('q', params.q.trim());
+    }
+    if (params.minPrice !== undefined && String(params.minPrice).trim() !== '') {
+      searchParams.set('minPrice', String(params.minPrice).trim());
+    }
+    if (params.maxPrice !== undefined && String(params.maxPrice).trim() !== '') {
+      searchParams.set('maxPrice', String(params.maxPrice).trim());
+    }
+    if (params.sort && params.sort.trim()) {
+      searchParams.set('sort', params.sort.trim());
     }
     if (params.page !== undefined) {
       searchParams.set('page', String(params.page));

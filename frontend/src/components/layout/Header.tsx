@@ -5,6 +5,7 @@ import { HeaderCartLink } from './HeaderCartLink';
 
 const navigation = [
   { label: 'Home', href: '/' },
+  { label: 'Parts List', href: '/parts' },
   { label: 'Shop', href: '/#products' },
   { label: 'Categories', href: '/#categories' },
   { label: 'Deals', href: '/#deals' },

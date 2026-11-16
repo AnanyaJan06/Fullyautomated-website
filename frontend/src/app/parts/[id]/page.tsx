@@ -44,7 +44,7 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-neutral-500">
         <Link href="/" className="transition-colors hover:text-[#e51515]">Home</Link>
         <span className="mx-2">/</span>
-        <Link href="/#products" className="transition-colors hover:text-[#e51515]">Auto parts</Link>
+        <Link href="/parts" className="transition-colors hover:text-[#e51515]">Auto parts</Link>
         <span className="mx-2">/</span>
         <span className="text-neutral-900">{part.part}</span>
       </nav>

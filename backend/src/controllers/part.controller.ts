@@ -14,6 +14,19 @@ type PartSearchDocument = Pick<
 > & { _id: unknown };
 
 const SEARCHABLE_PART_TYPES = ['engine', 'transmission'] as const;
+const VALID_SORT_OPTIONS = [
+  'newest',
+  'price-asc',
+  'price-desc',
+  'year-desc',
+  'year-asc',
+  'name-asc',
+] as const;
+export type PartSortOption = (typeof VALID_SORT_OPTIONS)[number];
+
+function escapeRegex(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 const DEFAULT_PART_IMAGES: Record<PartType, string[]> = {
   engine: [
@@ -79,7 +92,7 @@ export const getPartSearchOptions = async (
       return;
     }
 
-    if (!(SEARCHABLE_PART_TYPES as readonly string[]).includes(rawPartType)) {
+    if (rawPartType && !(SEARCHABLE_PART_TYPES as readonly string[]).includes(rawPartType)) {
       ApiResponse.error(res, 'Part type must be engine or transmission.', 400);
       return;
     }
@@ -92,22 +105,24 @@ export const getPartSearchOptions = async (
       return;
     }
 
-    const partType = rawPartType as PartType;
+    const baseFilter: FilterQuery<IPart> = rawPartType
+      ? { partType: rawPartType as PartType }
+      : {};
     res.set('Cache-Control', 'public, max-age=15, stale-while-revalidate=60');
 
     if (rawModel) {
-      const years = await Part.distinct('year', { partType, make: rawMake, model: rawModel });
+      const years = await Part.distinct('year', { ...baseFilter, make: rawMake, model: rawModel });
       ApiResponse.success(res, { years: (years as number[]).sort((a, b) => b - a) }, 'Available years loaded.');
       return;
     }
 
     if (rawMake) {
-      const models = await Part.distinct('model', { partType, make: rawMake });
+      const models = await Part.distinct('model', { ...baseFilter, make: rawMake });
       ApiResponse.success(res, { models: (models as string[]).sort((a, b) => a.localeCompare(b)) }, 'Available models loaded.');
       return;
     }
 
-    const makes = await Part.distinct('make', { partType });
+    const makes = await Part.distinct('make', baseFilter);
     ApiResponse.success(res, { makes: (makes as string[]).sort((a, b) => a.localeCompare(b)) }, 'Available makes loaded.');
   } catch (error) {
     next(error);
@@ -155,9 +170,25 @@ export const searchParts = async (
     const rawModel = getParam('model');
     const rawYear = getParam('year');
     const rawCondition = getParam('condition');
+    const rawQuery = getParam('q', 'search');
+    const rawMinPrice = getParam('minPrice');
+    const rawMaxPrice = getParam('maxPrice');
+    const rawSort = getParam('sort');
     const rawPage = getParam('page');
     const rawLimit = getParam('limit');
-    const values = [rawPartType, rawMake, rawModel, rawYear, rawCondition, rawPage, rawLimit];
+    const values = [
+      rawPartType,
+      rawMake,
+      rawModel,
+      rawYear,
+      rawCondition,
+      rawQuery,
+      rawMinPrice,
+      rawMaxPrice,
+      rawSort,
+      rawPage,
+      rawLimit,
+    ];
 
     if (values.some((value) => value === null)) {
       ApiResponse.error(res, 'Search parameters must each be a single string value.', 400);
@@ -169,16 +200,29 @@ export const searchParts = async (
     const model = rawModel as string;
     const year = rawYear as string;
     const condition = rawCondition as string;
+    const q = rawQuery as string;
+    const minPriceValue = rawMinPrice as string;
+    const maxPriceValue = rawMaxPrice as string;
+    const sortValue = (rawSort as string).toLowerCase();
     const pageValue = rawPage as string;
     const limitValue = rawLimit as string;
 
-    if ([partType, make, model, year, condition].some((value) => value.length > MAX_SEARCH_LENGTH)) {
+    if ([partType, make, model, year, condition, q].some((value) => value.length > MAX_SEARCH_LENGTH)) {
       ApiResponse.error(res, `Search filters cannot exceed ${MAX_SEARCH_LENGTH} characters.`, 400);
       return;
     }
 
     if (partType && !(SEARCHABLE_PART_TYPES as readonly string[]).includes(partType)) {
       ApiResponse.error(res, 'Part type must be engine or transmission.', 400);
+      return;
+    }
+
+    if (sortValue && !(VALID_SORT_OPTIONS as readonly string[]).includes(sortValue)) {
+      ApiResponse.error(
+        res,
+        `Sort must be one of: ${VALID_SORT_OPTIONS.join(', ')}.`,
+        400
+      );
       return;
     }
 
@@ -201,6 +245,33 @@ export const searchParts = async (
         ApiResponse.error(res, 'Year must be a whole number between 1886 and 2100.', 400);
         return;
       }
+    }
+
+    let parsedMinPrice: number | undefined;
+    if (minPriceValue) {
+      parsedMinPrice = Number(minPriceValue);
+      if (!Number.isFinite(parsedMinPrice) || parsedMinPrice < 0) {
+        ApiResponse.error(res, 'Minimum price must be a non-negative number.', 400);
+        return;
+      }
+    }
+
+    let parsedMaxPrice: number | undefined;
+    if (maxPriceValue) {
+      parsedMaxPrice = Number(maxPriceValue);
+      if (!Number.isFinite(parsedMaxPrice) || parsedMaxPrice < 0) {
+        ApiResponse.error(res, 'Maximum price must be a non-negative number.', 400);
+        return;
+      }
+    }
+
+    if (
+      parsedMinPrice !== undefined &&
+      parsedMaxPrice !== undefined &&
+      parsedMinPrice > parsedMaxPrice
+    ) {
+      ApiResponse.error(res, 'Minimum price cannot be greater than maximum price.', 400);
+      return;
     }
 
     const normalizedCondition = condition.toLowerCase();
@@ -231,8 +302,54 @@ export const searchParts = async (
       andConditions.push({ condition: normalizedCondition });
     }
 
+    if (parsedMinPrice !== undefined || parsedMaxPrice !== undefined) {
+      const priceFilter: Record<string, number> = {};
+      if (parsedMinPrice !== undefined) priceFilter.$gte = parsedMinPrice;
+      if (parsedMaxPrice !== undefined) priceFilter.$lte = parsedMaxPrice;
+      andConditions.push({ price: priceFilter });
+    }
+
+    if (q) {
+      const regex = new RegExp(escapeRegex(q), 'i');
+      andConditions.push({
+        $or: [
+          { part: regex },
+          { make: regex },
+          { model: regex },
+          { description: regex },
+        ],
+      });
+    }
+
     const mongoFilter: FilterQuery<IPart> =
       andConditions.length > 0 ? { $and: andConditions } : {};
+
+    const resolvedSort: PartSortOption = (sortValue as PartSortOption) || 'newest';
+    let mongoSort: Record<string, 1 | -1>;
+    switch (resolvedSort) {
+      case 'price-asc':
+        mongoSort = { price: 1, _id: -1 };
+        break;
+      case 'price-desc':
+        mongoSort = { price: -1, _id: -1 };
+        break;
+      case 'year-desc':
+        mongoSort = { year: -1, createdAt: -1, _id: -1 };
+        break;
+      case 'year-asc':
+        mongoSort = { year: 1, createdAt: -1, _id: -1 };
+        break;
+      case 'name-asc':
+        mongoSort = { part: 1, _id: -1 };
+        break;
+      case 'newest':
+      default:
+        mongoSort =
+          !sortValue && andConditions.length > 0
+            ? { year: -1, createdAt: -1, _id: -1 }
+            : { createdAt: -1, _id: -1 };
+        break;
+    }
 
     const totalMatchesQuery = andConditions.length === 0
       ? Promise.resolve<number | null>(null)
@@ -240,7 +357,7 @@ export const searchParts = async (
     const [matchingDocs, totalInCollection, filteredCount] = await Promise.all([
       Part.find(mongoFilter)
         .select(PART_FIELDS)
-        .sort(andConditions.length === 0 ? { createdAt: -1, _id: -1 } : { year: -1, createdAt: -1, _id: -1 })
+        .sort(mongoSort)
         .skip((page - 1) * pageSize)
         .limit(pageSize + 1)
         .lean(),
@@ -265,10 +382,13 @@ export const searchParts = async (
       }
 
       if (suggestionOr.length > 0) {
-        const relatedDocs = await Part.find({
-          partType: partType as PartType,
+        const suggestionFilter: FilterQuery<IPart> = {
           $or: suggestionOr,
-        })
+        };
+        if (partType) {
+          suggestionFilter.partType = partType as PartType;
+        }
+        const relatedDocs = await Part.find(suggestionFilter)
           .select(PART_FIELDS)
           .sort({ year: -1 })
           .limit(4)
@@ -289,11 +409,15 @@ export const searchParts = async (
         countIsEstimate: andConditions.length === 0,
         totalInCollection,
         filters: {
-          partType,
+          partType: (partType as PartType) || undefined,
           make: make || undefined,
           model: model || undefined,
           year: parsedYear,
           condition: normalizedCondition || undefined,
+          q: q || undefined,
+          minPrice: parsedMinPrice,
+          maxPrice: parsedMaxPrice,
+          sort: resolvedSort,
         },
         pagination: {
           page,

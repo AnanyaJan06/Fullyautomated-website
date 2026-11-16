@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { GEARUP_CATEGORIES } from '@/data/gearup-data';
 import { VehicleFilterHero } from '@/components/home/VehicleFilterHero';
 import { VehicleSearch } from '@/components/home/VehicleSearch';
@@ -73,6 +74,12 @@ export default async function HomePage() {
               Popular Auto Parts Categories
             </h2>
           </div>
+          <Link
+            href="/parts"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#ef263d] px-4 py-2 text-xs font-extrabold text-white transition hover:bg-[#d91f34] sm:text-sm"
+          >
+            View All Parts List <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -100,12 +107,20 @@ export default async function HomePage() {
                 <p className="mt-2 text-sm font-semibold text-white/90 sm:text-base">
                   {cat.slug === 'engine' ? 'Maximize & Maintain' : 'Power through every drive'}
                 </p>
-                <a
-                  href={`#part-search?partType=${cat.slug}`}
-                  className="mt-auto inline-flex items-center gap-3 rounded-md bg-white px-4 py-2.5 text-xs font-extrabold text-neutral-900 transition-colors hover:bg-neutral-100 sm:text-sm"
-                >
-                  Shop now <span aria-hidden="true">&rarr;</span>
-                </a>
+                <div className="mt-auto flex flex-wrap items-center gap-2.5">
+                  <Link
+                    href={`/parts?partType=${cat.slug}`}
+                    className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2.5 text-xs font-extrabold text-neutral-900 transition-colors hover:bg-neutral-100 sm:text-sm"
+                  >
+                    View {cat.name} List <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                  <a
+                    href={`#part-search?partType=${cat.slug}`}
+                    className="inline-flex items-center gap-2 rounded-md border border-white/40 bg-black/30 px-3.5 py-2.5 text-xs font-bold text-white backdrop-blur-sm transition-colors hover:bg-black/50 sm:text-sm"
+                  >
+                    Quick Fitment
+                  </a>
+                </div>
               </div>
             </div>
           ))}
@@ -131,12 +146,12 @@ export default async function HomePage() {
               <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500">Weekly refresh in</p>
               <WeeklyCountdown />
 
-              <a
-                href="#products"
+              <Link
+                href="/parts"
                 className="inline-block bg-neutral-900 hover:bg-[#e51515] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
               >
-                Browse Parts &rarr;
-              </a>
+                Browse Parts List &rarr;
+              </Link>
             </div>
 
             {/* Latest database parts */}

@@ -59,6 +59,13 @@ export interface AutomationTask {
 
 export type PartCondition = 'new' | 'refurbished' | 'used';
 export type PartType = 'engine' | 'transmission';
+export type PartSortOption =
+  | 'newest'
+  | 'price-asc'
+  | 'price-desc'
+  | 'year-desc'
+  | 'year-asc'
+  | 'name-asc';
 
 export interface DatabasePart {
   id: string;
@@ -87,6 +94,10 @@ export interface PartSearchParams {
   model?: string;
   year?: string | number;
   condition?: string;
+  q?: string;
+  minPrice?: string | number;
+  maxPrice?: string | number;
+  sort?: PartSortOption;
   page?: number;
   limit?: number;
 }
@@ -102,6 +113,10 @@ export interface PartSearchResponse {
     model?: string;
     year?: number;
     condition?: string;
+    q?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    sort?: PartSortOption;
   };
   pagination: {
     page: number;

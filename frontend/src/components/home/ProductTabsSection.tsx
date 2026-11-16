@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { DatabaseProductCard } from './DatabaseProductCard';
 import type { DatabasePart } from '@/types';
 
@@ -26,25 +27,34 @@ export function ProductTabsSection({
           </h2>
         </div>
 
-        <fieldset className="flex flex-wrap items-center gap-2" aria-label="Filter products">
-          {tabs.map((tab, index) => (
-            <span key={tab.id}>
-              <input
-                className="peer sr-only"
-                type="radio"
-                name="product-filter"
-                id={`product-filter-${tab.id}`}
-                defaultChecked={index === 0}
-              />
-              <label
-                htmlFor={`product-filter-${tab.id}`}
-                className="inline-flex cursor-pointer rounded-lg bg-neutral-100 px-4 py-2 text-xs font-bold text-neutral-700 transition-colors hover:bg-neutral-200 peer-checked:bg-[#e51515] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#e51515]"
-              >
-                {tab.label}
-              </label>
-            </span>
-          ))}
-        </fieldset>
+        <div className="flex flex-wrap items-center gap-3">
+          <fieldset className="flex flex-wrap items-center gap-2" aria-label="Filter products">
+            {tabs.map((tab, index) => (
+              <span key={tab.id}>
+                <input
+                  className="peer sr-only"
+                  type="radio"
+                  name="product-filter"
+                  id={`product-filter-${tab.id}`}
+                  defaultChecked={index === 0}
+                />
+                <label
+                  htmlFor={`product-filter-${tab.id}`}
+                  className="inline-flex cursor-pointer rounded-lg bg-neutral-100 px-4 py-2 text-xs font-bold text-neutral-700 transition-colors hover:bg-neutral-200 peer-checked:bg-[#e51515] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#e51515]"
+                >
+                  {tab.label}
+                </label>
+              </span>
+            ))}
+          </fieldset>
+
+          <Link
+            href="/parts"
+            className="inline-flex items-center gap-2 rounded-lg border border-[#e51515] bg-red-50 px-4 py-2 text-xs font-extrabold text-[#e51515] transition-colors hover:bg-[#e51515] hover:text-white"
+          >
+            Full Parts Listing Page &rarr;
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -59,6 +69,15 @@ export function ProductTabsSection({
             : 'No engine or transmission parts are available in the catalog yet.'}
         </p>
       )}
+
+      <div className="mt-8 flex justify-center">
+        <Link
+          href="/parts"
+          className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#e51515]"
+        >
+          View All Available Auto Parts (Filter &amp; Sort) &rarr;
+        </Link>
+      </div>
     </section>
   );
 }
