@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState, type TransitionEvent } from 'react';
 import Image from 'next/image';
 
 const slides = [
@@ -8,30 +8,85 @@ const slides = [
   { src: '/images/gearup-hero-2.webp', alt: 'Performance brake rotor and red caliper on a warm studio background' },
 ];
 
+const carouselSlides = [
+  { ...slides[slides.length - 1], key: 'clone-last' },
+  ...slides.map((slide) => ({ ...slide, key: slide.src })),
+  { ...slides[0], key: 'clone-first' },
+];
+
 export function HeroArtworkCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // The first and last entries are clones used to make wraparound movement seamless.
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
+  const wrappingRef = useRef(false);
+  const activeSlideIndex =
+    activeIndex === 0
+      ? slides.length - 1
+      : activeIndex === slides.length + 1
+        ? 0
+        : activeIndex - 1;
+
+  useEffect(() => {
+    if (transitionEnabled) return;
+    const frame = window.requestAnimationFrame(() => setTransitionEnabled(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, [transitionEnabled]);
+
   function showPrevious() {
-    setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
+    if (wrappingRef.current) return;
+    if (activeIndex === 1) {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      wrappingRef.current = !reduceMotion;
+      setActiveIndex(reduceMotion ? slides.length : 0);
+      return;
+    }
+    setActiveIndex((current) => current - 1);
   }
 
   function showNext() {
-    setActiveIndex((current) => (current + 1) % slides.length);
+    if (wrappingRef.current) return;
+    if (activeIndex === slides.length) {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      wrappingRef.current = !reduceMotion;
+      setActiveIndex(reduceMotion ? 1 : slides.length + 1);
+      return;
+    }
+    setActiveIndex((current) => current + 1);
+  }
+
+  function handleTransitionEnd(event: TransitionEvent<HTMLDivElement>) {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform') return;
+
+    if (activeIndex === 0 || activeIndex === slides.length + 1) {
+      setTransitionEnabled(false);
+      setActiveIndex(activeIndex === 0 ? slides.length : 1);
+      wrappingRef.current = false;
+    }
   }
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 hidden lg:block">
       <div className="absolute inset-0 overflow-hidden rounded-2xl">
         <div
-          className="absolute inset-y-0 left-0 flex h-full w-[200%] transition-transform duration-700 ease-in-out motion-reduce:transition-none"
-          style={{ transform: `translateX(-${activeIndex * 50}%)` }}
+          onTransitionEnd={handleTransitionEnd}
+          className={`absolute inset-y-0 left-0 flex h-full transition-transform duration-700 ease-in-out motion-reduce:transition-none ${transitionEnabled ? '' : '!transition-none'}`}
+          style={{
+            width: `${carouselSlides.length * 100}%`,
+            transform: `translateX(-${(activeIndex * 100) / carouselSlides.length}%)`,
+          }}
         >
-          {slides.map((item, index) => (
-            <div key={item.src} aria-hidden={index !== activeIndex} className="relative h-full w-1/2 shrink-0">
+          {carouselSlides.map((item, index) => (
+            <div
+              key={item.key}
+              aria-hidden={index !== activeIndex}
+              className="relative h-full shrink-0"
+              style={{ width: `${100 / carouselSlides.length}%` }}
+            >
               <Image
                 src={item.src}
                 alt={item.alt}
                 fill
-                priority={index === 0}
+                priority={index === 1}
                 sizes="100vw"
                 className="object-cover object-center"
               />
@@ -68,10 +123,12 @@ export function HeroArtworkCarousel() {
             key={item.src}
             type="button"
             aria-label={`Show hero image ${index + 1}`}
-            aria-pressed={activeIndex === index}
-            onClick={() => setActiveIndex(index)}
+            aria-pressed={activeSlideIndex === index}
+            onClick={() => {
+              if (!wrappingRef.current) setActiveIndex(index + 1);
+            }}
             className={`h-2.5 w-2.5 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d] ${
-              activeIndex === index ? 'bg-[#ef263d]' : 'bg-neutral-300 hover:bg-neutral-400'
+              activeSlideIndex === index ? 'bg-[#ef263d]' : 'bg-neutral-300 hover:bg-neutral-400'
             }`}
           />
         ))}

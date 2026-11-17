@@ -331,7 +331,7 @@ export const searchParts = async (
         mongoSort = { price: 1, _id: -1 };
         break;
       case 'price-desc':
-        mongoSort = { price: -1, _id: -1 };
+        mongoSort = { price: -1, _id: 1 };
         break;
       case 'year-desc':
         mongoSort = { year: -1, createdAt: -1, _id: -1 };

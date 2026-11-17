@@ -71,7 +71,10 @@ const PartSchema = new Schema<IPart>(
 );
 
 PartSchema.index({ year: -1, createdAt: -1, _id: -1 });
+PartSchema.index({ year: 1, createdAt: -1, _id: -1 });
 PartSchema.index({ createdAt: -1, _id: -1 });
+PartSchema.index({ price: 1, _id: -1 });
+PartSchema.index({ part: 1, _id: -1 });
 PartSchema.index({ make: 1, model: 1, year: 1 });
 PartSchema.index({ partType: 1, make: 1, model: 1, year: 1 });
 

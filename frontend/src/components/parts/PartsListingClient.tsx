@@ -82,6 +82,7 @@ export function PartsListingClient({
   const requestIdRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
   const isFirstRender = useRef(true);
+  const skipNextFilterEffectRef = useRef(false);
 
   // Load distinct makes / models / years for filter dropdowns
   useEffect(() => {
@@ -149,6 +150,10 @@ export function PartsListingClient({
       isFirstRender.current = false;
       if (initialData) return;
     }
+    if (skipNextFilterEffectRef.current) {
+      skipNextFilterEffectRef.current = false;
+      return;
+    }
 
     void fetchCatalog({
       partType: partType || undefined,
@@ -167,6 +172,7 @@ export function PartsListingClient({
 
   function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    skipNextFilterEffectRef.current = page !== 1;
     setPage(1);
     void fetchCatalog({
       partType: partType || undefined,
@@ -183,6 +189,9 @@ export function PartsListingClient({
   }
 
   function handleResetFilters() {
+    skipNextFilterEffectRef.current = Boolean(
+      partType || make || model || year || condition || sort !== 'newest' || page !== 1
+    );
     setPartType('');
     setMake('');
     setModel('');
@@ -195,6 +204,21 @@ export function PartsListingClient({
     setPage(1);
     setOptions((prev) => ({ ...prev, models: [], years: [] }));
     void fetchCatalog({ sort: 'newest', page: 1 });
+  }
+
+  function handleRetry() {
+    void fetchCatalog({
+      partType: partType || undefined,
+      make: make || undefined,
+      model: model || undefined,
+      year: year || undefined,
+      condition: condition || undefined,
+      q: q || undefined,
+      minPrice: minPrice || undefined,
+      maxPrice: maxPrice || undefined,
+      sort,
+      page,
+    });
   }
 
   const hasActiveFilters = Boolean(
@@ -494,7 +518,7 @@ export function PartsListingClient({
               <span>{errorMsg}</span>
               <button
                 type="button"
-                onClick={handleResetFilters}
+                onClick={handleRetry}
                 className="font-bold text-red-900 underline"
               >
                 Try Again
