@@ -239,37 +239,48 @@ export function PartsListingClient({
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       {/* Breadcrumb & Page Header */}
-      <div className="mb-5 flex items-center justify-between gap-4">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-neutral-500">
-          <Link href="/" className="transition-colors hover:text-[#725800]">
+      <div className="mb-6 border-b border-neutral-200 pb-4">
+        <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-2 text-xs font-medium text-neutral-500">
+          <Link href="/" className="transition-colors hover:text-[#806000]">
             Home
           </Link>
           <span>/</span>
           <span className="font-semibold text-neutral-900">Auto Parts Listing</span>
         </nav>
 
-        <div className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-neutral-500">
-          <label htmlFor="sort-parts">Sort:</label>
-          <select
-            id="sort-parts"
-            value={sort}
-            onChange={(e) => {
-              const nextSort = e.target.value as PartSortOption;
-              setSort(nextSort);
-              setAppliedSort(nextSort);
-              setPage(1);
-            }}
-            className="max-w-40 cursor-pointer appearance-none bg-transparent py-1 text-xs font-semibold text-neutral-700 outline-none transition hover:text-[#725800] focus:text-[#725800]"
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="-ml-1 h-3 w-3">
-            <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#806000]">
+              OEM &amp; Aftermarket Catalog
+            </span>
+            <h1 className="mt-0.5 text-2xl font-black text-neutral-900">
+              Shop Auto Parts &amp; Performance Gear
+            </h1>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-500">
+            <label htmlFor="sort-parts">Sort:</label>
+            <select
+              id="sort-parts"
+              value={sort}
+              onChange={(e) => {
+                const nextSort = e.target.value as PartSortOption;
+                setSort(nextSort);
+                setAppliedSort(nextSort);
+                setPage(1);
+              }}
+              className="max-w-44 cursor-pointer appearance-none bg-transparent py-0.5 pr-4 text-xs font-bold text-neutral-900 outline-none transition hover:text-[#806000] focus:text-[#806000]"
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="-ml-4 pointer-events-none h-3.5 w-3.5 text-neutral-600">
+              <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -291,7 +302,7 @@ export function PartsListingClient({
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="text-xs font-bold text-[#725800] hover:underline"
+                  className="text-xs font-bold text-[#806000] hover:underline"
                 >
                   Reset All
                 </button>
@@ -308,14 +319,14 @@ export function PartsListingClient({
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder="Search parts, make, or model..."
-                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 pr-11 text-xs text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-[#725800] focus:ring-2 focus:ring-[#725800]/15"
+                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 pr-11 text-xs text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-[#eab308] focus:ring-2 focus:ring-[#eab308]/20"
                 />
                 <button
                   type="submit"
                   aria-label="Search keyword and apply filters"
                   title="Search"
                   disabled={isLoading}
-                  className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-neutral-500 transition hover:bg-yellow-50 hover:text-[#725800] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#725800] disabled:cursor-wait disabled:opacity-50"
+                  className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md bg-[#facc15] text-neutral-950 transition hover:bg-[#eab308] focus-visible:outline focus-visible:outline-2 focus-visible:outline-neutral-950 disabled:cursor-wait disabled:opacity-50"
                 >
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                     <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" strokeWidth="1.8" />
@@ -340,7 +351,7 @@ export function PartsListingClient({
                   setYear('');
                   setQ('');
                 }}
-                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800]"
+                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308]"
               >
                 <option value="">All Categories</option>
                 <option value="engine">Engine</option>
@@ -362,7 +373,7 @@ export function PartsListingClient({
                   setYear('');
                   setQ('');
                 }}
-                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800]"
+                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308]"
               >
                 <option value="">All Makes</option>
                 {options.makes.map((item) => (
@@ -387,7 +398,7 @@ export function PartsListingClient({
                   setYear('');
                   setQ('');
                 }}
-                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800] disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
+                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308] disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
               >
                 <option value="">{make ? 'All Models' : 'Select make first'}</option>
                 {options.models.map((item) => (
@@ -411,7 +422,7 @@ export function PartsListingClient({
                   setYear(e.target.value);
                   setQ('');
                 }}
-                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800] disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
+                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308] disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
               >
                 <option value="">{model ? 'All Years' : 'Select model first'}</option>
                 {options.years.map((item) => (
@@ -434,7 +445,7 @@ export function PartsListingClient({
                   setCondition(e.target.value as PartCondition | '');
                   setQ('');
                 }}
-                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800]"
+                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308]"
               >
                 {CONDITION_OPTIONS.map((opt) => (
                   <option key={opt.label} value={opt.value}>
@@ -457,7 +468,7 @@ export function PartsListingClient({
                     setMinPrice(e.target.value);
                     setQ('');
                   }}
-                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800]"
+                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308]"
                 />
                 <input
                   type="number"
@@ -468,7 +479,7 @@ export function PartsListingClient({
                     setMaxPrice(e.target.value);
                     setQ('');
                   }}
-                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#725800]"
+                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#eab308]"
                 />
               </div>
             </div>
@@ -482,7 +493,7 @@ export function PartsListingClient({
             <button
               type="submit"
               disabled={isLoading || !hasUnappliedFilterChanges}
-              className="flex h-10 w-full items-center justify-center rounded-xl bg-neutral-900 px-4 text-xs font-extrabold text-white transition hover:bg-[#725800] disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex h-10 w-full items-center justify-center rounded-xl bg-[#facc15] px-4 text-xs font-extrabold text-neutral-950 transition hover:bg-[#eab308] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoading ? 'Updating...' : 'Apply Filters'}
             </button>
@@ -571,7 +582,7 @@ export function PartsListingClient({
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="mt-4 inline-flex items-center rounded-xl bg-[#725800] px-5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#584400]"
+                className="mt-4 inline-flex items-center rounded-xl bg-[#facc15] px-5 py-2.5 text-xs font-extrabold text-neutral-950 transition hover:bg-[#eab308]"
               >
                 Show All Auto Parts
               </button>

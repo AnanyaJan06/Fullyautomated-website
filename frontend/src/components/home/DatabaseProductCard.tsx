@@ -3,20 +3,28 @@ import Link from 'next/link';
 import { AddToCartButton } from './AddToCartButton';
 import { PartImageGallery } from './PartImageGallery';
 
-const FALLBACK_GALLERY_BY_TYPE: Record<PartType, string[]> = {
+const GALLERY_BY_TYPE: Record<PartType, string[]> = {
   engine: [
+    '/images/parts/engine-template1.webp',
+    '/images/parts/engine-template2.webp',
+    '/images/parts/engine-template3.webp',
     '/images/parts/engine-assembly-1.svg',
-    '/images/parts/engine-assembly-2.svg',
-    '/images/parts/engine-assembly-3.svg',
-    '/images/gearup-hero-1.webp',
   ],
   transmission: [
+    '/images/parts/transmission-template1.webp',
+    '/images/parts/transmission-template2.webp',
+    '/images/parts/transmission-template3.webp',
     '/images/parts/transmission-assembly-1.svg',
-    '/images/parts/transmission-assembly-2.svg',
-    '/images/parts/transmission-assembly-3.svg',
-    '/images/gearup-hero-2.webp',
   ],
 };
+
+function getStableGalleryStart(productId: string, imageCount: number) {
+  let hash = 0;
+  for (let index = 0; index < productId.length; index += 1) {
+    hash = (hash * 31 + productId.charCodeAt(index)) >>> 0;
+  }
+  return hash % imageCount;
+}
 
 export function DatabaseProductCard({
   product,
@@ -27,75 +35,78 @@ export function DatabaseProductCard({
 }) {
   const fitment = [product.year, product.make, product.model].filter(Boolean).join(' ');
   const category = product.partType === 'transmission' ? 'Transmission' : 'Engine';
-  const images = Array.isArray(product.images) ? product.images.filter(Boolean) : [];
-  const galleryImages = images.length
-    ? images
-    : FALLBACK_GALLERY_BY_TYPE[product.partType ?? 'engine'];
+  const categoryImages = GALLERY_BY_TYPE[product.partType ?? 'engine'];
+  const templateImages = categoryImages.slice(0, 3);
+  const startIndex = getStableGalleryStart(product.id, templateImages.length);
+  const galleryImages = [
+    ...templateImages.slice(startIndex),
+    ...templateImages.slice(0, startIndex),
+    categoryImages[3],
+  ];
   const detailsHref = `/parts/${encodeURIComponent(product.id)}`;
 
   return (
     <article
       data-product-tabs={product.partType ?? 'engine'}
-      className="flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:shadow-md"
+      className={`group/card flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm ${
+        listingImage
+          ? ''
+          : 'transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:shadow-md'
+      }`}
     >
       <div>
-        <div className="mb-2 flex items-center justify-between gap-2">
-          <span className="rounded bg-neutral-900 px-2 py-0.5 text-[10px] font-bold uppercase text-white">
+        {/* 1. New / Refurbished badge at top */}
+        <div className="mb-2.5 flex items-center justify-start">
+          <span className="rounded bg-[#facc15] px-2 py-0.5 text-[10px] font-normal capitalize tracking-normal text-neutral-950">
             {product.condition}
           </span>
-          <span className="text-[11px] text-neutral-400">{category}</span>
         </div>
 
+        {/* Templates lead each card's gallery; the category assembly art is fourth. */}
         {listingImage ? (
           <Link
             href={detailsHref}
             prefetch={false}
-            aria-label={`View ${product.part} details`}
+            aria-label={`View ${fitment || category} details`}
             className="mb-3 block overflow-hidden rounded-lg border border-neutral-200/80 bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={galleryImages[0]}
-              alt={product.part}
+              alt={fitment ? `${category} - ${fitment}` : category}
               loading="lazy"
               decoding="async"
-              className="h-44 w-full object-contain transition-transform duration-300 hover:scale-[1.03]"
+              className="h-44 w-full object-cover"
             />
           </Link>
         ) : (
           <PartImageGallery
-            images={galleryImages}
-            title={product.part}
+            images={galleryImages.slice(0, 4)}
+            title={fitment ? `${category} - ${fitment}` : category}
             subtitle={`${fitment} - ${category}`}
             fallbackMark={category}
-            overlayBadge={
-              fitment ? (
-                <span className="rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-                  {fitment}
-                </span>
-              ) : undefined
-            }
           />
         )}
 
-        <p className="mb-1 text-xs font-semibold text-neutral-500">{fitment}</p>
-        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors hover:text-[#806000]">
+        {/* Part type is secondary; fitment stays prominent. */}
+        <p className="text-xs font-normal uppercase tracking-wider text-neutral-500">
+          {category}
+        </p>
+        <h3 className="mt-1 line-clamp-1 text-sm font-bold text-neutral-950 transition-colors hover:text-neutral-700">
           <Link
             href={detailsHref}
             prefetch={false}
             className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
           >
-            {product.part}
+            {fitment || category}
           </Link>
         </h3>
-        {product.description && (
-          <p className="mt-2 line-clamp-2 text-[11px] text-neutral-500">{product.description}</p>
-        )}
       </div>
 
-      <div className="mt-4 border-t border-neutral-100 pt-3">
-        <p className="mb-2 text-lg font-black text-[#806000]">${product.price.toFixed(2)}</p>
+      {/* 4. Price + Add to Cart */}
+      <div className="mt-3 border-t border-neutral-100 pt-2.5">
         <AddToCartButton
+          priceOnIdle={product.price}
           item={{
             partId: product.id,
             part: product.part,

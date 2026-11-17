@@ -168,38 +168,57 @@ export function PartImageGallery({
                   className="relative h-full shrink-0"
                   style={{ width: `${100 / loopImages.length}%` }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={src}
-                    alt={index === trackIndex ? `${title} - Image ${activeIndex + 1} of ${totalSlides}` : ''}
+                  <button
+                    type="button"
                     onClick={openPreview}
-                    className="h-full w-full cursor-zoom-in object-cover"
-                    loading={priority && index === 1 ? 'eager' : 'lazy'}
-                    fetchPriority={priority && index === 1 ? 'high' : 'auto'}
-                    decoding="async"
-                  />
+                    tabIndex={index === trackIndex ? 0 : -1}
+                    aria-label={index === trackIndex ? `Open image preview for ${title}` : undefined}
+                    className="group/image relative block h-full w-full cursor-zoom-in p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#eab308]"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={index === trackIndex ? `${title} - Image ${activeIndex + 1} of ${totalSlides}` : ''}
+                      className="h-full w-full object-cover"
+                      loading={priority && index === 1 ? 'eager' : 'lazy'}
+                      fetchPriority={priority && index === 1 ? 'high' : 'auto'}
+                      decoding="async"
+                    />
+                    {size === 'card' && (
+                      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-neutral-950/0 transition-colors duration-200 group-hover/image:bg-neutral-950/10 group-focus-visible/image:bg-neutral-950/10">
+                        <span className="flex h-10 w-10 scale-90 items-center justify-center rounded-full bg-white/95 text-neutral-900 opacity-0 shadow-lg transition duration-200 group-hover/image:scale-100 group-hover/image:opacity-100 group-focus-visible/image:scale-100 group-focus-visible/image:opacity-100">
+                          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                            <circle cx="10.8" cy="10.8" r="6.8" />
+                            <path d="m16 16 4.2 4.2M10.8 8v5.6M8 10.8h5.6" />
+                          </svg>
+                        </span>
+                      </span>
+                    )}
+                  </button>
                 </div>
               ))}
             </div>
 
-            {totalSlides > 1 && (
+            {size === 'detail' && totalSlides > 1 && (
               <span className="pointer-events-none absolute left-2 top-2 z-10 rounded-md bg-neutral-950/75 px-2 py-0.5 text-[10px] font-extrabold tracking-wide text-white backdrop-blur-sm">
                 {activeIndex + 1} / {totalSlides}
               </span>
             )}
 
-            <button
-              type="button"
-              onClick={openPreview}
-              aria-label={`Preview images for ${title}`}
-              className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-neutral-950/80 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
-            >
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-3.5-3.5M11 8v6M8 11h6" />
-              </svg>
-              <span>Preview</span>
-            </button>
+            {size === 'detail' && (
+              <button
+                type="button"
+                onClick={openPreview}
+                aria-label={`Preview images for ${title}`}
+                className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-neutral-950/80 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5M11 8v6M8 11h6" />
+                </svg>
+                <span>Preview</span>
+              </button>
+            )}
 
             {totalSlides > 1 && (
               <>
@@ -257,7 +276,7 @@ export function PartImageGallery({
         )}
       </div>
 
-      {totalSlides > 1 && (
+      {size === 'detail' && totalSlides > 1 && (
         <div className="mt-2 grid grid-cols-4 gap-1.5" role="group" aria-label="Part image slides">
           {validImages.slice(0, 4).map((src, index) => {
             const isSelected = activeIndex === index;
@@ -290,9 +309,25 @@ export function PartImageGallery({
         >
           <div
             onClick={(event) => event.stopPropagation()}
-            className="animate-scale-in relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#121521] text-white shadow-2xl"
+            className="animate-scale-in relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white text-neutral-950 shadow-2xl"
           >
-            <div className="relative h-[58vh] min-h-[300px] max-h-[720px] overflow-hidden bg-neutral-950 sm:h-[68vh] sm:min-h-[420px]">
+            <div className="flex items-center justify-between gap-4 border-b border-neutral-200 px-4 py-3.5 sm:px-5">
+              <div className="min-w-0">
+                <h2 className="truncate text-sm font-bold text-neutral-950">{title}</h2>
+                <p className="mt-0.5 text-xs text-neutral-500">Image {activeIndex + 1} of {totalSlides}</p>
+              </div>
+              <button
+                type="button"
+                onClick={closePreview}
+                aria-label="Close image preview"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-5 w-5">
+                  <path d="m6 6 12 12M18 6 6 18" />
+                </svg>
+              </button>
+            </div>
+            <div className="relative h-[min(58vh,560px)] min-h-[280px] overflow-hidden bg-neutral-100 sm:h-[min(62vh,600px)]">
               <div
                 onTransitionEnd={handleTransitionEnd}
                 className={trackClassName}
@@ -323,7 +358,7 @@ export function PartImageGallery({
                     type="button"
                     onClick={goToPrevious}
                     aria-label="Previous preview image"
-                    className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-neutral-900/85 text-white shadow-lg transition hover:bg-[#facc15] hover:text-neutral-950"
+                      className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-900 shadow-lg transition hover:bg-[#facc15]"
                   >
                     <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                       <path d="M12.5 15 7.5 10l5-5" />
@@ -333,7 +368,7 @@ export function PartImageGallery({
                     type="button"
                     onClick={goToNext}
                     aria-label="Next preview image"
-                    className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-neutral-900/85 text-white shadow-lg transition hover:bg-[#facc15] hover:text-neutral-950"
+                      className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-900 shadow-lg transition hover:bg-[#facc15]"
                   >
                     <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                       <path d="M7.5 15 12.5 10l-5-5" />
@@ -344,12 +379,12 @@ export function PartImageGallery({
             </div>
 
             {totalSlides > 1 && (
-              <div className="border-t border-white/10 bg-[#161a29] px-5 py-3.5">
+              <div className="border-t border-neutral-200 bg-white px-4 py-3.5 sm:px-5">
                 <div className="mb-2 flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-600">
                     Part images ({totalSlides})
                   </span>
-                  <span className="text-[11px] text-neutral-400">Use arrow keys or select an image</span>
+                  <span className="text-[11px] text-neutral-500">Use arrow keys or select an image</span>
                 </div>
                 <div className="flex items-center gap-2.5 overflow-x-auto pb-1">
                   {validImages.map((src, index) => {
@@ -363,11 +398,11 @@ export function PartImageGallery({
                         }}
                         aria-label={`Select preview image ${index + 1}`}
                         aria-pressed={isSelected}
-                        className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${isSelected ? 'border-[#facc15] ring-2 ring-[#facc15]/40 opacity-100' : 'border-white/15 opacity-60 hover:border-white/40 hover:opacity-100'}`}
+                        className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${isSelected ? 'border-[#facc15] ring-2 ring-[#facc15]/40 opacity-100' : 'border-neutral-200 opacity-75 hover:border-neutral-400 hover:opacity-100'}`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={src} alt={`${title} image ${index + 1}`} className="h-full w-full object-cover" loading="lazy" />
-                        <span className="absolute bottom-1 right-1 rounded bg-black/75 px-1.5 py-0.5 text-[9px] font-bold text-white">
+                        <span className="absolute bottom-1 right-1 rounded bg-neutral-950/75 px-1.5 py-0.5 text-[9px] font-bold text-white">
                           {index + 1}
                         </span>
                       </button>
