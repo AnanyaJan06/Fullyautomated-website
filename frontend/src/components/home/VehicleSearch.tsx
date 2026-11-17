@@ -6,7 +6,7 @@ import { partService } from '@/services/part.service';
 import type { PartSearchOptions, PartType } from '@/types';
 
 const selectClassName =
-  'h-[42px] w-full appearance-none rounded-md border border-neutral-200 bg-white pl-9 pr-8 text-xs font-normal text-neutral-700 outline-none transition-all duration-200 focus:border-[#ef263d] focus:ring-2 focus:ring-[#ef263d]/15 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400';
+  'h-[42px] w-full appearance-none rounded-lg border border-neutral-200 bg-white pl-9 pr-8 text-xs font-medium text-neutral-700 outline-none transition-all duration-200 focus:border-[#eab308] focus:ring-2 focus:ring-[#eab308]/20 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400';
 
 function SearchField({
   label,
@@ -20,7 +20,7 @@ function SearchField({
   children: ReactNode;
 }) {
   return (
-    <label className="min-w-0 text-xs font-medium text-neutral-700 lg:border-r lg:border-neutral-200 lg:pr-4">
+    <label className="min-w-0 text-xs font-medium text-neutral-700">
       {label}
       <span className="relative mt-1.5 block">
         <svg
@@ -120,12 +120,8 @@ export function VehicleSearch() {
     const controller = new AbortController();
     setOptionsError('');
 
-    if (!partType) {
-      return () => controller.abort();
-    }
-
     partService
-      .getSearchOptions({ partType, make: make || undefined, model: model || undefined }, controller.signal)
+      .getSearchOptions({ partType: partType || undefined, make: make || undefined, model: model || undefined }, controller.signal)
       .then((response) => {
         if (!controller.signal.aborted) {
           setSearchOptions((current) => ({ ...current, ...response.data }));
@@ -142,9 +138,10 @@ export function VehicleSearch() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!partType || !make || !model || !year) return;
+    if (!make || !model || !year) return;
 
-    const params = new URLSearchParams({ partType, make, model, year });
+    const params = new URLSearchParams({ make, model, year });
+    if (partType) params.set('partType', partType);
     router.push(`/parts?${params.toString()}`);
   }
 
@@ -161,16 +158,20 @@ export function VehicleSearch() {
     <section
       id="part-search"
       aria-label="Search auto parts"
-      className="mx-auto mt-4 max-w-[1440px] px-4 sm:px-6 lg:px-8"
+      className="w-full"
     >
       <form
         onSubmit={handleSubmit}
-        className={`grid grid-cols-1 gap-3 rounded-xl border bg-white p-4 shadow-[0_8px_28px_-22px_rgba(20,24,35,0.5)] transition-all duration-300 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.75fr)_auto] lg:items-end lg:gap-4 lg:px-5 lg:py-4 ${
+        className={`grid grid-cols-1 gap-3 rounded-2xl border bg-white p-5 shadow-[0_20px_55px_-28px_rgba(0,0,0,0.4)] transition-all duration-300 sm:grid-cols-2 lg:grid-cols-1 lg:gap-3 lg:p-6 ${
           highlightPulse
-            ? 'border-[#ef263d] ring-4 ring-[#ef263d]/15'
+            ? 'border-[#eab308] ring-4 ring-[#eab308]/20'
             : 'border-neutral-200'
         }`}
       >
+        <div className="sm:col-span-2 lg:col-span-1">
+          <h2 className="text-lg font-black uppercase tracking-tight text-neutral-950">Find Your Fit</h2>
+          <p className="mt-1 text-xs leading-5 text-neutral-500">Choose your vehicle to find compatible parts.</p>
+        </div>
         <SearchField label="Part Type" icon="part">
           <select
             value={partType}
@@ -182,9 +183,8 @@ export function VehicleSearch() {
               setSearchOptions({ makes: [], models: [], years: [] });
             }}
             className={selectClassName}
-            required
           >
-            <option value="">Select part type</option>
+            <option value="">All part types</option>
             <option value="engine">Engine</option>
             <option value="transmission">Transmissions</option>
           </select>
@@ -200,7 +200,6 @@ export function VehicleSearch() {
               setSearchOptions((current) => ({ ...current, models: [], years: [] }));
             }}
             className={selectClassName}
-            disabled={!partType}
             required
           >
             <option value="">Select make</option>
@@ -240,10 +239,10 @@ export function VehicleSearch() {
           </select>
         </SearchField>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-1">
           <button
             type="submit"
-            className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-lg bg-[#ef263d] px-5 text-xs font-bold text-white transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d] lg:flex-initial"
+            className="flex h-[44px] flex-1 items-center justify-center gap-2 rounded-lg bg-[#facc15] px-5 text-xs font-extrabold uppercase tracking-wide text-neutral-950 transition-all duration-200 hover:bg-[#eab308] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 lg:flex-initial"
           >
             <svg
                 aria-hidden="true"
@@ -257,7 +256,7 @@ export function VehicleSearch() {
                 <circle cx="10.8" cy="10.8" r="6.8" />
                 <path d="m16 16 4 4" />
               </svg>
-            View Matching Parts
+            Go
           </button>
 
           <button
@@ -271,7 +270,7 @@ export function VehicleSearch() {
                 : 'invisible opacity-0 pointer-events-none'
             }`}
           >
-            Reset
+            Clear
           </button>
         </div>
       </form>

@@ -9,7 +9,6 @@ const navigation = [
   { label: 'Shop', href: '/#products' },
   { label: 'Categories', href: '/#categories' },
   { label: 'Deals', href: '/#deals' },
-  { label: 'Cart', href: '/cart' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -23,102 +22,142 @@ function LineIcon({ children }: { children: ReactNode }) {
       strokeWidth="1.7"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-[22px] w-[22px]"
+      className="h-[21px] w-[21px]"
     >
       {children}
     </svg>
   );
 }
 
+function SearchForm({
+  idPrefix,
+  className = '',
+}: {
+  idPrefix: string;
+  className?: string;
+}) {
+  return (
+    <form
+      action="/parts"
+      role="search"
+      className={`flex h-11 min-w-0 items-center overflow-hidden rounded-full border border-neutral-300 bg-white transition focus-within:border-[#eab308] focus-within:ring-2 focus-within:ring-[#eab308]/20 ${className}`}
+    >
+      <label className="sr-only" htmlFor={`${idPrefix}-query`}>Search parts</label>
+      <input
+        id={`${idPrefix}-query`}
+        name="q"
+        type="search"
+        placeholder="Search parts..."
+        className="h-full min-w-0 flex-1 bg-transparent px-4 text-xs text-neutral-900 outline-none placeholder:text-neutral-400"
+      />
+      <button
+        type="submit"
+        aria-label="Search parts"
+        className="flex h-full w-12 shrink-0 items-center justify-center bg-[#facc15] text-neutral-950 transition hover:bg-[#eab308] focus-visible:outline focus-visible:outline-2 focus-visible:outline-neutral-950"
+      >
+        <LineIcon>
+          <circle cx="10.8" cy="10.8" r="6.8" />
+          <path d="m16 16 4 4" />
+        </LineIcon>
+      </button>
+    </form>
+  );
+}
+
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <details className="group relative lg:hidden">
-          <summary
-            aria-label="Toggle navigation menu"
-            className="list-none rounded-md p-2 text-[#202126] hover:bg-neutral-100 [&::-webkit-details-marker]:hidden"
-          >
-            <LineIcon>
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            </LineIcon>
-          </summary>
-          <nav
-            aria-label="Mobile navigation"
-            className="absolute left-0 top-[calc(100%+19px)] z-50 w-screen border-y border-neutral-100 bg-white px-5 py-4 shadow-lg"
-          >
+    <header className="relative z-50">
+      <div className="hidden border-b border-neutral-200 bg-neutral-50 sm:block">
+        <div className="mx-auto flex h-12 max-w-[1440px] items-center justify-between gap-4 px-4 text-sm font-medium text-neutral-700 sm:px-6 lg:px-8">
+          <span className="text-[13px]">Parts for every mile.</span>
+          <span className="text-sm font-extrabold text-neutral-950">Free delivery on orders over $150</span>
+          <nav aria-label="Customer links" className="flex items-center gap-4 text-[13px] font-semibold lg:gap-5">
+            <Link href="/#contact" className="transition hover:text-[#a88100]">Contact</Link>
+            <Link href="/cart" className="transition hover:text-[#a88100]">Order Tracking</Link>
+            <Link href="/#contact" className="transition hover:text-[#a88100]">FAQ</Link>
+          </nav>
+        </div>
+      </div>
+
+      <div className="border-b border-neutral-200 bg-white">
+        <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[88px] lg:px-8">
+          <details className="group relative lg:hidden">
+            <summary
+              aria-label="Toggle navigation menu"
+              className="list-none rounded-md p-2 text-neutral-900 hover:bg-neutral-100 [&::-webkit-details-marker]:hidden"
+            >
+              <LineIcon><path d="M4 7h16M4 12h16M4 17h16" /></LineIcon>
+            </summary>
+            <nav
+              aria-label="Mobile navigation"
+              className="absolute left-0 top-[calc(100%+22px)] z-50 w-screen border-y border-neutral-200 bg-white px-5 py-4 shadow-xl"
+            >
+              {navigation.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="block border-b border-neutral-100 py-3 text-sm font-semibold text-neutral-800 transition hover:text-[#a88100]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <div className="mt-3 flex items-center gap-3 pt-2">
+                <Link href="/login" className="flex-1 rounded-xl border border-neutral-200 py-2.5 text-center text-xs font-bold text-neutral-900">Sign In</Link>
+                <Link href="/signup" className="flex-1 rounded-xl bg-[#facc15] py-2.5 text-center text-xs font-bold text-neutral-950">Sign Up</Link>
+              </div>
+            </nav>
+          </details>
+
+          <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Automobilic home">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#facc15] text-xl font-black text-neutral-950">A</span>
+            <span className="hidden text-[25px] font-extrabold leading-none tracking-tight text-neutral-950 min-[420px]:inline">
+              Automobilic<span className="text-[#c49a00]">.</span>
+            </span>
+          </Link>
+
+          <SearchForm idPrefix="desktop-search" className="hidden w-full max-w-[560px] lg:flex" />
+
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+            <HeaderAuthActions />
+            <HeaderCartLink />
+          </div>
+        </div>
+
+        <div className="px-4 pb-3 lg:hidden sm:px-6">
+          <SearchForm idPrefix="mobile-search" className="w-full" />
+        </div>
+      </div>
+
+      <div className="bg-neutral-950 text-white">
+        <div className="mx-auto flex min-h-[48px] max-w-[1440px] items-stretch px-4 sm:px-6 lg:px-8">
+          <details className="group relative hidden shrink-0 lg:block">
+            <summary className="flex h-full min-w-[238px] cursor-pointer list-none items-center justify-between gap-5 bg-[#facc15] px-5 text-xs font-extrabold uppercase tracking-wide text-neutral-950 transition hover:bg-[#eab308] [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-3">
+                <LineIcon><path d="M4 6h16M4 12h16M4 18h16" /></LineIcon>
+                Browse Categories
+              </span>
+              <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5">
+                <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </summary>
+            <div className="absolute left-0 top-full z-50 min-w-full border border-neutral-200 bg-white py-2 text-neutral-900 shadow-xl">
+              <Link href="/parts?partType=engine" className="block px-5 py-3 text-sm font-semibold transition hover:bg-neutral-100">Engines</Link>
+              <Link href="/parts?partType=transmission" className="block px-5 py-3 text-sm font-semibold transition hover:bg-neutral-100">Transmissions</Link>
+              <Link href="/#categories" className="block px-5 py-3 text-sm font-semibold transition hover:bg-neutral-100">All Categories</Link>
+            </div>
+          </details>
+
+          <nav aria-label="Main navigation" className="flex min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto text-[11px] font-bold uppercase tracking-wide sm:gap-7 lg:gap-9">
             {navigation.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="block border-b border-neutral-100 py-3 text-sm font-medium text-[#292a2d]"
-              >
+              <Link key={item.label} href={item.href} className="whitespace-nowrap text-neutral-100 transition hover:text-[#facc15]">
                 {item.label}
               </Link>
             ))}
-            <div className="mt-3 flex items-center gap-3 pt-2">
-              <Link
-                href="/login"
-                className="flex-1 rounded-xl border border-neutral-200 py-2.5 text-center text-xs font-extrabold text-[#202126]"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/signup"
-                className="flex-1 rounded-xl bg-[#ef263d] py-2.5 text-center text-xs font-extrabold text-white"
-              >
-                Sign Up
-              </Link>
-            </div>
           </nav>
-        </details>
 
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Automobilic home">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#ef263d] text-xl font-black text-white">
-            A
-          </span>
-          <span className="text-[26px] font-extrabold leading-none tracking-tight text-[#202126]">
-            Automobilic<span className="text-[#ef263d]">.</span>
-          </span>
-        </Link>
-
-        <nav aria-label="Main navigation" className="hidden items-center gap-8 lg:flex">
-          {navigation.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="text-sm font-medium text-[#292a2d] transition hover:text-[#ef263d]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
-          <Link
-            href="/#part-search"
-            aria-label="Search products"
-            className="rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d]"
-          >
-            <LineIcon>
-              <circle cx="10.8" cy="10.8" r="6.8" />
-              <path d="m16 16 4 4" />
-            </LineIcon>
+          <Link href="/#contact" className="hidden shrink-0 items-center gap-1.5 pl-5 text-[11px] font-semibold text-neutral-300 xl:flex">
+            Parts support <span className="font-bold text-[#facc15]">Get help</span>
           </Link>
-          <Link
-            href="/#products"
-            aria-label="Wishlist"
-            className="hidden rounded-full p-2 text-[#202126] transition hover:bg-neutral-100 hover:text-[#ef263d] md:block"
-          >
-            <LineIcon>
-              <path d="M20.8 8.7c0 4.1-8.8 10-8.8 10s-8.8-5.9-8.8-10a4.6 4.6 0 0 1 8.8-1.9 4.6 4.6 0 0 1 8.8 1.9Z" />
-            </LineIcon>
-          </Link>
-          <HeaderCartLink />
-
-          <div className="h-5 w-px bg-neutral-200 hidden sm:block mx-0.5" />
-
-          <HeaderAuthActions />
         </div>
       </div>
     </header>

@@ -46,7 +46,7 @@ export default function LoginPage() {
         {/* Top Breadcrumb */}
         <div className="mb-6 flex items-center justify-between text-xs text-neutral-500">
           <div className="flex items-center gap-2">
-            <Link href="/" className="font-semibold text-neutral-700 hover:text-[#ef263d] transition">
+            <Link href="/" className="font-semibold text-neutral-700 hover:text-[#725800] transition">
               Home
             </Link>
             <span>/</span>
@@ -73,7 +73,7 @@ export default function LoginPage() {
             />
 
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#ef263d]/20 border border-[#ef263d]/40 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b7b]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#facc15]/10 border border-[#facc15]/30 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#facc15]">
                 <span>⚡ Automobilic Digital Garage</span>
               </div>
 
@@ -108,7 +108,7 @@ export default function LoginPage() {
                     className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="rounded bg-[#ef263d] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
+                      <span className="rounded bg-[#725800] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
                         {item.badge}
                       </span>
                       <h3 className="text-sm font-extrabold text-white">{item.title}</h3>
@@ -126,7 +126,7 @@ export default function LoginPage() {
                 <span className="text-[11px] text-neutral-400">OEM &amp; Track Parts</span>
               </div>
               <div>
-                <span className="block text-xl font-black text-[#ef263d]">99.8%</span>
+                <span className="block text-xl font-black text-[#725800]">99.8%</span>
                 <span className="text-[11px] text-neutral-400">Fitment Accuracy</span>
               </div>
               <div>
@@ -156,7 +156,7 @@ export default function LoginPage() {
               </div>
 
               <div className="mb-6">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-[#ef263d]">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-[#725800]">
                   Welcome Back, Driver
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-black text-[#202126] mt-1">
@@ -201,7 +201,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="driver@automobilic-garage.com"
-                    className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15 transition"
+                    className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15 transition"
                   />
                 </div>
 
@@ -216,7 +216,7 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="text-xs font-bold text-[#ef263d] hover:underline"
+                      className="text-xs font-bold text-[#725800] hover:underline"
                     >
                       {showPassword ? 'Hide Password' : 'Show Password'}
                     </button>
@@ -228,7 +228,7 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15 transition"
+                    className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15 transition"
                   />
                 </div>
 
@@ -238,7 +238,7 @@ export default function LoginPage() {
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="h-4 w-4 rounded border-neutral-300 text-[#ef263d] focus:ring-[#ef263d]"
+                      className="h-4 w-4 rounded border-neutral-300 text-[#725800] focus:ring-[#725800]"
                     />
                     Keep my garage session signed in
                   </label>
@@ -247,7 +247,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-xl bg-[#ef263d] hover:bg-[#d91f34] disabled:opacity-60 text-white font-extrabold text-sm py-3.5 px-6 shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
+                  className="w-full rounded-xl bg-[#725800] hover:bg-[#584400] disabled:opacity-60 text-white font-extrabold text-sm py-3.5 px-6 shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <span>Authenticating Garage Access...</span>

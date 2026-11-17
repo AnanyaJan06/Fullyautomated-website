@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="antialiased min-h-screen flex flex-col bg-white text-neutral-900">
+      <body className="antialiased min-h-screen flex flex-col bg-neutral-50 text-neutral-900">
         <Header />
         <div className="flex-1">{children}</div>
         <Footer />

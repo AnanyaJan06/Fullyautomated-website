@@ -42,9 +42,9 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
   return (
     <main className="mx-auto min-h-[70vh] max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-neutral-500">
-        <Link href="/" className="transition-colors hover:text-[#e51515]">Home</Link>
+        <Link href="/" className="transition-colors hover:text-[#725800]">Home</Link>
         <span className="mx-2">/</span>
-        <Link href="/parts" className="transition-colors hover:text-[#e51515]">Auto parts</Link>
+        <Link href="/parts" className="transition-colors hover:text-[#725800]">Auto parts</Link>
         <span className="mx-2">/</span>
         <span className="text-neutral-900">{part.part}</span>
       </nav>
@@ -62,13 +62,13 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
         <div className="flex flex-col">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-neutral-900 px-3 py-1 text-xs font-bold uppercase text-white">{part.condition}</span>
-            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-[#d92727]">{category}</span>
+            <span className="rounded-full bg-yellow-50 px-3 py-1 text-xs font-bold text-[#725800]">{category}</span>
           </div>
           <h1 className="text-2xl font-black leading-tight text-neutral-950 sm:text-3xl">{part.part}</h1>
           <p className="mt-3 text-base font-semibold text-neutral-600">Fits {fitment}</p>
 
           <div className="mt-6 border-y border-neutral-100 py-5">
-            <p className="text-3xl font-black text-[#e51515]">${part.price.toFixed(2)}</p>
+            <p className="text-3xl font-black text-[#725800]">${part.price.toFixed(2)}</p>
             <p className="mt-1 text-sm text-emerald-700">Available to order</p>
           </div>
 

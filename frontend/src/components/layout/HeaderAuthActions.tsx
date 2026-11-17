@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { AUTH_CHANGE_EVENT, authService } from '@/services/auth.service';
@@ -15,10 +15,10 @@ const ACCOUNT_BADGES: Record<User['accountType'], string> = {
 export function HeaderAuthActions() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
     const syncUser = () => {
       setUser(authService.getStoredUser());
     };
@@ -32,84 +32,117 @@ export function HeaderAuthActions() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const handleSignOut = () => {
     authService.clearSession();
+    setOpen(false);
     router.push('/');
     router.refresh();
   };
 
-  if (!mounted) {
-    return (
-      <div className="flex items-center gap-2">
-        <Link
-          href="/login"
-          className="rounded-xl border border-neutral-200 px-3.5 py-2 text-xs font-bold text-[#202126] transition hover:border-[#ef263d] hover:text-[#ef263d]"
-        >
-          Sign In
-        </Link>
-        <Link
-          href="/signup"
-          className="rounded-xl bg-[#ef263d] px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-[#d91f34]"
-        >
-          Sign Up
-        </Link>
-      </div>
-    );
-  }
-
-  if (user) {
-    const vehicleLabel =
-      user.primaryVehicle?.year && user.primaryVehicle?.make
-        ? `${user.primaryVehicle.year} ${user.primaryVehicle.make} ${user.primaryVehicle.model || ''}`.trim()
-        : null;
-
-    return (
-      <div className="flex items-center gap-2.5">
-        {vehicleLabel && (
-          <div className="hidden xl:flex items-center gap-1.5 rounded-full bg-neutral-900 px-3 py-1.5 text-[11px] font-bold text-white">
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span>My Garage: {vehicleLabel}</span>
-          </div>
-        )}
-
-        <div className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-1.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#ef263d] text-xs font-black text-white">
-            {user.fullName.charAt(0).toUpperCase()}
-          </div>
-          <div className="hidden sm:block text-left leading-tight">
-            <p className="text-xs font-extrabold text-[#202126] truncate max-w-[120px]">
-              {user.fullName}
-            </p>
-            <p className="text-[9px] font-bold uppercase tracking-wider text-[#ef263d]">
-              {ACCOUNT_BADGES[user.accountType] || 'GARAGE MEMBER'}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="ml-1 rounded-lg bg-white border border-neutral-200 px-2.5 py-1 text-[11px] font-bold text-neutral-700 transition hover:border-[#ef263d] hover:text-[#ef263d]"
-          >
-            Sign Out
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex items-center gap-2">
-      <Link
-        href="/login"
-        className="rounded-xl border border-neutral-200 bg-white px-3.5 py-2 text-xs font-extrabold text-[#202126] transition hover:border-[#ef263d] hover:text-[#ef263d]"
+    <div ref={menuRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-label="User profile and account options"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        className="relative flex items-center justify-center rounded-full p-2 text-neutral-900 transition-all duration-200 hover:bg-neutral-100 hover:text-[#a88100] active:scale-95"
       >
-        Sign In
-      </Link>
-      <Link
-        href="/signup"
-        className="rounded-xl bg-[#ef263d] px-4 py-2 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#d91f34]"
-      >
-        Sign Up
-      </Link>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-[22px] w-[22px]"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20c1.8-3.8 5-6 8-6s6.2 2.2 8 6" />
+        </svg>
+        {user && (
+          <span
+            title={`Signed in as ${user.fullName}`}
+            className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white"
+          />
+        )}
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 top-[calc(100%+8px)] z-50 w-56 rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl"
+        >
+          {user ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-2.5 border-b border-neutral-100 pb-2.5">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#facc15] text-xs font-black text-neutral-950">
+                  {user.fullName.charAt(0).toUpperCase()}
+                </div>
+                <div className="min-w-0 text-left leading-tight">
+                  <p className="truncate text-xs font-extrabold text-[#202126]">
+                    {user.fullName}
+                  </p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#806000]">
+                    {ACCOUNT_BADGES[user.accountType] || 'GARAGE MEMBER'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={handleSignOut}
+                className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-center text-xs font-bold text-neutral-800 transition hover:border-[#eab308] hover:bg-white hover:text-[#806000]"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <p className="px-1 text-[11px] font-bold uppercase tracking-wider text-neutral-500">
+                My Account
+              </p>
+              <Link
+                href="/login"
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-center text-xs font-extrabold text-neutral-900 transition hover:border-[#eab308] hover:text-[#806000]"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="rounded-xl bg-[#facc15] px-4 py-2.5 text-center text-xs font-extrabold text-neutral-950 shadow-sm transition hover:bg-[#eab308]"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

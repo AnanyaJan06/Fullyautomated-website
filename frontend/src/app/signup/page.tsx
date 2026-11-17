@@ -119,13 +119,13 @@ export default function SignupPage() {
         {/* Top Breadcrumb */}
         <div className="mb-6 flex items-center justify-between text-xs text-neutral-500">
           <div className="flex items-center gap-2">
-            <Link href="/" className="font-semibold text-neutral-700 hover:text-[#ef263d] transition">
+            <Link href="/" className="font-semibold text-neutral-700 hover:text-[#725800] transition">
               Home
             </Link>
             <span>/</span>
             <span className="font-bold text-[#202126]">Create Garage Account</span>
           </div>
-          <span className="hidden sm:inline-flex items-center gap-1.5 font-semibold text-[#ef263d] bg-red-50 border border-red-200 px-3 py-1 rounded-full">
+          <span className="hidden sm:inline-flex items-center gap-1.5 font-semibold text-[#725800] bg-yellow-50 border border-yellow-200 px-3 py-1 rounded-full">
             🎁 Includes $20 Off First OEM / Performance Order
           </span>
         </div>
@@ -157,9 +157,9 @@ export default function SignupPage() {
 
               {/* Live Vehicle Card Preview */}
               {addGarageVehicle && (
-                <div className="mt-7 rounded-2xl border border-[#ef263d]/50 bg-[#161824]/90 p-5 shadow-lg">
+                <div className="mt-7 rounded-2xl border border-[#725800]/50 bg-[#161824]/90 p-5 shadow-lg">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[#ef263d]">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#725800]">
                       Active Garage Fitment Preview
                     </span>
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
@@ -177,7 +177,7 @@ export default function SignupPage() {
 
               <div className="mt-7 space-y-3.5 text-xs text-neutral-300">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ef263d] text-white font-black">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#725800] text-white font-black">
                     ✓
                   </span>
                   <p>
@@ -185,7 +185,7 @@ export default function SignupPage() {
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ef263d] text-white font-black">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#725800] text-white font-black">
                     ✓
                   </span>
                   <p>
@@ -193,7 +193,7 @@ export default function SignupPage() {
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ef263d] text-white font-black">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#725800] text-white font-black">
                     ✓
                   </span>
                   <p>
@@ -229,7 +229,7 @@ export default function SignupPage() {
               </div>
 
               <div className="mb-6">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-[#ef263d]">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-[#725800]">
                   New Garage Registration
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-black text-[#202126] mt-1">
@@ -272,14 +272,14 @@ export default function SignupPage() {
                           onClick={() => setAccountType(item.id)}
                           className={`rounded-xl border p-3 text-left transition ${
                             active
-                              ? 'border-[#ef263d] bg-red-50/40 ring-2 ring-[#ef263d]/15'
+                              ? 'border-[#725800] bg-yellow-50/60 ring-2 ring-[#725800]/15'
                               : 'border-neutral-200 bg-white hover:border-neutral-300'
                           }`}
                         >
                           <div className="flex items-center justify-between">
                             <span className="text-lg">{item.icon}</span>
                             {active && (
-                              <span className="h-2 w-2 rounded-full bg-[#ef263d]" />
+                              <span className="h-2 w-2 rounded-full bg-[#725800]" />
                             )}
                           </div>
                           <p className="mt-1.5 text-xs font-extrabold text-[#202126]">
@@ -308,7 +308,7 @@ export default function SignupPage() {
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Alex Mercer"
-                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15"
+                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15"
                     />
                   </div>
 
@@ -325,7 +325,7 @@ export default function SignupPage() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="(555) 234-5678"
-                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15"
+                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15"
                     />
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export default function SignupPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="driver@automobilic-garage.com"
-                    className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15"
+                    className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15"
                   />
                 </div>
 
@@ -364,7 +364,7 @@ export default function SignupPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Min. 6 characters"
-                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15"
+                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15"
                     />
                   </div>
 
@@ -383,7 +383,7 @@ export default function SignupPage() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Re-enter password"
-                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#ef263d] focus:outline-none focus:ring-2 focus:ring-[#ef263d]/15"
+                      className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[#725800] focus:outline-none focus:ring-2 focus:ring-[#725800]/15"
                     />
                   </div>
                 </div>
@@ -406,7 +406,7 @@ export default function SignupPage() {
                       type="checkbox"
                       checked={addGarageVehicle}
                       onChange={(e) => setAddGarageVehicle(e.target.checked)}
-                      className="h-4 w-4 rounded border-neutral-300 text-[#ef263d] focus:ring-[#ef263d]"
+                      className="h-4 w-4 rounded border-neutral-300 text-[#725800] focus:ring-[#725800]"
                     />
                   </div>
 
@@ -486,7 +486,7 @@ export default function SignupPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-xl bg-[#ef263d] hover:bg-[#d91f34] disabled:opacity-60 text-white font-extrabold text-sm py-3.5 px-6 shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
+                  className="w-full rounded-xl bg-[#725800] hover:bg-[#584400] disabled:opacity-60 text-white font-extrabold text-sm py-3.5 px-6 shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <span>Creating Your Garage Account...</span>
@@ -501,7 +501,7 @@ export default function SignupPage() {
 
               <p className="mt-5 text-center text-xs text-neutral-500">
                 Already have an Automobilic Garage account?{' '}
-                <Link href="/login" className="font-extrabold text-[#ef263d] hover:underline">
+                <Link href="/login" className="font-extrabold text-[#725800] hover:underline">
                   Sign In Here
                 </Link>
               </p>

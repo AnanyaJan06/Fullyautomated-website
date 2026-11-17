@@ -342,7 +342,7 @@ export default function CartPage() {
 
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#ef263d] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#725800] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
                 Direct OEM &amp; Remanufactured Powertrain Cart
               </span>
               <h1 className="mt-2.5 text-2xl font-black tracking-tight sm:text-3xl">
@@ -366,11 +366,11 @@ export default function CartPage() {
               </div>
 
               <div className="flex items-center gap-2.5">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#ef263d] text-xs font-black text-white">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#725800] text-xs font-black text-white">
                   2
                 </span>
                 <div>
-                  <span className="block text-[10px] font-bold uppercase text-[#ef263d]">Step 2</span>
+                  <span className="block text-[10px] font-bold uppercase text-[#725800]">Step 2</span>
                   <span className="font-bold text-white">VIN &amp; Warranty</span>
                 </div>
               </div>
@@ -456,7 +456,7 @@ export default function CartPage() {
               </div>
               <Link
                 href="/#part-search"
-                className="inline-flex items-center justify-center rounded-xl bg-[#ef263d] px-5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#d91f34]"
+                className="inline-flex items-center justify-center rounded-xl bg-[#725800] px-5 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#584400]"
               >
                 Search More Parts →
               </Link>
@@ -504,7 +504,7 @@ export default function CartPage() {
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/#part-search"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#ef263d] px-6 py-3 text-xs font-extrabold text-white transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#725800] px-6 py-3 text-xs font-extrabold text-white transition-all duration-200 hover:bg-[#584400] active:scale-[0.98]"
               >
                 Search Database Parts
               </Link>
@@ -533,7 +533,7 @@ export default function CartPage() {
                 <div className="flex items-center gap-4">
                   <Link
                     href="/#part-search"
-                    className="text-xs font-bold text-[#ef263d] hover:underline"
+                    className="text-xs font-bold text-[#725800] hover:underline"
                   >
                     + Add Another Part
                   </Link>
@@ -568,7 +568,7 @@ export default function CartPage() {
                   >
                     {isItemBusy && (
                       <div className="animate-fade-in absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-neutral-900/90 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
-                        <CartSpinner className="h-3 w-3 text-[#ef263d]" />
+                        <CartSpinner className="h-3 w-3 text-[#725800]" />
                         <span>Updating...</span>
                       </div>
                     )}
@@ -623,7 +623,7 @@ export default function CartPage() {
                           </div>
 
                           <div className="text-right">
-                            <span className="block text-lg font-black text-[#e51515]">
+                            <span className="block text-lg font-black text-[#725800]">
                               ${item.lineSubtotal.toFixed(2)}
                             </span>
                             <span className="text-[11px] text-neutral-500">
@@ -712,13 +712,13 @@ export default function CartPage() {
                             }))
                           }
                           placeholder="Enter 17-Digit VIN (e.g. WBS33AY05RFL12345)"
-                          className="h-9 flex-1 rounded-lg border border-neutral-300 bg-white px-3 font-mono text-xs uppercase text-neutral-900 outline-none transition-colors focus:border-[#ef263d]"
+                          className="h-9 flex-1 rounded-lg border border-neutral-300 bg-white px-3 font-mono text-xs uppercase text-neutral-900 outline-none transition-colors focus:border-[#725800]"
                         />
                         <button
                           type="button"
                           disabled={isItemBusy}
                           onClick={() => handleSaveVin(item.partId)}
-                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-neutral-900 px-4 text-xs font-bold text-white transition-all duration-200 hover:bg-[#ef263d] active:scale-[0.98] disabled:opacity-50"
+                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-neutral-900 px-4 text-xs font-bold text-white transition-all duration-200 hover:bg-[#725800] active:scale-[0.98] disabled:opacity-50"
                         >
                           {isItemBusy && <CartSpinner className="h-3 w-3" />}
                           {savedVinPartId === item.partId ? '✓ VIN Saved' : 'Verify & Save VIN'}
@@ -742,7 +742,7 @@ export default function CartPage() {
                               onClick={() => handleWarrantyChange(item.partId, option.id)}
                               className={`flex flex-col justify-between rounded-xl border p-3 text-left transition-all duration-200 ${
                                 isSelected
-                                  ? 'border-[#ef263d] bg-red-50/40 ring-1 ring-[#ef263d]'
+                                  ? 'border-[#725800] bg-yellow-50/60 ring-1 ring-[#725800]'
                                   : 'border-neutral-200 bg-white hover:border-neutral-300'
                               }`}
                             >
@@ -752,7 +752,7 @@ export default function CartPage() {
                                     {option.price === 0 ? 'INCLUDED' : `+$${option.price}.00`}
                                   </span>
                                   {isSelected && (
-                                    <span className="rounded bg-[#ef263d] px-1.5 py-0.5 text-[9px] font-black uppercase text-white">
+                                    <span className="rounded bg-[#725800] px-1.5 py-0.5 text-[9px] font-black uppercase text-white">
                                       Selected
                                     </span>
                                   )}
@@ -790,7 +790,7 @@ export default function CartPage() {
                     <label
                       className={`flex cursor-pointer items-start gap-2.5 rounded-xl border p-3 text-xs transition ${
                         cart?.shippingType === 'commercial'
-                          ? 'border-[#ef263d] bg-red-50/30'
+                          ? 'border-[#725800] bg-yellow-50/60'
                           : 'border-neutral-200 bg-neutral-50'
                       }`}
                     >
@@ -799,7 +799,7 @@ export default function CartPage() {
                         name="shippingType"
                         checked={cart?.shippingType !== 'residential'}
                         onChange={() => handleShippingTypeChange('commercial')}
-                        className="mt-0.5 accent-[#ef263d]"
+                        className="mt-0.5 accent-[#725800]"
                       />
                       <div className="flex-1">
                         <div className="flex items-center justify-between font-bold text-neutral-900">
@@ -815,7 +815,7 @@ export default function CartPage() {
                     <label
                       className={`flex cursor-pointer items-start gap-2.5 rounded-xl border p-3 text-xs transition ${
                         cart?.shippingType === 'residential'
-                          ? 'border-[#ef263d] bg-red-50/30'
+                          ? 'border-[#725800] bg-yellow-50/60'
                           : 'border-neutral-200 bg-neutral-50'
                       }`}
                     >
@@ -824,7 +824,7 @@ export default function CartPage() {
                         name="shippingType"
                         checked={cart?.shippingType === 'residential'}
                         onChange={() => handleShippingTypeChange('residential')}
-                        className="mt-0.5 accent-[#ef263d]"
+                        className="mt-0.5 accent-[#725800]"
                       />
                       <div className="flex-1">
                         <div className="flex items-center justify-between font-bold text-neutral-900">
@@ -870,7 +870,7 @@ export default function CartPage() {
 
                   <div className="flex items-baseline justify-between border-t border-neutral-200 pt-3 text-base">
                     <dt className="font-black text-neutral-900">Estimated Total</dt>
-                    <dd className="text-xl font-black text-[#e51515]">
+                    <dd className="text-xl font-black text-[#725800]">
                       ${summary.grandTotal.toFixed(2)}
                     </dd>
                   </div>
@@ -892,7 +892,7 @@ export default function CartPage() {
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       placeholder="Alex Mercer / Mercer Performance Shop"
-                      className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#ef263d]"
+                      className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#725800]"
                     />
                   </div>
 
@@ -907,7 +907,7 @@ export default function CartPage() {
                         value={customerEmail}
                         onChange={(e) => setCustomerEmail(e.target.value)}
                         placeholder="you@example.com"
-                        className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#ef263d]"
+                        className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#725800]"
                       />
                     </div>
                     <div>
@@ -920,7 +920,7 @@ export default function CartPage() {
                         value={customerPhone}
                         onChange={(e) => setCustomerPhone(e.target.value)}
                         placeholder="(800) 555-0199"
-                        className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#ef263d]"
+                        className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#725800]"
                       />
                     </div>
                   </div>
@@ -935,14 +935,14 @@ export default function CartPage() {
                       value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
                       placeholder="742 Evergreen Industrial Pkwy, Suite B, Austin, TX"
-                      className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#ef263d]"
+                      className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-3 text-xs text-neutral-900 outline-none focus:border-[#725800]"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmittingOrder}
-                    className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#ef263d] px-5 text-xs font-extrabold uppercase tracking-wide text-white shadow-sm transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.99] disabled:opacity-60"
+                    className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#725800] px-5 text-xs font-extrabold uppercase tracking-wide text-white shadow-sm transition-all duration-200 hover:bg-[#584400] active:scale-[0.99] disabled:opacity-60"
                   >
                     {isSubmittingOrder && <CartSpinner className="h-4 w-4 text-white" />}
                     {isSubmittingOrder

@@ -66,7 +66,7 @@ export function HeroArtworkCarousel() {
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 hidden lg:block">
-      <div className="absolute inset-0 overflow-hidden rounded-2xl">
+      <div className="absolute inset-0 overflow-hidden">
         <div
           onTransitionEnd={handleTransitionEnd}
           className={`absolute inset-y-0 left-0 flex h-full transition-transform duration-700 ease-in-out motion-reduce:transition-none ${transitionEnabled ? '' : '!transition-none'}`}
@@ -88,19 +88,19 @@ export function HeroArtworkCarousel() {
                 fill
                 priority={index === 1}
                 sizes="100vw"
-                className="object-cover object-center"
+                className="object-cover object-center grayscale"
               />
             </div>
           ))}
         </div>
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#f5e9e2]/25 via-transparent to-transparent" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-neutral-100/20 via-transparent to-transparent" />
       </div>
 
       <button
         type="button"
         aria-label="Previous hero image"
         onClick={showPrevious}
-        className="pointer-events-auto absolute -left-5 top-1/2 z-10 flex h-11 w-11 -translate-x-2 -translate-y-1/2 items-center justify-center rounded-full bg-white/70 text-neutral-800 opacity-0 shadow-md backdrop-blur transition-[opacity,transform] duration-300 ease-out hover:bg-white/90 hover:text-[#ef263d] hover:opacity-100 group-hover:translate-x-0 group-hover:opacity-85 group-focus-within:translate-x-0 group-focus-within:opacity-85 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d]"
+        className="pointer-events-auto absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-neutral-800 shadow-md backdrop-blur transition-colors duration-200 hover:bg-white hover:text-[#a88100] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
       >
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
           <path d="m15 18-6-6 6-6" />
@@ -110,7 +110,7 @@ export function HeroArtworkCarousel() {
         type="button"
         aria-label="Next hero image"
         onClick={showNext}
-        className="pointer-events-auto absolute -right-5 top-1/2 z-10 flex h-11 w-11 translate-x-2 -translate-y-1/2 items-center justify-center rounded-full bg-white/70 text-neutral-800 opacity-0 shadow-md backdrop-blur transition-[opacity,transform] duration-300 ease-out hover:bg-white/90 hover:text-[#ef263d] hover:opacity-100 group-hover:translate-x-0 group-hover:opacity-85 group-focus-within:translate-x-0 group-focus-within:opacity-85 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d]"
+        className="pointer-events-auto absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-neutral-800 shadow-md backdrop-blur transition-colors duration-200 hover:bg-white hover:text-[#a88100] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
       >
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
           <path d="m9 18 6-6-6-6" />
@@ -127,8 +127,8 @@ export function HeroArtworkCarousel() {
             onClick={() => {
               if (!wrappingRef.current) setActiveIndex(index + 1);
             }}
-            className={`h-2.5 w-2.5 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d] ${
-              activeSlideIndex === index ? 'bg-[#ef263d]' : 'bg-neutral-300 hover:bg-neutral-400'
+            className={`h-2.5 w-2.5 rounded-full transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308] ${
+              activeSlideIndex === index ? 'bg-[#eab308]' : 'bg-neutral-300 hover:bg-neutral-400'
             }`}
           />
         ))}

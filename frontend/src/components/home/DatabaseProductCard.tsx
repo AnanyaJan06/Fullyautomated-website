@@ -51,7 +51,7 @@ export function DatabaseProductCard({
             href={detailsHref}
             prefetch={false}
             aria-label={`View ${product.part} details`}
-            className="mb-3 block overflow-hidden rounded-lg border border-neutral-200/80 bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e51515]"
+            className="mb-3 block overflow-hidden rounded-lg border border-neutral-200/80 bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -79,11 +79,11 @@ export function DatabaseProductCard({
         )}
 
         <p className="mb-1 text-xs font-semibold text-neutral-500">{fitment}</p>
-        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors hover:text-[#e51515]">
+        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors hover:text-[#806000]">
           <Link
             href={detailsHref}
             prefetch={false}
-            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e51515]"
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
           >
             {product.part}
           </Link>
@@ -94,7 +94,7 @@ export function DatabaseProductCard({
       </div>
 
       <div className="mt-4 border-t border-neutral-100 pt-3">
-        <p className="mb-2 text-lg font-black text-[#e51515]">${product.price.toFixed(2)}</p>
+        <p className="mb-2 text-lg font-black text-[#806000]">${product.price.toFixed(2)}</p>
         <AddToCartButton
           item={{
             partId: product.id,

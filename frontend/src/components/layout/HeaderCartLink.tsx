@@ -48,7 +48,7 @@ export function HeaderCartLink() {
     <Link
       href="/cart"
       aria-label={`Shopping cart (${count} items)`}
-      className="relative rounded-full p-2 text-[#202126] transition-all duration-200 hover:bg-neutral-100 hover:text-[#ef263d] active:scale-95"
+      className="relative rounded-full p-2 text-neutral-900 transition-all duration-200 hover:bg-neutral-100 hover:text-[#a88100] active:scale-95"
     >
       <svg
         aria-hidden="true"
@@ -66,7 +66,7 @@ export function HeaderCartLink() {
       </svg>
       {count > 0 && (
         <span
-          className={`absolute -right-0.5 -top-0.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#ef263d] px-1 text-[10px] font-extrabold text-white shadow-sm ${
+          className={`absolute -right-0.5 -top-0.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#facc15] px-1 text-[10px] font-extrabold text-neutral-950 shadow-sm ${
             isBumping ? 'animate-cart-bump' : ''
           }`}
         >

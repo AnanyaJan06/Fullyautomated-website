@@ -19,7 +19,7 @@ export function ProductTabsSection({
     <section id="products" className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4 border-b border-neutral-200 pb-4 mb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="text-xs font-extrabold uppercase tracking-wider text-[#e51515]">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-[#806000]">
             OEM &amp; Aftermarket Catalog
           </span>
           <h2 className="text-2xl font-black text-neutral-900 mt-0.5">
@@ -40,7 +40,7 @@ export function ProductTabsSection({
                 />
                 <label
                   htmlFor={`product-filter-${tab.id}`}
-                  className="inline-flex cursor-pointer rounded-lg bg-neutral-100 px-4 py-2 text-xs font-bold text-neutral-700 transition-colors hover:bg-neutral-200 peer-checked:bg-[#e51515] peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#e51515]"
+                  className="inline-flex cursor-pointer rounded-lg bg-neutral-100 px-4 py-2 text-xs font-bold text-neutral-700 transition-colors hover:bg-neutral-200 peer-checked:bg-[#facc15] peer-checked:text-neutral-950 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[#eab308]"
                 >
                   {tab.label}
                 </label>
@@ -50,7 +50,7 @@ export function ProductTabsSection({
 
           <Link
             href="/parts"
-            className="inline-flex items-center gap-2 rounded-lg border border-[#e51515] bg-red-50 px-4 py-2 text-xs font-extrabold text-[#e51515] transition-colors hover:bg-[#e51515] hover:text-white"
+            className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2 text-xs font-extrabold text-neutral-800 transition-colors hover:border-[#eab308] hover:bg-[#facc15] hover:text-neutral-950"
           >
             Full Parts Listing Page &rarr;
           </Link>
@@ -73,7 +73,7 @@ export function ProductTabsSection({
       <div className="mt-8 flex justify-center">
         <Link
           href="/parts"
-          className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#e51515]"
+          className="inline-flex items-center gap-2 rounded-xl bg-neutral-950 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-neutral-800"
         >
           View All Available Auto Parts (Filter &amp; Sort) &rarr;
         </Link>

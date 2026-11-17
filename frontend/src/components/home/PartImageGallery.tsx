@@ -192,7 +192,7 @@ export function PartImageGallery({
               type="button"
               onClick={openPreview}
               aria-label={`Preview images for ${title}`}
-              className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-neutral-950/80 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm transition hover:bg-[#ef263d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d]"
+              className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-neutral-950/80 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#eab308]"
             >
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
                 <circle cx="11" cy="11" r="7" />
@@ -207,7 +207,7 @@ export function PartImageGallery({
                   type="button"
                   onClick={goToPrevious}
                   aria-label={`Previous slide for ${title}`}
-                  className="absolute left-2 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur-sm transition hover:bg-[#ef263d] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ef263d]"
+                  className="absolute left-2 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#eab308]"
                 >
                   <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
                     <path d="M12.5 15 7.5 10l5-5" />
@@ -217,7 +217,7 @@ export function PartImageGallery({
                   type="button"
                   onClick={goToNext}
                   aria-label={`Next slide for ${title}`}
-                  className="absolute right-2 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur-sm transition hover:bg-[#ef263d] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ef263d]"
+                  className="absolute right-2 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#eab308]"
                 >
                   <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
                     <path d="M7.5 15 12.5 10l-5-5" />
@@ -250,7 +250,7 @@ export function PartImageGallery({
                   event.stopPropagation();
                   if (!wrappingRef.current) setTrackIndex(index + 1);
                 }}
-                className={`h-1.5 rounded-full transition-all ${activeIndex === index ? 'w-4 bg-[#ef263d]' : 'w-1.5 bg-white/60 hover:bg-white'}`}
+                className={`h-1.5 rounded-full transition-all ${activeIndex === index ? 'w-4 bg-[#facc15]' : 'w-1.5 bg-white/60 hover:bg-white'}`}
               />
             ))}
           </div>
@@ -270,7 +270,7 @@ export function PartImageGallery({
                 }}
                 aria-label={`Select slide ${index + 1} for ${title}`}
                 aria-pressed={isSelected}
-                className={`relative h-10 overflow-hidden rounded-md border transition-all ${isSelected ? 'border-[#ef263d] ring-2 ring-[#ef263d]/25' : 'border-neutral-200 opacity-75 hover:border-neutral-400 hover:opacity-100'}`}
+                className={`relative h-10 overflow-hidden rounded-md border transition-all ${isSelected ? 'border-[#facc15] ring-2 ring-[#facc15]/25' : 'border-neutral-200 opacity-75 hover:border-neutral-400 hover:opacity-100'}`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={src} alt={`${title} thumbnail ${index + 1}`} className="h-full w-full object-cover" loading="lazy" />
@@ -323,7 +323,7 @@ export function PartImageGallery({
                     type="button"
                     onClick={goToPrevious}
                     aria-label="Previous preview image"
-                    className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-neutral-900/85 text-white shadow-lg transition hover:bg-[#ef263d]"
+                    className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-neutral-900/85 text-white shadow-lg transition hover:bg-[#facc15] hover:text-neutral-950"
                   >
                     <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                       <path d="M12.5 15 7.5 10l5-5" />
@@ -333,7 +333,7 @@ export function PartImageGallery({
                     type="button"
                     onClick={goToNext}
                     aria-label="Next preview image"
-                    className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-neutral-900/85 text-white shadow-lg transition hover:bg-[#ef263d]"
+                    className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-neutral-900/85 text-white shadow-lg transition hover:bg-[#facc15] hover:text-neutral-950"
                   >
                     <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                       <path d="M7.5 15 12.5 10l-5-5" />
@@ -363,7 +363,7 @@ export function PartImageGallery({
                         }}
                         aria-label={`Select preview image ${index + 1}`}
                         aria-pressed={isSelected}
-                        className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${isSelected ? 'border-[#ef263d] ring-2 ring-[#ef263d]/40 opacity-100' : 'border-white/15 opacity-60 hover:border-white/40 hover:opacity-100'}`}
+                        className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${isSelected ? 'border-[#facc15] ring-2 ring-[#facc15]/40 opacity-100' : 'border-white/15 opacity-60 hover:border-white/40 hover:opacity-100'}`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={src} alt={`${title} image ${index + 1}`} className="h-full w-full object-cover" loading="lazy" />

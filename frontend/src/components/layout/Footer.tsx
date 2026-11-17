@@ -5,13 +5,13 @@ export function Footer() {
   return (
     <footer className="bg-[#161824] text-neutral-300 mt-16">
       {/* Newsletter Banner */}
-      <div className="bg-[#e51515] text-white py-8 px-4">
+      <div className="bg-[#facc15] text-neutral-950 py-8 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="text-xl md:text-2xl font-bold">
               Join Our Automotive Newsletter &amp; Get $20 Off Your First Order
             </h3>
-            <p className="text-red-100 text-sm mt-1">
+            <p className="text-neutral-700 text-sm mt-1">
               Receive exclusive coupons, OEM fitment guides, and flash sale alerts directly in your inbox.
             </p>
           </div>
@@ -24,7 +24,7 @@ export function Footer() {
             />
             <button
               type="button"
-              className="bg-[#161824] hover:bg-neutral-900 text-white font-semibold text-sm px-6 py-3 rounded-lg transition shrink-0"
+              className="bg-neutral-950 hover:bg-neutral-800 text-white font-semibold text-sm px-6 py-3 rounded-lg transition shrink-0"
             >
               Subscribe
             </button>
@@ -37,11 +37,11 @@ export function Footer() {
         {/* Col 1: Brand Info */}
         <div>
           <div className="flex items-center gap-2.5 mb-4">
-            <div className="w-9 h-9 rounded-lg bg-[#e51515] flex items-center justify-center text-white font-black text-lg">
+            <div className="w-9 h-9 rounded-lg bg-[#facc15] flex items-center justify-center text-neutral-950 font-black text-lg">
               A
             </div>
             <span className="text-2xl font-black tracking-tight text-white">
-              AUTOMOBILIC<span className="text-[#e51515]">.</span>
+              AUTOMOBILIC<span className="text-[#facc15]">.</span>
             </span>
           </div>
           <p className="text-sm text-neutral-400 leading-relaxed mb-4">
@@ -124,7 +124,7 @@ export function Footer() {
           <h4 className="text-white font-bold text-base mb-4">Specialist Support</h4>
           <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 mb-4">
             <span className="text-xs text-neutral-400 block">Speak with an ASE Mechanic</span>
-            <span className="text-lg font-extrabold text-[#e51515] block mt-0.5">
+            <span className="text-lg font-extrabold text-[#facc15] block mt-0.5">
               (+800) 1234 5678 90
             </span>
             <span className="text-xs text-neutral-500 mt-1 block">

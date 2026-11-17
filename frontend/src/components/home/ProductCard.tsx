@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: ProductItem }) {
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {product.discountPercent && (
-              <span className="rounded bg-[#e51515] px-2 py-0.5 text-[11px] font-extrabold text-white">
+              <span className="rounded bg-neutral-950 px-2 py-0.5 text-[11px] font-extrabold text-white">
                 -{product.discountPercent}%
               </span>
             )}
@@ -56,7 +56,7 @@ export function ProductCard({ product }: { product: ProductItem }) {
           <span className="text-neutral-400">({product.reviewsCount} reviews)</span>
         </div>
 
-        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors group-hover:text-[#e51515]">
+        <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors group-hover:text-[#806000]">
           {product.title}
         </h3>
 
@@ -68,7 +68,7 @@ export function ProductCard({ product }: { product: ProductItem }) {
       <div className="mt-4 border-t border-neutral-100 pt-3">
         <div className="mb-2 flex items-baseline justify-between">
           <div className="flex items-baseline gap-2">
-            <span className="text-lg font-black text-[#e51515]">${product.price.toFixed(2)}</span>
+            <span className="text-lg font-black text-[#806000]">${product.price.toFixed(2)}</span>
             {product.originalPrice && (
               <span className="text-xs text-neutral-400 line-through">${product.originalPrice.toFixed(2)}</span>
             )}
