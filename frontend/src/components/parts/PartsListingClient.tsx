@@ -29,11 +29,16 @@ const CONDITION_OPTIONS: { value: PartCondition | ''; label: string }[] = [
   { value: 'used', label: 'Used' },
 ];
 
-const PART_TYPE_TABS: { value: PartType | ''; label: string }[] = [
-  { value: '', label: 'All Auto Parts' },
-  { value: 'engine', label: 'Engines' },
-  { value: 'transmission', label: 'Transmissions' },
-];
+interface CatalogFilters {
+  partType: PartType | '';
+  make: string;
+  model: string;
+  year: string;
+  condition: PartCondition | '';
+  q: string;
+  minPrice: string;
+  maxPrice: string;
+}
 
 interface PartsListingClientProps {
   initialData: PartSearchResponse | null;
@@ -66,7 +71,18 @@ export function PartsListingClient({
   const [minPrice, setMinPrice] = useState(initialFilters?.minPrice ?? '');
   const [maxPrice, setMaxPrice] = useState(initialFilters?.maxPrice ?? '');
   const [sort, setSort] = useState<PartSortOption>(initialFilters?.sort ?? 'newest');
+  const [appliedSort, setAppliedSort] = useState<PartSortOption>(initialFilters?.sort ?? 'newest');
   const [page, setPage] = useState<number>(initialFilters?.page ?? 1);
+  const [appliedFilters, setAppliedFilters] = useState<CatalogFilters>(() => ({
+    partType: initialFilters?.partType ?? '',
+    make: initialFilters?.make ?? '',
+    model: initialFilters?.model ?? '',
+    year: initialFilters?.year ?? '',
+    condition: initialFilters?.condition ?? '',
+    q: initialFilters?.q ?? '',
+    minPrice: initialFilters?.minPrice ?? '',
+    maxPrice: initialFilters?.maxPrice ?? '',
+  }));
 
   const [options, setOptions] = useState<PartSearchOptions>({
     makes: [],
@@ -82,7 +98,6 @@ export function PartsListingClient({
   const requestIdRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
   const isFirstRender = useRef(true);
-  const skipNextFilterEffectRef = useRef(false);
 
   // Load distinct makes / models / years for filter dropdowns
   useEffect(() => {
@@ -144,54 +159,44 @@ export function PartsListingClient({
     }
   }
 
-  // Trigger search automatically when instant filters or sorting change
+  // Only committed filters and pagination affect the catalog results.
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       if (initialData) return;
     }
-    if (skipNextFilterEffectRef.current) {
-      skipNextFilterEffectRef.current = false;
-      return;
-    }
-
     void fetchCatalog({
-      partType: partType || undefined,
-      make: make || undefined,
-      model: model || undefined,
-      year: year || undefined,
-      condition: condition || undefined,
-      q: q || undefined,
-      minPrice: minPrice || undefined,
-      maxPrice: maxPrice || undefined,
-      sort,
+      partType: appliedFilters.partType || undefined,
+      make: appliedFilters.make || undefined,
+      model: appliedFilters.model || undefined,
+      year: appliedFilters.year || undefined,
+      condition: appliedFilters.condition || undefined,
+      q: appliedFilters.q || undefined,
+      minPrice: appliedFilters.minPrice || undefined,
+      maxPrice: appliedFilters.maxPrice || undefined,
+      sort: appliedSort,
       page,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [partType, make, model, year, condition, sort, page]);
+  }, [appliedFilters, appliedSort, page]);
 
-  function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleFilterSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    skipNextFilterEffectRef.current = page !== 1;
+    setAppliedFilters((current) => ({
+      ...current,
+      partType,
+      make,
+      model,
+      year,
+      condition,
+      q,
+      minPrice,
+      maxPrice,
+    }));
     setPage(1);
-    void fetchCatalog({
-      partType: partType || undefined,
-      make: make || undefined,
-      model: model || undefined,
-      year: year || undefined,
-      condition: condition || undefined,
-      q: q || undefined,
-      minPrice: minPrice || undefined,
-      maxPrice: maxPrice || undefined,
-      sort,
-      page: 1,
-    });
   }
 
   function handleResetFilters() {
-    skipNextFilterEffectRef.current = Boolean(
-      partType || make || model || year || condition || sort !== 'newest' || page !== 1
-    );
     setPartType('');
     setMake('');
     setModel('');
@@ -200,94 +205,82 @@ export function PartsListingClient({
     setQ('');
     setMinPrice('');
     setMaxPrice('');
-    setSort('newest');
-    setPage(1);
     setOptions((prev) => ({ ...prev, models: [], years: [] }));
-    void fetchCatalog({ sort: 'newest', page: 1 });
   }
 
   function handleRetry() {
     void fetchCatalog({
-      partType: partType || undefined,
-      make: make || undefined,
-      model: model || undefined,
-      year: year || undefined,
-      condition: condition || undefined,
-      q: q || undefined,
-      minPrice: minPrice || undefined,
-      maxPrice: maxPrice || undefined,
-      sort,
+      partType: appliedFilters.partType || undefined,
+      make: appliedFilters.make || undefined,
+      model: appliedFilters.model || undefined,
+      year: appliedFilters.year || undefined,
+      condition: appliedFilters.condition || undefined,
+      q: appliedFilters.q || undefined,
+      minPrice: appliedFilters.minPrice || undefined,
+      maxPrice: appliedFilters.maxPrice || undefined,
+      sort: appliedSort,
       page,
     });
   }
 
-  const hasActiveFilters = Boolean(
-    partType || make || model || year || condition || q.trim() || minPrice || maxPrice || sort !== 'newest'
-  );
+  const hasActiveFilters = Boolean(partType || make || model || year || condition || q.trim() || minPrice || maxPrice);
+  const hasUnappliedFilterChanges =
+    partType !== appliedFilters.partType ||
+    make !== appliedFilters.make ||
+    model !== appliedFilters.model ||
+    year !== appliedFilters.year ||
+    condition !== appliedFilters.condition ||
+    q !== appliedFilters.q ||
+    minPrice !== appliedFilters.minPrice ||
+    maxPrice !== appliedFilters.maxPrice;
 
   const parts = result?.parts ?? [];
-  const totalCount = result?.count ?? 0;
 
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
       {/* Breadcrumb & Page Header */}
-      <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs font-medium text-neutral-500">
-        <Link href="/" className="transition-colors hover:text-[#ef263d]">
-          Home
-        </Link>
-        <span>/</span>
-        <span className="font-semibold text-neutral-900">Auto Parts Listing</span>
-      </nav>
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-neutral-500">
+          <Link href="/" className="transition-colors hover:text-[#ef263d]">
+            Home
+          </Link>
+          <span>/</span>
+          <span className="font-semibold text-neutral-900">Auto Parts Listing</span>
+        </nav>
 
-      <div className="flex flex-col gap-4 border-b border-neutral-200 pb-6 md:flex-row md:items-end md:justify-between">
-        <div>
-          <span className="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#ef263d]">
-            Complete Parts Inventory
-          </span>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
-            Auto Parts Product Listing
-          </h1>
-          <p className="mt-1.5 text-sm text-neutral-600">
-            Browse, filter, and sort OEM &amp; aftermarket engines and transmissions by vehicle fitment, condition, and price.
-          </p>
-        </div>
-
-        {/* Category Quick Tabs */}
-        <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Part type filter">
-          {PART_TYPE_TABS.map((tab) => {
-            const active = partType === tab.value;
-            return (
-              <button
-                key={tab.label}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                onClick={() => {
-                  setPartType(tab.value);
-                  setMake('');
-                  setModel('');
-                  setYear('');
-                  setPage(1);
-                }}
-                className={`rounded-xl px-4 py-2.5 text-xs font-extrabold transition-all ${
-                  active
-                    ? 'bg-[#ef263d] text-white shadow-sm'
-                    : 'border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-100'
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+        <div className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-neutral-500">
+          <label htmlFor="sort-parts">Sort:</label>
+          <select
+            id="sort-parts"
+            value={sort}
+            onChange={(e) => {
+              const nextSort = e.target.value as PartSortOption;
+              setSort(nextSort);
+              setAppliedSort(nextSort);
+              setPage(1);
+            }}
+            className="max-w-40 cursor-pointer appearance-none bg-transparent py-1 text-xs font-semibold text-neutral-700 outline-none transition hover:text-[#ef263d] focus:text-[#ef263d]"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="-ml-1 h-3 w-3">
+            <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
       </div>
 
       {/* Main Content Layout: Filter Sidebar + Product Listing Grid */}
-      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* Left Filter Sidebar */}
         <aside className="lg:col-span-3">
           <form
-            onSubmit={handleSearchSubmit}
+            id="parts-filter-form"
+            role="search"
+            onSubmit={handleFilterSubmit}
             className="sticky top-24 space-y-5 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
           >
             <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
@@ -307,17 +300,29 @@ export function PartsListingClient({
 
             {/* Keyword Search */}
             <div>
-              <label htmlFor="filter-q" className="block text-xs font-bold text-neutral-700">
-                Keyword Search
-              </label>
-              <input
-                id="filter-q"
-                type="text"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search part, make, model..."
-                className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d] focus:ring-2 focus:ring-[#ef263d]/15"
-              />
+              <label htmlFor="filter-q" className="sr-only">Search parts by keyword</label>
+              <div className="relative">
+                <input
+                  id="filter-q"
+                  type="text"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Search parts, make, or model..."
+                  className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 pr-11 text-xs text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-[#ef263d] focus:ring-2 focus:ring-[#ef263d]/15"
+                />
+                <button
+                  type="submit"
+                  aria-label="Search keyword and apply filters"
+                  title="Search"
+                  disabled={isLoading}
+                  className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-neutral-500 transition hover:bg-red-50 hover:text-[#ef263d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ef263d] disabled:cursor-wait disabled:opacity-50"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                    <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Part Category */}
@@ -333,7 +338,7 @@ export function PartsListingClient({
                   setMake('');
                   setModel('');
                   setYear('');
-                  setPage(1);
+                  setQ('');
                 }}
                 className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d]"
               >
@@ -355,7 +360,7 @@ export function PartsListingClient({
                   setMake(e.target.value);
                   setModel('');
                   setYear('');
-                  setPage(1);
+                  setQ('');
                 }}
                 className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d]"
               >
@@ -380,7 +385,7 @@ export function PartsListingClient({
                 onChange={(e) => {
                   setModel(e.target.value);
                   setYear('');
-                  setPage(1);
+                  setQ('');
                 }}
                 className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d] disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
               >
@@ -404,7 +409,7 @@ export function PartsListingClient({
                 disabled={!model}
                 onChange={(e) => {
                   setYear(e.target.value);
-                  setPage(1);
+                  setQ('');
                 }}
                 className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d] disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400"
               >
@@ -427,7 +432,7 @@ export function PartsListingClient({
                 value={condition}
                 onChange={(e) => {
                   setCondition(e.target.value as PartCondition | '');
-                  setPage(1);
+                  setQ('');
                 }}
                 className="mt-1.5 h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d]"
               >
@@ -448,7 +453,10 @@ export function PartsListingClient({
                   min="0"
                   placeholder="Min $"
                   value={minPrice}
-                  onChange={(e) => setMinPrice(e.target.value)}
+                  onChange={(e) => {
+                    setMinPrice(e.target.value);
+                    setQ('');
+                  }}
                   className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d]"
                 />
                 <input
@@ -456,16 +464,25 @@ export function PartsListingClient({
                   min="0"
                   placeholder="Max $"
                   value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
+                  onChange={(e) => {
+                    setMaxPrice(e.target.value);
+                    setQ('');
+                  }}
                   className="h-10 w-full rounded-lg border border-neutral-200 bg-white px-3 text-xs text-neutral-800 outline-none transition focus:border-[#ef263d]"
                 />
               </div>
             </div>
 
+            {hasUnappliedFilterChanges && (
+              <p className="text-xs font-medium text-neutral-500" role="status">
+                Filters changed. Apply them to update results.
+              </p>
+            )}
+
             <button
               type="submit"
-              disabled={isLoading}
-              className="flex h-10 w-full items-center justify-center rounded-xl bg-neutral-900 px-4 text-xs font-extrabold text-white transition hover:bg-[#ef263d] disabled:opacity-60"
+              disabled={isLoading || !hasUnappliedFilterChanges}
+              className="flex h-10 w-full items-center justify-center rounded-xl bg-neutral-900 px-4 text-xs font-extrabold text-white transition hover:bg-[#ef263d] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoading ? 'Updating...' : 'Apply Filters'}
             </button>
@@ -474,41 +491,6 @@ export function PartsListingClient({
 
         {/* Right Product Grid & Sorting Bar */}
         <section className="lg:col-span-9" aria-label="Auto parts catalog results">
-          {/* Top Toolbar: Count + Sort Dropdown */}
-          <div className="mb-6 flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-            <div className="text-xs font-semibold text-neutral-600">
-              {isLoading ? (
-                <span>Loading available auto parts...</span>
-              ) : (
-                <span>
-                  Showing <strong className="font-extrabold text-neutral-900">{parts.length}</strong> of{' '}
-                  <strong className="font-extrabold text-neutral-900">{totalCount}</strong> available auto parts
-                </span>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <label htmlFor="sort-parts" className="shrink-0 text-xs font-bold text-neutral-700">
-                Sort by:
-              </label>
-              <select
-                id="sort-parts"
-                value={sort}
-                onChange={(e) => {
-                  setSort(e.target.value as PartSortOption);
-                  setPage(1);
-                }}
-                className="h-9 rounded-lg border border-neutral-200 bg-neutral-50 px-3 text-xs font-bold text-neutral-800 outline-none transition focus:border-[#ef263d] focus:bg-white"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
           {/* Error Banner */}
           {errorMsg && (
             <div

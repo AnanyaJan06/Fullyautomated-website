@@ -1,38 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import { partService } from '@/services/part.service';
-import type { PartSearchOptions, PartSearchParams, PartSearchResponse, PartType } from '@/types';
-import { DatabaseProductCard } from './DatabaseProductCard';
+import type { PartSearchOptions, PartType } from '@/types';
 
 const selectClassName =
   'h-[42px] w-full appearance-none rounded-md border border-neutral-200 bg-white pl-9 pr-8 text-xs font-normal text-neutral-700 outline-none transition-all duration-200 focus:border-[#ef263d] focus:ring-2 focus:ring-[#ef263d]/15 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400';
-
-function SpinnerIcon({ className = 'h-3.5 w-3.5' }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      className={`animate-spin ${className}`}
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="9"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        className="opacity-25"
-      />
-      <path
-        d="M21 12a9 9 0 0 0-9-9"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 
 function SearchField({
   label,
@@ -106,36 +80,8 @@ function SearchField({
   );
 }
 
-function PartCardSkeleton() {
-  return (
-    <div
-      aria-hidden="true"
-      className="flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm"
-    >
-      <div>
-        <div className="mb-2.5 flex items-center justify-between">
-          <div className="h-5 w-28 rounded-full skeleton-shimmer" />
-          <div className="h-4 w-14 rounded skeleton-shimmer" />
-        </div>
-        <div className="mb-3 h-44 w-full rounded-lg skeleton-shimmer" />
-        <div className="space-y-2">
-          <div className="h-4 w-full rounded skeleton-shimmer" />
-          <div className="h-4 w-3/4 rounded skeleton-shimmer" />
-        </div>
-        <div className="mt-2.5 h-3 w-5/6 rounded skeleton-shimmer" />
-      </div>
-      <div className="mt-4 border-t border-neutral-100 pt-3 space-y-2.5">
-        <div className="flex items-center justify-between">
-          <div className="h-6 w-20 rounded skeleton-shimmer" />
-          <div className="h-3.5 w-16 rounded skeleton-shimmer" />
-        </div>
-        <div className="h-9 w-full rounded-lg skeleton-shimmer" />
-      </div>
-    </div>
-  );
-}
-
 export function VehicleSearch() {
+  const router = useRouter();
   const [partType, setPartType] = useState<PartType | ''>('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -144,19 +90,6 @@ export function VehicleSearch() {
 
   const [searchOptions, setSearchOptions] = useState<PartSearchOptions>({ makes: [], models: [], years: [] });
   const [optionsError, setOptionsError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [searchResult, setSearchResult] = useState<PartSearchResponse | null>(null);
-  const requestId = useRef(0);
-  const activeRequest = useRef<AbortController | null>(null);
-
-  useEffect(() => {
-    return () => {
-      requestId.current += 1;
-      activeRequest.current?.abort();
-    };
-  }, []);
-
   // Support selecting Engine or Transmission directly from department cards
   useEffect(() => {
     function applyHashDepartment() {
@@ -170,7 +103,6 @@ export function VehicleSearch() {
           setYear('');
           setSearchOptions({ makes: [], models: [], years: [] });
           setOptionsError('');
-          setSearchResult(null);
           setHighlightPulse(true);
           setTimeout(() => setHighlightPulse(false), 1400);
           const element = document.getElementById('part-search');
@@ -208,72 +140,22 @@ export function VehicleSearch() {
     return () => controller.abort();
   }, [partType, make, model]);
 
-  async function runSearch(params: PartSearchParams) {
-    activeRequest.current?.abort();
-    const controller = new AbortController();
-    activeRequest.current = controller;
-    const currentRequestId = ++requestId.current;
-    setIsLoading(true);
-    setErrorMsg('');
-    setSearchResult(null);
-    try {
-      const response = await partService.searchParts(params, controller.signal);
-      if (currentRequestId === requestId.current) setSearchResult(response.data);
-    } catch (error) {
-      if (currentRequestId !== requestId.current) return;
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'Unable to search parts right now. Please try again.';
-      setErrorMsg(message);
-      setSearchResult(null);
-    } finally {
-      if (currentRequestId === requestId.current) {
-        setIsLoading(false);
-        activeRequest.current = null;
-      }
-    }
-  }
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!partType || !make || !model || !year) return;
 
-    await runSearch({
-      partType,
-      make,
-      model,
-      year,
-    });
+    const params = new URLSearchParams({ partType, make, model, year });
+    router.push(`/parts?${params.toString()}`);
   }
 
   function handleReset() {
-    activeRequest.current?.abort();
-    activeRequest.current = null;
-    requestId.current += 1;
     setPartType('');
     setMake('');
     setModel('');
     setYear('');
     setSearchOptions({ makes: [], models: [], years: [] });
-    setErrorMsg('');
     setOptionsError('');
-    setSearchResult(null);
-    setIsLoading(false);
   }
-
-  const activeFilterSummary = [
-    searchResult?.filters.partType
-      ? `Part type: ${searchResult.filters.partType === 'engine' ? 'Engine' : 'Transmission'}`
-      : null,
-    searchResult?.filters.make ? `Make: ${searchResult.filters.make}` : null,
-    searchResult?.filters.model ? `Model: ${searchResult.filters.model}` : null,
-    searchResult?.filters.year ? `Year: ${searchResult.filters.year}` : null,
-    searchResult?.filters.condition ? `Condition: ${searchResult.filters.condition}` : null,
-  ]
-    .filter(Boolean)
-    .join(', ');
-  const visibleError = errorMsg || optionsError;
 
   return (
     <section
@@ -298,7 +180,6 @@ export function VehicleSearch() {
               setModel('');
               setYear('');
               setSearchOptions({ makes: [], models: [], years: [] });
-              setSearchResult(null);
             }}
             className={selectClassName}
             required
@@ -317,7 +198,6 @@ export function VehicleSearch() {
               setModel('');
               setYear('');
               setSearchOptions((current) => ({ ...current, models: [], years: [] }));
-              setSearchResult(null);
             }}
             className={selectClassName}
             disabled={!partType}
@@ -335,7 +215,6 @@ export function VehicleSearch() {
               setModel(event.target.value);
               setYear('');
               setSearchOptions((current) => ({ ...current, years: [] }));
-              setSearchResult(null);
             }}
             className={selectClassName}
             disabled={!make}
@@ -351,7 +230,6 @@ export function VehicleSearch() {
             value={year}
             onChange={(event) => {
               setYear(event.target.value);
-              setSearchResult(null);
             }}
             className={selectClassName}
             disabled={!model}
@@ -365,13 +243,9 @@ export function VehicleSearch() {
         <div className="flex items-center gap-2">
           <button
             type="submit"
-            disabled={isLoading}
-            className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-lg bg-[#ef263d] px-5 text-xs font-bold text-white transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d] disabled:cursor-not-allowed disabled:opacity-65 lg:flex-initial"
+            className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-lg bg-[#ef263d] px-5 text-xs font-bold text-white transition-all duration-200 hover:bg-[#d91f34] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef263d] lg:flex-initial"
           >
-            {isLoading ? (
-              <SpinnerIcon className="h-4 w-4 text-white" />
-            ) : (
-              <svg
+            <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -383,17 +257,16 @@ export function VehicleSearch() {
                 <circle cx="10.8" cy="10.8" r="6.8" />
                 <path d="m16 16 4 4" />
               </svg>
-            )}
-            {isLoading ? 'Checking DB...' : 'Search Parts'}
+            View Matching Parts
           </button>
 
           <button
             type="button"
             onClick={handleReset}
-            aria-hidden={!(searchResult || partType || make || model || year || visibleError)}
-            tabIndex={searchResult || partType || make || model || year || visibleError ? 0 : -1}
+            aria-hidden={!(partType || make || model || year || optionsError)}
+            tabIndex={partType || make || model || year || optionsError ? 0 : -1}
             className={`flex h-[42px] items-center justify-center rounded-lg border border-neutral-200 bg-neutral-50 px-3 text-xs font-semibold text-neutral-600 transition-all duration-200 hover:bg-neutral-100 hover:text-neutral-900 active:scale-[0.98] ${
-              searchResult || partType || make || model || year || visibleError
+              partType || make || model || year || optionsError
                 ? 'visible opacity-100'
                 : 'invisible opacity-0 pointer-events-none'
             }`}
@@ -403,12 +276,12 @@ export function VehicleSearch() {
         </div>
       </form>
 
-      {visibleError && (
+      {optionsError && (
         <div
           role="alert"
           className="animate-scale-in mt-4 flex items-center justify-between gap-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-800"
         >
-          <span>{visibleError}</span>
+          <span>{optionsError}</span>
           <button
             type="button"
             onClick={handleReset}
@@ -419,160 +292,6 @@ export function VehicleSearch() {
         </div>
       )}
 
-      {/* Database Search Skeleton Loading State */}
-      {isLoading && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="animate-fade-in mt-5 rounded-2xl border border-neutral-200 bg-neutral-50/70 p-5 sm:p-6"
-        >
-          <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-50 text-[#ef263d]">
-              <SpinnerIcon className="h-4 w-4" />
-            </span>
-            <div className="flex-1 space-y-1.5">
-              <p className="text-xs font-extrabold uppercase tracking-wider text-[#ef263d]">
-                Searching the parts catalog...
-              </p>
-              <p className="text-xs text-neutral-500">
-                Checking {partType === 'engine' ? 'engine' : partType === 'transmission' ? 'transmission' : 'vehicle'} fitment for{' '}
-                {[year, make, model].filter(Boolean).join(' ') || 'your selected filters'}.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <PartCardSkeleton key={index} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {!isLoading && searchResult && (
-        <div className="animate-fade-up mt-5 rounded-2xl border border-neutral-200 bg-neutral-50/70 p-5 sm:p-6">
-          {/* Database Existence Status Banner */}
-          <div
-            role="status"
-            className={`animate-scale-in flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between ${
-              searchResult.existsInCollection
-                ? 'border-emerald-200 bg-emerald-50/90 text-emerald-950'
-                : 'border-amber-200 bg-amber-50/90 text-amber-950'
-            }`}
-          >
-            <div className="flex items-start gap-3">
-              <span
-                className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-black text-white ${
-                  searchResult.existsInCollection ? 'bg-emerald-600' : 'bg-amber-600'
-                }`}
-              >
-                {searchResult.existsInCollection ? <>&#10003;</> : <>&#10005;</>}
-              </span>
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span
-                    className={`inline-block rounded px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white ${
-                      searchResult.existsInCollection ? 'bg-emerald-700' : 'bg-amber-700'
-                    }`}
-                  >
-                    {searchResult.existsInCollection ? 'Parts found' : 'No exact match'}
-                  </span>
-                </div>
-
-                <h3 className="mt-1 text-base font-extrabold">
-                  {searchResult.existsInCollection
-                    ? searchResult.countIsEstimate
-                      ? 'Parts found in the catalog.'
-                      : `Found ${searchResult.count} matching part${searchResult.count === 1 ? '' : 's'}.`
-                    : 'No exact match for this vehicle. Try related parts below.'}
-                </h3>
-
-                {activeFilterSummary && (
-                  <p className="mt-0.5 text-xs opacity-80">Filters: {activeFilterSummary}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-2">
-              {!searchResult.existsInCollection && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMake('');
-                    setModel('');
-                    setYear('');
-                    const resultPartType = searchResult.filters.partType;
-                    if (resultPartType) void runSearch({ partType: resultPartType });
-                  }}
-                  className="rounded-lg bg-neutral-900 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-[#ef263d]"
-                >
-                  Browse all {partType === 'engine' ? 'engine' : 'transmission'} parts
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={handleReset}
-                className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100"
-              >
-                Clear Search
-              </button>
-            </div>
-          </div>
-
-          {/* Matching Database Parts Grid */}
-          {searchResult.existsInCollection && (
-            <>
-              <p className="mt-5 text-xs text-neutral-500">
-                {searchResult.countIsEstimate
-                  ? `Showing ${searchResult.parts.length} parts on this page.`
-                  : `Showing ${searchResult.parts.length} of ${searchResult.count} matching parts.`}
-              </p>
-              <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {searchResult.parts.map((item) => (
-                  <DatabaseProductCard key={item.id} product={item} />
-                ))}
-              </div>
-              {(searchResult.pagination.page > 1 || searchResult.pagination.hasNextPage) && (
-                <nav aria-label="Search result pages" className="mt-5 flex items-center justify-center gap-3">
-                  <button
-                    type="button"
-                    disabled={isLoading || searchResult.pagination.page <= 1}
-                    onClick={() => void runSearch({ ...searchResult.filters, page: searchResult.pagination.page - 1 })}
-                    className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Previous
-                  </button>
-                  <span className="text-xs text-neutral-600">
-                    Page {searchResult.pagination.page}
-                  </span>
-                  <button
-                    type="button"
-                    disabled={isLoading || !searchResult.pagination.hasNextPage}
-                    onClick={() => void runSearch({ ...searchResult.filters, page: searchResult.pagination.page + 1 })}
-                    className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </nav>
-              )}
-            </>
-          )}
-
-          {/* Suggestions when exact combination is not in DB */}
-          {!searchResult.existsInCollection && searchResult.suggestions.length > 0 && (
-            <div className="mt-5">
-              <h4 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-neutral-600">
-                Similar parts you may want to consider
-              </h4>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {searchResult.suggestions.map((item) => (
-                  <DatabaseProductCard key={item.id} product={item} />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
     </section>
   );
 }
