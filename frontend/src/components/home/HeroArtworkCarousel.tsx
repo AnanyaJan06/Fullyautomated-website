@@ -16,9 +16,8 @@ const carouselSlides = [
   { ...slides[0], key: 'clone-first' },
 ];
 
-export function HeroArtworkCarousel({ playIntro }: { playIntro: boolean }) {
+export function HeroArtworkCarousel() {
   const prefersReducedMotion = useReducedMotion();
-  const animateIntro = playIntro && !prefersReducedMotion;
   // The first and last entries are clones used to make wraparound movement seamless.
   const [activeIndex, setActiveIndex] = useState(1);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
@@ -71,14 +70,16 @@ export function HeroArtworkCarousel({ playIntro }: { playIntro: boolean }) {
   return (
     <motion.div
       className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
-      initial={animateIntro ? { opacity: 0.7, x: '100%' } : false}
+      initial={prefersReducedMotion ? false : { opacity: 0.7, x: '100%' }}
       animate={{ opacity: 1, x: 0 }}
-      transition={animateIntro
-        ? {
-            x: { type: 'spring', stiffness: 80, damping: 26, mass: 1.1 },
-            opacity: { duration: 1.2, ease: [0.22, 0.61, 0.36, 1] },
-          }
-        : { duration: 0 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : {
+              x: { type: 'spring', stiffness: 80, damping: 26, mass: 1.1 },
+              opacity: { duration: 1.2, ease: [0.22, 0.61, 0.36, 1] },
+            }
+      }
     >
       <div className="absolute inset-0 overflow-hidden">
         <div

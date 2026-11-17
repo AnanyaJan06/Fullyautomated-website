@@ -1,45 +1,23 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
 import { VehicleSearch } from '@/components/home/VehicleSearch';
 import { HeroArtworkCarousel } from '@/components/home/HeroArtworkCarousel';
 
-const HERO_INTRO_STORAGE_KEY = 'automobilic:hero-intro-played';
-const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
-
 export function VehicleFilterHero() {
   const prefersReducedMotion = useReducedMotion();
-  const [shouldPlayIntro, setShouldPlayIntro] = useState(true);
-  const didCheckSessionRef = useRef(false);
-  const animateIntro = shouldPlayIntro && !prefersReducedMotion;
-  const supportingInitialState = animateIntro ? { opacity: 0, y: -16 } : false;
-  const headlineInitialState = animateIntro ? { opacity: 0, y: 16 } : false;
+  const supportingInitialState = prefersReducedMotion ? false : { opacity: 0, y: -16 };
+  const headlineInitialState = prefersReducedMotion ? false : { opacity: 0, y: 16 };
   const entrance = (delay: number) => ({
-    duration: animateIntro ? 0.9 : 0,
-    delay: animateIntro ? delay : 0,
+    duration: prefersReducedMotion ? 0 : 0.9,
+    delay: prefersReducedMotion ? 0 : delay,
     ease: [0.22, 0.61, 0.36, 1] as [number, number, number, number],
   });
 
-  useIsomorphicLayoutEffect(() => {
-    if (didCheckSessionRef.current) return;
-    didCheckSessionRef.current = true;
-
-    try {
-      if (window.sessionStorage.getItem(HERO_INTRO_STORAGE_KEY) === 'played') {
-        setShouldPlayIntro(false);
-      } else {
-        window.sessionStorage.setItem(HERO_INTRO_STORAGE_KEY, 'played');
-      }
-    } catch {
-      // If session storage is unavailable, keep the entrance animation enabled.
-    }
-  }, []);
-
   return (
     <section className="relative isolate overflow-hidden bg-neutral-200">
-      <HeroArtworkCarousel playIntro={animateIntro} />
+      <HeroArtworkCarousel />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-[1] hidden bg-gradient-to-r from-neutral-100 via-neutral-100/90 to-transparent lg:block"
