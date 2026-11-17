@@ -4,8 +4,9 @@ import { useEffect, useRef, useState, type TransitionEvent } from 'react';
 import Image from 'next/image';
 
 const slides = [
-  { src: '/images/gearup-hero-1.webp', alt: 'Automotive brake and performance parts' },
-  { src: '/images/gearup-hero-2.webp', alt: 'Performance brake rotor and red caliper on a warm studio background' },
+  { src: '/images/gearup-hero-1.webp', alt: 'Top view of a black and white racing car' },
+  { src: '/images/gearup-hero-2.webp', alt: 'Mechanical gears and engineering details' },
+  { src: '/images/gearup-hero-3.webp', alt: 'Sports car in a modern architectural setting' },
 ];
 
 const carouselSlides = [
@@ -88,6 +89,7 @@ export function HeroArtworkCarousel() {
                 fill
                 priority={index === 1}
                 sizes="100vw"
+                quality={80}
                 className="object-cover object-center grayscale"
               />
             </div>

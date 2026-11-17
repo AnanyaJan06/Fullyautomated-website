@@ -4,12 +4,11 @@ import { HeaderAuthActions } from './HeaderAuthActions';
 import { HeaderCartLink } from './HeaderCartLink';
 
 const navigation = [
-  { label: 'Home', href: '/' },
-  { label: 'Parts List', href: '/parts' },
-  { label: 'Shop', href: '/#products' },
-  { label: 'Categories', href: '/#categories' },
+  { label: 'Shop', href: '/parts' },
   { label: 'Deals', href: '/#deals' },
   { label: 'Contact', href: '/#contact' },
+  { label: 'Order Tracking', href: '/cart' },
+  { label: 'FAQ', href: '/#contact' },
 ];
 
 function LineIcon({ children }: { children: ReactNode }) {
@@ -71,15 +70,10 @@ export function Header() {
         <div className="mx-auto flex h-12 max-w-[1440px] items-center justify-between gap-4 px-4 text-sm font-medium text-neutral-700 sm:px-6 lg:px-8">
           <span className="text-[13px]">Parts for every mile.</span>
           <span className="text-sm font-extrabold text-neutral-950">Free delivery on orders over $150</span>
-          <nav aria-label="Customer links" className="flex items-center gap-4 text-[13px] font-semibold lg:gap-5">
-            <Link href="/#contact" className="transition hover:text-[#a88100]">Contact</Link>
-            <Link href="/cart" className="transition hover:text-[#a88100]">Order Tracking</Link>
-            <Link href="/#contact" className="transition hover:text-[#a88100]">FAQ</Link>
-          </nav>
         </div>
       </div>
 
-      <div className="border-b border-neutral-200 bg-white">
+      <div className="mt-4 mb-4 bg-white">
         <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[88px] lg:px-8">
           <details className="group relative lg:hidden">
             <summary
@@ -147,7 +141,7 @@ export function Header() {
             </div>
           </details>
 
-          <nav aria-label="Main navigation" className="flex min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto text-[11px] font-bold uppercase tracking-wide sm:gap-7 lg:gap-9">
+          <nav aria-label="Main navigation" className="flex min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto text-[11px] font-bold uppercase tracking-wide sm:gap-7 lg:gap-10 2xl:gap-12">
             {navigation.map((item) => (
               <Link key={item.label} href={item.href} className="whitespace-nowrap text-neutral-100 transition hover:text-[#facc15]">
                 {item.label}
@@ -155,9 +149,11 @@ export function Header() {
             ))}
           </nav>
 
-          <Link href="/#contact" className="hidden shrink-0 items-center gap-1.5 pl-5 text-[11px] font-semibold text-neutral-300 xl:flex">
-            Parts support <span className="font-bold text-[#facc15]">Get help</span>
-          </Link>
+          <a href="tel:+18001234567890" className="hidden shrink-0 items-center gap-2.5 border-l border-white/20 pl-7 text-xs font-bold text-neutral-100 transition hover:text-white xl:flex 2xl:ml-3">
+            <span>24/7 Assistance:</span>
+            <span className="text-sm font-black tracking-wide text-[#facc15] 2xl:text-base">(800) 1234 5678 90</span>
+          </a>
+
         </div>
       </div>
     </header>
