@@ -77,7 +77,7 @@ export default async function HomePage() {
                     href={`/parts?partType=${cat.slug}`}
                     className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2.5 text-xs font-extrabold text-neutral-900 transition-colors hover:bg-neutral-100 sm:text-sm"
                   >
-                    View {cat.name} List <span aria-hidden="true">&rarr;</span>
+                    Discover <span aria-hidden="true">&rarr;</span>
                   </Link>
                   <a
                     href={`#part-search?partType=${cat.slug}`}
@@ -153,7 +153,7 @@ export default async function HomePage() {
             {/* Latest database parts */}
             <div className="lg:col-span-9 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {dealProducts.map((product) => (
-                <DatabaseProductCard key={product.id} product={product} />
+                <DatabaseProductCard key={product.id} product={product} cardVariant="neutral" />
               ))}
               {dealProducts.length === 0 && (
                 <p className="rounded-xl border border-neutral-200 bg-white p-6 text-sm text-neutral-600 sm:col-span-2 xl:col-span-4" role="status">

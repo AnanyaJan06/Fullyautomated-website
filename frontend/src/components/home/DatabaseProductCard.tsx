@@ -29,9 +29,11 @@ function getStableGalleryStart(productId: string, imageCount: number) {
 export function DatabaseProductCard({
   product,
   listingImage = false,
+  cardVariant = 'default',
 }: {
   product: DatabasePart;
   listingImage?: boolean;
+  cardVariant?: 'default' | 'neutral';
 }) {
   const fitment = [product.year, product.make, product.model].filter(Boolean).join(' ');
   const category = product.partType === 'transmission' ? 'Transmission' : 'Engine';
@@ -57,7 +59,9 @@ export function DatabaseProductCard({
       <div>
         {/* 1. New / Refurbished badge at top */}
         <div className="mb-2.5 flex items-center justify-start">
-          <span className="rounded bg-[#facc15] px-2 py-0.5 text-[10px] font-normal capitalize tracking-normal text-neutral-950">
+          <span className={cardVariant === 'neutral'
+            ? 'text-[10px] font-medium capitalize text-neutral-500'
+            : 'rounded bg-[#facc15] px-2 py-0.5 text-[10px] font-normal capitalize tracking-normal text-neutral-950'}>
             {product.condition}
           </span>
         </div>
@@ -107,6 +111,7 @@ export function DatabaseProductCard({
       <div className="mt-3 border-t border-neutral-100 pt-2.5">
         <AddToCartButton
           priceOnIdle={product.price}
+          priceButtonStyle={cardVariant === 'neutral' ? 'neutral' : 'yellow'}
           item={{
             partId: product.id,
             part: product.part,

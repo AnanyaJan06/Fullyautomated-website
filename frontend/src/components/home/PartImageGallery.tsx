@@ -150,7 +150,7 @@ export function PartImageGallery({
   const trackClassName = `absolute inset-y-0 left-0 flex h-full transition-transform duration-700 ease-in-out motion-reduce:transition-none ${transitionEnabled ? '' : '!transition-none'}`;
 
   return (
-    <div className="mb-3">
+    <div className="group/gallery relative mb-3">
       <div
         className={`group/slider relative flex w-full items-center justify-center overflow-hidden rounded-lg border border-neutral-200/80 bg-gradient-to-br ${fallbackGradient} ${size === 'detail' ? 'h-[320px] sm:h-[420px]' : 'h-44'}`}
       >
@@ -184,16 +184,6 @@ export function PartImageGallery({
                       fetchPriority={priority && index === 1 ? 'high' : 'auto'}
                       decoding="async"
                     />
-                    {size === 'card' && (
-                      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-neutral-950/0 transition-colors duration-200 group-hover/image:bg-neutral-950/10 group-focus-visible/image:bg-neutral-950/10">
-                        <span className="flex h-10 w-10 scale-90 items-center justify-center rounded-full bg-white/95 text-neutral-900 opacity-0 shadow-lg transition duration-200 group-hover/image:scale-100 group-hover/image:opacity-100 group-focus-visible/image:scale-100 group-focus-visible/image:opacity-100">
-                          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                            <circle cx="10.8" cy="10.8" r="6.8" />
-                            <path d="m16 16 4.2 4.2M10.8 8v5.6M8 10.8h5.6" />
-                          </svg>
-                        </span>
-                      </span>
-                    )}
                   </button>
                 </div>
               ))}
@@ -220,30 +210,6 @@ export function PartImageGallery({
               </button>
             )}
 
-            {totalSlides > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={goToPrevious}
-                  aria-label={`Previous slide for ${title}`}
-                  className="absolute left-2 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#eab308]"
-                >
-                  <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-                    <path d="M12.5 15 7.5 10l5-5" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  onClick={goToNext}
-                  aria-label={`Next slide for ${title}`}
-                  className="absolute right-2 top-1/2 z-10 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-900 shadow-md backdrop-blur-sm transition hover:bg-[#facc15] hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#eab308]"
-                >
-                  <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-                    <path d="M7.5 15 12.5 10l-5-5" />
-                  </svg>
-                </button>
-              </>
-            )}
           </>
         ) : (
           <div className="flex flex-col items-center justify-center">
@@ -269,12 +235,37 @@ export function PartImageGallery({
                   event.stopPropagation();
                   if (!wrappingRef.current) setTrackIndex(index + 1);
                 }}
-                className={`h-1.5 rounded-full transition-all ${activeIndex === index ? 'w-4 bg-[#facc15]' : 'w-1.5 bg-white/60 hover:bg-white'}`}
+                className={`h-1.5 rounded-full transition-all ${activeIndex === index ? 'w-4 bg-neutral-300' : 'w-1.5 bg-neutral-500 hover:bg-neutral-300'}`}
               />
             ))}
           </div>
         )}
       </div>
+
+      {totalSlides > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={goToPrevious}
+            aria-label={`Previous slide for ${title}`}
+            className="absolute left-[-18px] top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-transparent text-neutral-800 opacity-100 transition-colors hover:bg-transparent hover:text-[#454646] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#454646] sm:opacity-0 sm:group-hover/gallery:opacity-100 sm:group-focus-within/gallery:opacity-100"
+          >
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+              <path d="M12.5 15 7.5 10l5-5" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={goToNext}
+            aria-label={`Next slide for ${title}`}
+            className="absolute right-[-18px] top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-transparent text-neutral-800 opacity-100 transition-colors hover:bg-transparent hover:text-[#454646] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#454646] sm:opacity-0 sm:group-hover/gallery:opacity-100 sm:group-focus-within/gallery:opacity-100"
+          >
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+              <path d="M7.5 15 12.5 10l-5-5" />
+            </svg>
+          </button>
+        </>
+      )}
 
       {size === 'detail' && totalSlides > 1 && (
         <div className="mt-2 grid grid-cols-4 gap-1.5" role="group" aria-label="Part image slides">

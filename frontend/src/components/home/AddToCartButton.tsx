@@ -8,9 +8,11 @@ import type { AddCartItemPayload } from '@/types';
 export function AddToCartButton({
   item,
   priceOnIdle,
+  priceButtonStyle = 'yellow',
 }: {
   item: AddCartItemPayload;
   priceOnIdle?: number;
+  priceButtonStyle?: 'yellow' | 'neutral';
 }) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'added' | 'error'>('idle');
 
@@ -55,7 +57,11 @@ export function AddToCartButton({
                 disabled={status === 'loading'}
                 onClick={handleAddToCart}
                 aria-live="polite"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#facc15] px-3.5 py-2 text-xs font-extrabold text-neutral-950 shadow-sm transition-all duration-200 hover:bg-neutral-950 hover:text-white active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 disabled:cursor-not-allowed disabled:opacity-65"
+                className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-extrabold shadow-sm transition-colors duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-65 ${
+                  priceButtonStyle === 'neutral'
+                    ? 'border border-[#454646] bg-[#454646] text-white hover:bg-[#383939] focus-visible:outline-[#facc15]'
+                    : 'bg-[#facc15] text-neutral-950 hover:bg-neutral-950 hover:text-white focus-visible:outline-neutral-950'
+                }`}
               >
                 {status === 'loading' && (
                   <svg
