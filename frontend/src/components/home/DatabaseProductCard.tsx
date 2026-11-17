@@ -18,13 +18,20 @@ const FALLBACK_GALLERY_BY_TYPE: Record<PartType, string[]> = {
   ],
 };
 
-export function DatabaseProductCard({ product }: { product: DatabasePart }) {
+export function DatabaseProductCard({
+  product,
+  listingImage = false,
+}: {
+  product: DatabasePart;
+  listingImage?: boolean;
+}) {
   const fitment = [product.year, product.make, product.model].filter(Boolean).join(' ');
   const category = product.partType === 'transmission' ? 'Transmission' : 'Engine';
   const images = Array.isArray(product.images) ? product.images.filter(Boolean) : [];
   const galleryImages = images.length
     ? images
     : FALLBACK_GALLERY_BY_TYPE[product.partType ?? 'engine'];
+  const detailsHref = `/parts/${encodeURIComponent(product.id)}`;
 
   return (
     <article
@@ -39,24 +46,42 @@ export function DatabaseProductCard({ product }: { product: DatabasePart }) {
           <span className="text-[11px] text-neutral-400">{category}</span>
         </div>
 
-        <PartImageGallery
-          images={galleryImages}
-          title={product.part}
-          subtitle={`${fitment} • ${category}`}
-          fallbackMark={category}
-          overlayBadge={
-            fitment ? (
-              <span className="rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-                {fitment}
-              </span>
-            ) : undefined
-          }
-        />
+        {listingImage ? (
+          <Link
+            href={detailsHref}
+            prefetch={false}
+            aria-label={`View ${product.part} details`}
+            className="mb-3 block overflow-hidden rounded-lg border border-neutral-200/80 bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e51515]"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={galleryImages[0]}
+              alt={product.part}
+              loading="lazy"
+              decoding="async"
+              className="h-44 w-full object-contain transition-transform duration-300 hover:scale-[1.03]"
+            />
+          </Link>
+        ) : (
+          <PartImageGallery
+            images={galleryImages}
+            title={product.part}
+            subtitle={`${fitment} - ${category}`}
+            fallbackMark={category}
+            overlayBadge={
+              fitment ? (
+                <span className="rounded-md bg-neutral-900/85 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+                  {fitment}
+                </span>
+              ) : undefined
+            }
+          />
+        )}
 
         <p className="mb-1 text-xs font-semibold text-neutral-500">{fitment}</p>
         <h3 className="min-h-[40px] line-clamp-2 text-sm font-bold text-neutral-900 transition-colors hover:text-[#e51515]">
           <Link
-            href={`/parts/${encodeURIComponent(product.id)}`}
+            href={detailsHref}
             prefetch={false}
             className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e51515]"
           >

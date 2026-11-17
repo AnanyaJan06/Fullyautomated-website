@@ -525,7 +525,7 @@ export function PartsListingClient({
             <>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {parts.map((product) => (
-                  <DatabaseProductCard key={product.id} product={product} />
+                  <DatabaseProductCard key={product.id} product={product} listingImage />
                 ))}
               </div>
 
@@ -583,7 +583,7 @@ export function PartsListingClient({
                   </h4>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {result.suggestions.map((item) => (
-                      <DatabaseProductCard key={item.id} product={item} />
+                      <DatabaseProductCard key={item.id} product={item} listingImage />
                     ))}
                   </div>
                 </div>
