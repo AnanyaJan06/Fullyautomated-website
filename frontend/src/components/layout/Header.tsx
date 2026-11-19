@@ -5,10 +5,10 @@ import { HeaderCartLink } from './HeaderCartLink';
 
 const navigation = [
   { label: 'Shop', href: '/parts' },
-  { label: 'Deals', href: '/#deals' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Deals', href: '/deals' },
+  { label: 'Contact', href: '/contact' },
   { label: 'Order Tracking', href: '/cart' },
-  { label: 'FAQ', href: '/#contact' },
+  { label: 'FAQ', href: '/faq' },
 ];
 
 function LineIcon({ children }: { children: ReactNode }) {
