@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "migrate:part-types": "tsx src/scripts/migratePartTypes.ts",
+    "migrate:part-descriptions": "tsx src/scripts/migratePartDescriptions.ts",
     "seed:parts": "tsx src/scripts/seedParts.ts",
     "seed:engine-parts": "tsx src/scripts/seedEngineParts.ts",
     "build": "tsc",

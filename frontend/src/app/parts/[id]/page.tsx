@@ -38,67 +38,136 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
   const fitment = [part.year, part.make, part.model].filter(Boolean).join(' ');
   const category = part.partType === 'transmission' ? 'Transmission' : 'Engine';
   const images = Array.isArray(part.images) ? part.images : [];
+  const descriptionParagraphs = part.description?.split(/\n\s*\n/).filter(Boolean) ?? [];
 
   return (
-    <main className="mx-auto min-h-[70vh] max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
-      <nav aria-label="Breadcrumb" className="mb-6 text-sm text-neutral-500">
-        <Link href="/" className="transition-colors hover:text-[#725800]">Home</Link>
-        <span className="mx-2">/</span>
-        <Link href="/parts" className="transition-colors hover:text-[#725800]">Auto parts</Link>
-        <span className="mx-2">/</span>
-        <span className="text-neutral-900">{part.part}</span>
-      </nav>
+    <main className="min-h-[70vh] bg-neutral-50/70 pb-16">
+      <div className="mx-auto max-w-[1440px] px-4 pt-6 sm:px-6 lg:px-8 lg:pt-8">
+        <nav aria-label="Breadcrumb" className="mb-6 flex min-w-0 items-center gap-2 overflow-hidden text-xs font-medium text-neutral-500 sm:text-sm">
+          <Link href="/" className="shrink-0 transition-colors hover:text-[#806000]">Home</Link>
+          <span aria-hidden="true" className="text-neutral-300">/</span>
+          <Link href="/parts" className="shrink-0 transition-colors hover:text-[#806000]">Parts</Link>
+          <span aria-hidden="true" className="text-neutral-300">/</span>
+          <span className="truncate text-neutral-700" aria-current="page">{part.part}</span>
+        </nav>
 
-      <section className="grid gap-8 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm md:grid-cols-2 md:gap-10 md:p-8">
-        <PartImageGallery
-          images={images}
-          title={part.part}
-          subtitle={`${fitment} - ${category}`}
-          fallbackMark={category}
-          priority
-          size="detail"
-        />
-
-        <div className="flex flex-col">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-neutral-900 px-3 py-1 text-xs font-bold uppercase text-white">{part.condition}</span>
-            <span className="rounded-full bg-yellow-50 px-3 py-1 text-xs font-bold text-[#725800]">{category}</span>
-          </div>
-          <h1 className="text-2xl font-black leading-tight text-neutral-950 sm:text-3xl">{part.part}</h1>
-          <p className="mt-3 text-base font-semibold text-neutral-600">Fits {fitment}</p>
-
-          <div className="mt-6 border-y border-neutral-100 py-5">
-            <p className="text-3xl font-black text-[#725800]">${part.price.toFixed(2)}</p>
-            <p className="mt-1 text-sm text-emerald-700">Available to order</p>
-          </div>
-
-          {part.description && (
-            <div className="py-5">
-              <h2 className="text-sm font-bold uppercase tracking-wide text-neutral-900">Product details</h2>
-              <p className="mt-2 whitespace-pre-line text-sm leading-6 text-neutral-600">{part.description}</p>
-            </div>
-          )}
-
-          <div className="mt-auto pt-4">
-            <AddToCartButton
-              item={{
-                partId: part.id,
-                part: part.part,
-                partType: part.partType,
-                make: part.make,
-                model: part.model,
-                year: part.year,
-                condition: part.condition,
-                category,
-                description: part.description,
-                image: images[0] ?? '',
-                price: part.price,
-                quantity: 1,
-              }}
+        <section className="grid gap-5 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_320px] xl:gap-6">
+          <div className="rounded-xl border border-neutral-200 bg-white p-3 shadow-sm sm:p-5">
+            <PartImageGallery
+              images={images}
+              title={part.part}
+              subtitle={`${fitment} - ${category}`}
+              fallbackMark={category}
+              priority
+              size="detail"
             />
           </div>
-        </div>
-      </section>
+
+          <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-7 xl:border-0 xl:bg-transparent xl:p-2 xl:shadow-none">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-md bg-neutral-950 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">{part.condition}</span>
+              <span className="rounded-md bg-[#fef9c3] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#806000]">{category}</span>
+            </div>
+            <h1 className="mt-4 text-2xl font-black leading-tight tracking-tight text-neutral-950 sm:text-3xl">{part.part}</h1>
+            <div className="mt-3 inline-flex max-w-full items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-800">
+              <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0"><path d="m5 10 3.2 3.2L15.5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              Fits {fitment}
+            </div>
+            <div className="mt-6 border-t border-neutral-200 pt-5">
+              <h2 className="text-xs font-extrabold uppercase tracking-wider text-neutral-900">Product overview</h2>
+              {descriptionParagraphs[0] ? (
+                <p className="mt-3 line-clamp-6 text-sm leading-6 text-neutral-600">{descriptionParagraphs[0]}</p>
+              ) : (
+                <p className="mt-3 text-sm leading-6 text-neutral-500">Product information is not available yet.</p>
+              )}
+              <a href="#description" className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-[#806000] transition hover:text-neutral-950">Read full description <span aria-hidden="true">→</span></a>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-3 border-t border-neutral-200 pt-5 text-xs">
+              <div><p className="font-semibold text-neutral-500">Vehicle</p><p className="mt-1 font-bold text-neutral-900">{part.year} {part.make}</p></div>
+              <div><p className="font-semibold text-neutral-500">Model</p><p className="mt-1 font-bold text-neutral-900">{part.model}</p></div>
+            </div>
+          </div>
+
+          <aside className="h-fit overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm lg:col-span-2 xl:col-span-1">
+            <div className="p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-3xl font-black tracking-tight text-neutral-950">${part.price.toFixed(2)}</p>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />Available</span>
+              </div>
+              <dl className="mt-5 divide-y divide-neutral-100 border-y border-neutral-100 text-xs">
+                <div className="flex justify-between gap-3 py-3"><dt className="font-semibold text-neutral-600">Part type</dt><dd className="text-right text-neutral-800">{category}</dd></div>
+                <div className="flex justify-between gap-3 py-3"><dt className="font-semibold text-neutral-600">Condition</dt><dd className="capitalize text-neutral-800">{part.condition}</dd></div>
+                <div className="flex justify-between gap-3 py-3"><dt className="font-semibold text-neutral-600">Vehicle</dt><dd className="text-right text-neutral-800">{fitment}</dd></div>
+              </dl>
+              <div className="mt-5">
+                <AddToCartButton
+                  item={{
+                    partId: part.id,
+                    part: part.part,
+                    partType: part.partType,
+                    make: part.make,
+                    model: part.model,
+                    year: part.year,
+                    condition: part.condition,
+                    category,
+                    description: part.description,
+                    image: images[0] ?? '',
+                    price: part.price,
+                    quantity: 1,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="border-t border-neutral-200 bg-neutral-50 p-5 sm:px-6">
+              <h2 className="text-sm font-extrabold text-neutral-900">Questions before you order?</h2>
+              <p className="mt-1.5 text-xs leading-5 text-neutral-600">Our parts team can help you confirm vehicle fitment.</p>
+              <a href="tel:+18001234567890" className="mt-3 inline-flex text-xs font-bold text-[#806000] hover:text-neutral-950">Call parts support <span className="ml-1" aria-hidden="true">→</span></a>
+            </div>
+          </aside>
+        </section>
+
+        <section className="mt-7 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
+          <nav aria-label="Product information" className="flex overflow-x-auto border-b border-neutral-200 px-3 sm:px-6">
+            <a href="#description" className="shrink-0 border-b-2 border-[#facc15] px-4 py-4 text-xs font-bold text-neutral-950 sm:text-sm">Description</a>
+            <a href="#specifications" className="shrink-0 border-b-2 border-transparent px-4 py-4 text-xs font-semibold text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-950 sm:text-sm">Specifications</a>
+            <a href="#shipping-warranty" className="shrink-0 border-b-2 border-transparent px-4 py-4 text-xs font-semibold text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-950 sm:text-sm">Shipping &amp; warranty</a>
+            <a href="#reviews" className="shrink-0 border-b-2 border-transparent px-4 py-4 text-xs font-semibold text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-950 sm:text-sm">Reviews</a>
+          </nav>
+
+          <div className="divide-y divide-neutral-100 px-5 sm:px-8">
+            <article id="description" className="scroll-mt-6 py-7">
+              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Product description</h2>
+              {descriptionParagraphs.length > 0 ? (
+                <div className="mt-4 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600">
+                  {descriptionParagraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+                </div>
+              ) : (
+                <p className="mt-4 text-sm text-neutral-500">Detailed product information is not available for this part yet.</p>
+              )}
+            </article>
+
+            <article id="specifications" className="scroll-mt-6 py-7">
+              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Specifications &amp; fitment</h2>
+              <dl className="mt-4 grid max-w-3xl grid-cols-1 gap-x-10 sm:grid-cols-2">
+                {[["Part", part.part], ["Category", category], ["Condition", part.condition], ["Year", String(part.year)], ["Make", part.make], ["Model", part.model]].map(([label, value]) => (
+                  <div key={label} className="flex justify-between gap-4 border-b border-neutral-100 py-3 text-sm"><dt className="text-neutral-500">{label}</dt><dd className="text-right font-semibold capitalize text-neutral-900">{value}</dd></div>
+                ))}
+              </dl>
+            </article>
+
+            <article id="shipping-warranty" className="scroll-mt-6 py-7">
+              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Shipping &amp; warranty</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-neutral-600">For shipping options and warranty coverage for this specific part, please contact our parts team before ordering.</p>
+              <a href="tel:+18001234567890" className="mt-3 inline-flex text-sm font-bold text-[#806000] hover:text-neutral-950">Ask our parts team <span className="ml-1" aria-hidden="true">→</span></a>
+            </article>
+
+            <article id="reviews" className="scroll-mt-6 py-7">
+              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Customer reviews</h2>
+              <p className="mt-3 text-sm text-neutral-500">Reviews for this part are not available yet.</p>
+            </article>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
