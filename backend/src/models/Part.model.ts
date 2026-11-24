@@ -18,7 +18,7 @@ export interface IPart {
 }
 
 export type PartDocument = HydratedDocument<IPart>;
-
+  
 const PartSchema = new Schema<IPart>(
   {
     part: {

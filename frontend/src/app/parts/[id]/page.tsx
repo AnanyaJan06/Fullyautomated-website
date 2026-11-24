@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { AddToCartButton } from '@/components/home/AddToCartButton';
 import { PartImageGallery } from '@/components/home/PartImageGallery';
+import { PartInformationTabs } from '@/components/parts/PartInformationTabs';
 import { ApiError } from '@/lib/api';
 import { partService } from '@/services/part.service';
 
@@ -38,7 +39,6 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
   const fitment = [part.year, part.make, part.model].filter(Boolean).join(' ');
   const category = part.partType === 'transmission' ? 'Transmission' : 'Engine';
   const images = Array.isArray(part.images) ? part.images : [];
-  const descriptionParagraphs = part.description?.split(/\n\s*\n/).filter(Boolean) ?? [];
 
   return (
     <main className="min-h-[70vh] bg-neutral-50/70 pb-16">
@@ -75,12 +75,11 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
             </div>
             <div className="mt-6 border-t border-neutral-200 pt-5">
               <h2 className="text-xs font-extrabold uppercase tracking-wider text-neutral-900">Product overview</h2>
-              {descriptionParagraphs[0] ? (
-                <p className="mt-3 line-clamp-6 text-sm leading-6 text-neutral-600">{descriptionParagraphs[0]}</p>
+              {part.description ? (
+                <p className="mt-3 line-clamp-6 text-sm leading-6 text-neutral-600">{part.description.split(/\n\s*\n/)[0]}</p>
               ) : (
                 <p className="mt-3 text-sm leading-6 text-neutral-500">Product information is not available yet.</p>
               )}
-              <a href="#description" className="mt-3 inline-flex items-center gap-1 text-sm font-bold text-[#806000] transition hover:text-neutral-950">Read full description <span aria-hidden="true">→</span></a>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 border-t border-neutral-200 pt-5 text-xs">
               <div><p className="font-semibold text-neutral-500">Vehicle</p><p className="mt-1 font-bold text-neutral-900">{part.year} {part.make}</p></div>
@@ -121,52 +120,12 @@ export default async function PartDetailsPage({ params }: PartPageProps) {
             <div className="border-t border-neutral-200 bg-neutral-50 p-5 sm:px-6">
               <h2 className="text-sm font-extrabold text-neutral-900">Questions before you order?</h2>
               <p className="mt-1.5 text-xs leading-5 text-neutral-600">Our parts team can help you confirm vehicle fitment.</p>
-              <a href="tel:+18001234567890" className="mt-3 inline-flex text-xs font-bold text-[#806000] hover:text-neutral-950">Call parts support <span className="ml-1" aria-hidden="true">→</span></a>
+              <a href="tel:+18001234567890" className="mt-3 inline-flex text-xs font-bold text-[#806000] hover:text-neutral-950">Call parts support <span className="ml-1" aria-hidden="true">&rarr;</span></a>
             </div>
           </aside>
         </section>
 
-        <section className="mt-7 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-          <nav aria-label="Product information" className="flex overflow-x-auto border-b border-neutral-200 px-3 sm:px-6">
-            <a href="#description" className="shrink-0 border-b-2 border-[#facc15] px-4 py-4 text-xs font-bold text-neutral-950 sm:text-sm">Description</a>
-            <a href="#specifications" className="shrink-0 border-b-2 border-transparent px-4 py-4 text-xs font-semibold text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-950 sm:text-sm">Specifications</a>
-            <a href="#shipping-warranty" className="shrink-0 border-b-2 border-transparent px-4 py-4 text-xs font-semibold text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-950 sm:text-sm">Shipping &amp; warranty</a>
-            <a href="#reviews" className="shrink-0 border-b-2 border-transparent px-4 py-4 text-xs font-semibold text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-950 sm:text-sm">Reviews</a>
-          </nav>
-
-          <div className="divide-y divide-neutral-100 px-5 sm:px-8">
-            <article id="description" className="scroll-mt-6 py-7">
-              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Product description</h2>
-              {descriptionParagraphs.length > 0 ? (
-                <div className="mt-4 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600">
-                  {descriptionParagraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-                </div>
-              ) : (
-                <p className="mt-4 text-sm text-neutral-500">Detailed product information is not available for this part yet.</p>
-              )}
-            </article>
-
-            <article id="specifications" className="scroll-mt-6 py-7">
-              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Specifications &amp; fitment</h2>
-              <dl className="mt-4 grid max-w-3xl grid-cols-1 gap-x-10 sm:grid-cols-2">
-                {[["Part", part.part], ["Category", category], ["Condition", part.condition], ["Year", String(part.year)], ["Make", part.make], ["Model", part.model]].map(([label, value]) => (
-                  <div key={label} className="flex justify-between gap-4 border-b border-neutral-100 py-3 text-sm"><dt className="text-neutral-500">{label}</dt><dd className="text-right font-semibold capitalize text-neutral-900">{value}</dd></div>
-                ))}
-              </dl>
-            </article>
-
-            <article id="shipping-warranty" className="scroll-mt-6 py-7">
-              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Shipping &amp; warranty</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-neutral-600">For shipping options and warranty coverage for this specific part, please contact our parts team before ordering.</p>
-              <a href="tel:+18001234567890" className="mt-3 inline-flex text-sm font-bold text-[#806000] hover:text-neutral-950">Ask our parts team <span className="ml-1" aria-hidden="true">→</span></a>
-            </article>
-
-            <article id="reviews" className="scroll-mt-6 py-7">
-              <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Customer reviews</h2>
-              <p className="mt-3 text-sm text-neutral-500">Reviews for this part are not available yet.</p>
-            </article>
-          </div>
-        </section>
+        <PartInformationTabs part={part} category={category} />
       </div>
     </main>
   );
