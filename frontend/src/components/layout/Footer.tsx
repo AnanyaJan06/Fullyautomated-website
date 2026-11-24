@@ -60,27 +60,32 @@ export function Footer() {
           <h4 className="text-white font-bold text-base mb-4">Customer Service</h4>
           <ul className="space-y-2.5 text-sm text-neutral-400">
             <li>
-              <Link href="/" className="hover:text-white transition">
+              <Link href="/faq" className="hover:text-white transition">
                 Help Center &amp; FAQs
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-white transition">
-                Track Your Order
+              <Link href="/contact" className="hover:text-white transition">
+                Contact Parts Specialists
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-white transition">
+              <Link href="/deals" className="hover:text-white transition">
+                Weekly Deals &amp; Offers
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq#warranty-core" className="hover:text-white transition">
                 Core Return &amp; Warranty Policy
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-white transition">
+              <Link href="/faq#fitment-vin" className="hover:text-white transition">
                 VIN &amp; Fitment Verification
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-white transition">
+              <Link href="/faq#shipping-freight" className="hover:text-white transition">
                 Shipping &amp; Delivery Rates
               </Link>
             </li>
@@ -92,28 +97,28 @@ export function Footer() {
           <h4 className="text-white font-bold text-base mb-4">Top Auto Departments</h4>
           <ul className="space-y-2.5 text-sm text-neutral-400">
             <li>
-              <Link href="/#part-search?partType=engine" className="hover:text-white transition">
+              <Link href="/parts?partType=engine" className="hover:text-white transition">
                 Complete Engine Assemblies &amp; Blocks
               </Link>
             </li>
             <li>
-              <Link href="/#part-search?partType=transmission" className="hover:text-white transition">
+              <Link href="/parts?partType=transmission" className="hover:text-white transition">
                 Automatic &amp; Manual Transmissions
               </Link>
             </li>
             <li>
-              <Link href="#categories" className="hover:text-white transition">
-                Turbocharged &amp; Naturally Aspirated Motors
+              <Link href="/parts" className="hover:text-white transition">
+                Full Auto Parts Catalog
               </Link>
             </li>
             <li>
-              <Link href="#categories" className="hover:text-white transition">
-                CVT, Dual-Clutch &amp; AWD Gearboxes
+              <Link href="/deals" className="hover:text-white transition">
+                Refurbished &amp; Flash Sale Assemblies
               </Link>
             </li>
             <li>
-              <Link href="#products" className="hover:text-white transition">
-                Synthetic Motor Oils &amp; Service Kits
+              <Link href="/cart" className="hover:text-white transition">
+                Shopping Cart &amp; Order Summary
               </Link>
             </li>
           </ul>

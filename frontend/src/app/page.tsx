@@ -142,12 +142,20 @@ export default async function HomePage() {
               <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500">Weekly refresh in</p>
               <WeeklyCountdown />
 
-              <Link
-                href="/parts"
-                className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
-              >
-                Browse Parts List &rarr;
-              </Link>
+              <div className="flex flex-wrap items-center gap-2">
+                <Link
+                  href="/deals"
+                  className="inline-block bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98]"
+                >
+                  View All Deals &rarr;
+                </Link>
+                <Link
+                  href="/parts"
+                  className="inline-block border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-bold px-4 py-2.5 rounded-lg transition-all duration-200"
+                >
+                  Parts List
+                </Link>
+              </div>
             </div>
 
             {/* Latest database parts */}
@@ -179,12 +187,20 @@ export default async function HomePage() {
                 Our Parts Experts Can Help. Call for immediate assistance.
               </p>
             </div>
-            <a
-              href="tel:+18001234567890"
-              className="inline-flex shrink-0 items-center justify-center rounded-lg bg-[#facc15] px-6 py-3 text-sm font-bold text-neutral-950 transition-colors hover:bg-[#eab308] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              Request a Call
-            </a>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/contact"
+                className="inline-flex shrink-0 items-center justify-center rounded-lg bg-[#facc15] px-6 py-3 text-sm font-bold text-neutral-950 transition-colors hover:bg-[#eab308] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Contact Support
+              </Link>
+              <Link
+                href="/faq"
+                className="inline-flex shrink-0 items-center justify-center rounded-lg border border-white/25 bg-white/10 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Help &amp; FAQs
+              </Link>
+            </div>
             <a href="tel:+18001234567890" className="text-center transition-opacity hover:opacity-80">
               <span className="block text-xl font-extrabold sm:text-2xl">+(800) 1234 5678 90</span>
               <span className="mt-0.5 block text-xs text-neutral-400 sm:text-sm">You can contact us 24/7.</span>
