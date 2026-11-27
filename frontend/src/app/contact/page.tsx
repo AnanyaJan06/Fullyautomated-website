@@ -38,11 +38,11 @@ const CONTACT_CHANNELS = [
 export default function ContactPage() {
   return (
     <main className="min-h-[75vh] pb-16">
-      <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="mb-5 flex items-center gap-2 text-xs font-medium text-neutral-500"
+          className="mb-5 flex flex-wrap items-center gap-2 text-xs font-medium text-neutral-500"
         >
           <Link href="/" className="transition-colors hover:text-[#8a6b00]">
             Home
@@ -52,13 +52,13 @@ export default function ContactPage() {
         </nav>
 
         {/* Page Hero Banner */}
-        <section className="animate-fade-up rounded-2xl bg-neutral-950 px-6 py-9 text-white shadow-sm sm:px-10 lg:px-14">
+        <section className="animate-fade-up rounded-2xl bg-neutral-950 px-5 py-7 text-white shadow-sm sm:px-10 sm:py-9 lg:px-14">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <span className="inline-flex items-center rounded-md bg-[#facc15] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-neutral-950">
                 ASE-Certified Support Team
               </span>
-              <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
+              <h1 className="mt-3 text-2xl min-[380px]:text-3xl font-black tracking-tight sm:text-4xl">
                 Need Help Finding the Right Engine or Transmission?
               </h1>
               <p className="mt-2 text-sm leading-6 text-neutral-300 sm:text-base">
@@ -66,7 +66,7 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
               <a
                 href="tel:+18001234567890"
                 className="inline-flex items-center justify-center rounded-xl bg-[#facc15] px-5 py-3 text-xs font-extrabold text-neutral-950 transition hover:bg-[#eab308] sm:text-sm"
@@ -86,20 +86,20 @@ export default function ContactPage() {
         {/* 3 Direct Contact Cards */}
         <section
           aria-label="Direct contact channels"
-          className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3"
+          className="mt-8 grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3"
         >
           {CONTACT_CHANNELS.map((channel, index) => (
             <div
               key={channel.title}
               style={{ animationDelay: `${index * 60}ms` }}
-              className="animate-fade-up flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+              className="animate-fade-up flex min-w-0 flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
             >
-              <div>
+              <div className="min-w-0">
                 <span className="inline-block rounded-md bg-yellow-50 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#8a6b00] ring-1 ring-inset ring-yellow-200">
                   {channel.badge}
                 </span>
-                <h2 className="mt-3 text-lg font-black text-neutral-900">{channel.title}</h2>
-                <p className="mt-2 text-sm font-extrabold text-neutral-900">{channel.primary}</p>
+                <h2 className="mt-3 text-base sm:text-lg font-black text-neutral-900">{channel.title}</h2>
+                <p className="mt-2 text-sm font-extrabold text-neutral-900 [overflow-wrap:anywhere]">{channel.primary}</p>
                 <p className="mt-1 text-xs text-neutral-500">{channel.secondary}</p>
               </div>
               <div className="mt-5 border-t border-neutral-100 pt-3">
@@ -115,13 +115,13 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form + Fitment Guarantee Details */}
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12">
-          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8 lg:col-span-8">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12">
+          <section className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-8 lg:col-span-8">
             <div className="mb-6 border-b border-neutral-100 pb-4">
               <span className="text-xs font-extrabold uppercase tracking-wider text-[#806000]">
                 Direct Specialist Message
               </span>
-              <h2 className="mt-1 text-2xl font-black text-neutral-900">
+              <h2 className="mt-1 text-xl sm:text-2xl font-black text-neutral-900">
                 Send a Parts or Fitment Inquiry
               </h2>
               <p className="mt-1 text-xs text-neutral-500 sm:text-sm">

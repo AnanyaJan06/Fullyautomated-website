@@ -114,11 +114,11 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-76px)] bg-neutral-50 py-10 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-[calc(100vh-76px)] bg-neutral-50 py-6 px-4 sm:py-10 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-[1260px]">
         {/* Top Breadcrumb */}
-        <div className="mb-6 flex items-center justify-between text-xs text-neutral-500">
-          <div className="flex items-center gap-2">
+        <div className="mb-5 sm:mb-6 flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-500">
+          <div className="flex flex-wrap items-center gap-2">
             <Link href="/" className="font-semibold text-neutral-700 hover:text-[#725800] transition">
               Home
             </Link>
@@ -131,9 +131,9 @@ export default function SignupPage() {
         </div>
 
         {/* Main Split Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white shadow-xl">
           {/* Left Panel: Automotive Brand & Garage Perks */}
-          <div className="lg:col-span-5 relative overflow-hidden bg-gradient-to-br from-[#161824] via-[#1c2033] to-[#2c1215] p-8 sm:p-10 text-white flex flex-col justify-between">
+          <div className="order-2 lg:order-1 lg:col-span-5 relative overflow-hidden bg-gradient-to-br from-[#161824] via-[#1c2033] to-[#2c1215] p-6 sm:p-10 text-white flex flex-col justify-between">
             <div
               className="pointer-events-none absolute inset-0 opacity-10"
               style={{
@@ -148,7 +148,7 @@ export default function SignupPage() {
                 <span>🏁 Free Automobilic Garage Membership</span>
               </div>
 
-              <h1 className="mt-5 text-3xl sm:text-4xl font-black tracking-tight leading-tight">
+              <h1 className="mt-4 sm:mt-5 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
                 Build Your Digital Vehicle Garage.
               </h1>
               <p className="mt-3 text-sm text-neutral-300 leading-relaxed">
@@ -157,16 +157,16 @@ export default function SignupPage() {
 
               {/* Live Vehicle Card Preview */}
               {addGarageVehicle && (
-                <div className="mt-7 rounded-2xl border border-[#725800]/50 bg-[#161824]/90 p-5 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[#725800]">
+                <div className="mt-6 sm:mt-7 rounded-2xl border border-[#725800]/50 bg-[#161824]/90 p-4 sm:p-5 shadow-lg">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#facc15]">
                       Active Garage Fitment Preview
                     </span>
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
                       ● Fitment Verified
                     </span>
                   </div>
-                  <p className="mt-2 text-lg font-black text-white">
+                  <p className="mt-2 text-base sm:text-lg font-black text-white">
                     {year} {make} {model}
                   </p>
                   <p className="text-xs text-neutral-400 mt-0.5">
@@ -175,7 +175,7 @@ export default function SignupPage() {
                 </div>
               )}
 
-              <div className="mt-7 space-y-3.5 text-xs text-neutral-300">
+              <div className="mt-6 sm:mt-7 space-y-3.5 text-xs text-neutral-300">
                 <div className="flex items-start gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#725800] text-white font-black">
                     ✓
@@ -203,14 +203,14 @@ export default function SignupPage() {
               </div>
             </div>
 
-            <div className="relative z-10 mt-8 pt-6 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
+            <div className="relative z-10 mt-7 sm:mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-400">
               <span>Trusted by 140,000+ builders &amp; shops</span>
               <span className="font-bold text-white">★ 4.9/5 Rating</span>
             </div>
           </div>
 
           {/* Right Panel: Sign Up Form */}
-          <div className="lg:col-span-7 p-8 sm:p-10">
+          <div className="order-1 lg:order-2 lg:col-span-7 p-5 sm:p-8 lg:p-10">
             <div className="max-w-xl mx-auto">
               {/* Top Mode Switcher Tabs */}
               <div className="grid grid-cols-2 rounded-2xl bg-neutral-100 p-1.5 mb-7">
@@ -390,9 +390,9 @@ export default function SignupPage() {
 
                 {/* 3. Optional Primary Vehicle Garage Fitment Box */}
                 <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-base">🚗</span>
+                  <div className="flex items-start justify-between gap-3 sm:items-center">
+                    <div className="flex items-start gap-2 sm:items-center">
+                      <span className="text-base shrink-0">🚗</span>
                       <div>
                         <p className="text-xs font-extrabold text-[#202126]">
                           Save Primary Vehicle to My Garage
@@ -406,12 +406,12 @@ export default function SignupPage() {
                       type="checkbox"
                       checked={addGarageVehicle}
                       onChange={(e) => setAddGarageVehicle(e.target.checked)}
-                      className="h-4 w-4 rounded border-neutral-300 text-[#725800] focus:ring-[#725800]"
+                      className="mt-1 sm:mt-0 h-4 w-4 shrink-0 rounded border-neutral-300 text-[#725800] focus:ring-[#725800]"
                     />
                   </div>
 
                   {addGarageVehicle && (
-                    <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t border-neutral-200">
+                    <div className="mt-4 grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3 border-t border-neutral-200">
                       <div>
                         <label className="block text-[10px] font-bold uppercase text-neutral-500 mb-1">
                           Year

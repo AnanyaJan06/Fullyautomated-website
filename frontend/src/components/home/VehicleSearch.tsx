@@ -162,7 +162,7 @@ export function VehicleSearch() {
     >
       <form
         onSubmit={handleSubmit}
-        className={`grid grid-cols-1 gap-3 rounded-2xl border bg-white p-5 shadow-[0_20px_55px_-28px_rgba(0,0,0,0.4)] transition-all duration-300 sm:grid-cols-2 lg:grid-cols-1 lg:gap-3 lg:p-6 ${
+        className={`grid grid-cols-1 gap-3 rounded-2xl border bg-white p-4 sm:p-5 shadow-[0_20px_55px_-28px_rgba(0,0,0,0.4)] transition-all duration-300 sm:grid-cols-2 lg:grid-cols-1 lg:gap-3 lg:p-6 ${
           highlightPulse
             ? 'border-[#eab308] ring-4 ring-[#eab308]/20'
             : 'border-neutral-200'

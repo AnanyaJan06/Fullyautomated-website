@@ -5,9 +5,9 @@ export default function PartDetailsLoading() {
       className="mx-auto min-h-[70vh] max-w-[1440px] animate-pulse bg-neutral-50/70 px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:pt-8"
     >
       <div className="mb-6 h-4 w-48 rounded bg-neutral-200" />
-      <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_320px] xl:gap-6">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_320px] xl:gap-6">
         <div className="rounded-xl border border-neutral-200 bg-white p-3 shadow-sm sm:p-5">
-          <div className="h-[320px] rounded-lg bg-neutral-200 sm:h-[420px]" />
+          <div className="h-[250px] rounded-lg bg-neutral-200 min-[420px]:h-[300px] sm:h-[380px] lg:h-[420px]" />
           <div className="mt-3 grid grid-cols-4 gap-2">
             {Array.from({ length: 4 }, (_, index) => (
               <div key={index} className="h-14 rounded-md bg-neutral-100" />

@@ -23,9 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="antialiased min-h-screen flex flex-col bg-neutral-50 text-neutral-900">
+      <body className="antialiased min-h-screen flex flex-col overflow-x-clip bg-neutral-50 text-neutral-900">
         <Header />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 min-w-0">{children}</div>
         <Footer />
       </body>
     </html>

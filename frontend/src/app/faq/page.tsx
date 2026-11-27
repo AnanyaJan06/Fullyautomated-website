@@ -115,11 +115,11 @@ const FAQ_CATEGORIES: FaqCategory[] = [
 export default function FaqPage() {
   return (
     <main className="min-h-[75vh] pb-16">
-      <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="mb-5 flex items-center gap-2 text-xs font-medium text-neutral-500"
+          className="mb-5 flex flex-wrap items-center gap-2 text-xs font-medium text-neutral-500"
         >
           <Link href="/" className="transition-colors hover:text-[#8a6b00]">
             Home
@@ -129,13 +129,13 @@ export default function FaqPage() {
         </nav>
 
         {/* Hero Header */}
-        <section className="animate-fade-up rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-10">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <section className="animate-fade-up rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-10">
+          <div className="flex flex-col gap-5 sm:gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <span className="inline-flex items-center rounded-md bg-[#facc15] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-neutral-950">
                 Automobilic Knowledge Base
               </span>
-              <h1 className="mt-3 text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
+              <h1 className="mt-3 text-2xl min-[380px]:text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl">
                 Frequently Asked Questions
               </h1>
               <p className="mt-2 text-sm leading-6 text-neutral-600 sm:text-base">
@@ -149,7 +149,7 @@ export default function FaqPage() {
                 <a
                   key={category.id}
                   href={`#${category.id}`}
-                  className="rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2 text-xs font-bold text-neutral-800 transition hover:border-[#eab308] hover:bg-[#facc15] hover:text-neutral-950"
+                  className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-bold text-neutral-800 transition hover:border-[#eab308] hover:bg-[#facc15] hover:text-neutral-950 sm:px-3.5"
                 >
                   {category.title}
                 </a>
@@ -159,20 +159,20 @@ export default function FaqPage() {
         </section>
 
         {/* FAQ Category Sections */}
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12">
-          <div className="space-y-8 lg:col-span-8">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12">
+          <div className="space-y-6 sm:space-y-8 lg:col-span-8">
             {FAQ_CATEGORIES.map((category, catIdx) => (
               <section
                 key={category.id}
                 id={category.id}
                 style={{ animationDelay: `${catIdx * 60}ms` }}
-                className="animate-fade-up scroll-mt-24 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8"
+                className="animate-fade-up scroll-mt-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-8"
               >
                 <div className="border-b border-neutral-100 pb-4">
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#806000]">
                     {category.badge}
                   </span>
-                  <h2 className="mt-1 text-xl font-black text-neutral-900 sm:text-2xl">
+                  <h2 className="mt-1 text-lg font-black text-neutral-900 sm:text-2xl">
                     {category.title}
                   </h2>
                   <p className="mt-1 text-xs text-neutral-500 sm:text-sm">
@@ -187,7 +187,7 @@ export default function FaqPage() {
                       open={catIdx === 0 && idx === 0}
                       className="group py-4"
                     >
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-sm font-bold text-neutral-900 transition-colors hover:text-[#8a6b00] [&::-webkit-details-marker]:hidden sm:text-base">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 sm:gap-4 text-left text-sm font-bold text-neutral-900 transition-colors hover:text-[#8a6b00] [&::-webkit-details-marker]:hidden sm:text-base">
                         <span>{item.question}</span>
                         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 transition-transform duration-200 group-open:rotate-180 group-open:bg-[#facc15] group-open:text-neutral-950">
                           <svg
@@ -206,7 +206,7 @@ export default function FaqPage() {
                           </svg>
                         </span>
                       </summary>
-                      <p className="mt-3 pr-8 text-xs leading-6 text-neutral-600 sm:text-sm">
+                      <p className="mt-3 pr-0 text-xs leading-6 text-neutral-600 sm:pr-8 sm:text-sm">
                         {item.answer}
                       </p>
                     </details>
@@ -218,7 +218,7 @@ export default function FaqPage() {
 
           {/* Right Sidebar: Direct Specialist Support Card */}
           <aside className="lg:col-span-4">
-            <div className="sticky top-24 space-y-5">
+            <div className="space-y-5 lg:sticky lg:top-6">
               <div className="rounded-2xl bg-neutral-950 p-6 text-white shadow-sm">
                 <span className="inline-block rounded bg-[#facc15] px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-neutral-950">
                   24/7 Fitment Desk

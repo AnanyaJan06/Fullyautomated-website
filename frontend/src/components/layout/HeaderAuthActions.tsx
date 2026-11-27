@@ -92,7 +92,7 @@ export function HeaderAuthActions() {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-[calc(100%+8px)] z-50 w-56 rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl"
+          className="absolute right-0 top-[calc(100%+8px)] z-50 w-56 max-w-[calc(100vw-2rem)] rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl"
         >
           {user ? (
             <div className="space-y-3">

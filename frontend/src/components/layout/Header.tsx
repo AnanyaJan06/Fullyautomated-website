@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { HeaderAuthActions } from './HeaderAuthActions';
 import { HeaderCartLink } from './HeaderCartLink';
+import { MobileMenu } from './MobileMenu';
 
 const navigation = [
   { label: 'Shop', href: '/parts' },
@@ -66,64 +67,41 @@ function SearchForm({
 export function Header() {
   return (
     <header className="relative z-50">
-      <div className="hidden border-b border-neutral-200 bg-neutral-50 sm:block">
-        <div className="mx-auto flex h-12 max-w-[1440px] items-center justify-between gap-4 px-4 text-sm font-medium text-neutral-700 sm:px-6 lg:px-8">
-          <span className="text-[13px]">Parts for every mile.</span>
-          <span className="text-sm font-extrabold text-neutral-950">Free delivery on orders over $150</span>
+      <div className="border-b border-neutral-200 bg-neutral-50">
+        <div className="mx-auto flex min-h-[36px] max-w-[1440px] items-center justify-center gap-4 px-4 py-1.5 text-xs font-medium text-neutral-700 sm:h-11 sm:justify-between sm:px-6 sm:text-sm lg:px-8">
+          <span className="hidden text-[13px] sm:inline">Parts for every mile.</span>
+          <span className="text-center text-xs font-extrabold text-neutral-950 sm:text-sm">
+            Free delivery on orders over $150
+          </span>
         </div>
       </div>
 
-      <div className="mt-4 mb-4 bg-white">
-        <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[88px] lg:px-8">
-          <details className="group relative lg:hidden">
-            <summary
-              aria-label="Toggle navigation menu"
-              className="list-none rounded-md p-2 text-neutral-900 hover:bg-neutral-100 [&::-webkit-details-marker]:hidden"
-            >
-              <LineIcon><path d="M4 7h16M4 12h16M4 17h16" /></LineIcon>
-            </summary>
-            <nav
-              aria-label="Mobile navigation"
-              className="absolute left-0 top-[calc(100%+22px)] z-50 w-screen border-y border-neutral-200 bg-white px-5 py-4 shadow-xl"
-            >
-              {navigation.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="block border-b border-neutral-100 py-3 text-sm font-semibold text-neutral-800 transition hover:text-[#a88100]"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="mt-3 flex items-center gap-3 pt-2">
-                <Link href="/login" className="flex-1 rounded-xl border border-neutral-200 py-2.5 text-center text-xs font-bold text-neutral-900">Sign In</Link>
-                <Link href="/signup" className="flex-1 rounded-xl bg-[#facc15] py-2.5 text-center text-xs font-bold text-neutral-950">Sign Up</Link>
-              </div>
-            </nav>
-          </details>
+      <div className="bg-white py-1 sm:py-2">
+        <div className="mx-auto flex h-[64px] max-w-[1440px] items-center justify-between gap-2 px-4 sm:h-[74px] sm:gap-3 sm:px-6 lg:h-[84px] lg:px-8">
+          <MobileMenu navigation={navigation} />
 
-          <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Automobilic home">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#facc15] text-xl font-black text-neutral-950">A</span>
-            <span className="hidden text-[25px] font-extrabold leading-none tracking-tight text-neutral-950 min-[420px]:inline">
+          <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5" aria-label="Automobilic home">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#facc15] text-lg font-black text-neutral-950 sm:h-10 sm:w-10 sm:text-xl">A</span>
+            <span className="text-lg font-extrabold leading-none tracking-tight text-neutral-950 min-[360px]:text-xl sm:text-[25px]">
               Automobilic<span className="text-[#c49a00]">.</span>
             </span>
           </Link>
 
           <SearchForm idPrefix="desktop-search" className="hidden w-full max-w-[560px] lg:flex" />
 
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2.5">
             <HeaderAuthActions />
             <HeaderCartLink />
           </div>
         </div>
 
-        <div className="px-4 pb-3 lg:hidden sm:px-6">
+        <div className="px-4 pb-3 pt-1 lg:hidden sm:px-6">
           <SearchForm idPrefix="mobile-search" className="w-full" />
         </div>
       </div>
 
       <div className="bg-neutral-950 text-white">
-        <div className="mx-auto flex min-h-[48px] max-w-[1440px] items-stretch px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex min-h-[46px] max-w-[1440px] items-stretch px-4 sm:min-h-[48px] sm:px-6 lg:px-8">
           <details className="group relative hidden shrink-0 lg:block">
             <summary className="flex h-full min-w-[238px] cursor-pointer list-none items-center justify-between gap-5 bg-[#facc15] px-5 text-xs font-extrabold uppercase tracking-wide text-neutral-950 transition hover:bg-[#eab308] [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-3">
@@ -141,9 +119,9 @@ export function Header() {
             </div>
           </details>
 
-          <nav aria-label="Main navigation" className="flex min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto text-[11px] font-bold uppercase tracking-wide sm:gap-7 lg:gap-10 2xl:gap-12">
+          <nav aria-label="Main navigation" className="no-scrollbar flex min-w-0 flex-1 items-center justify-start gap-5 overflow-x-auto py-3 text-[11px] font-bold uppercase tracking-wide sm:justify-center sm:gap-7 lg:gap-10 2xl:gap-12">
             {navigation.map((item) => (
-              <Link key={item.label} href={item.href} className="whitespace-nowrap text-neutral-100 transition hover:text-[#facc15]">
+              <Link key={item.label} href={item.href} className="shrink-0 whitespace-nowrap text-neutral-100 transition hover:text-[#facc15]">
                 {item.label}
               </Link>
             ))}

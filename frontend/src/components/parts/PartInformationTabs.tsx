@@ -52,7 +52,7 @@ export function PartInformationTabs({ part, category }: { part: DatabasePart; ca
 
   return (
     <section className="mt-7 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-      <div role="tablist" aria-label="Product information" className="flex overflow-x-auto border-b border-neutral-200 px-3 sm:px-6">
+      <div role="tablist" aria-label="Product information" className="no-scrollbar flex overflow-x-auto border-b border-neutral-200 px-2 sm:px-6">
         {TABS.map((tab, index) => {
           const selected = tab.id === activeTab;
           return (
@@ -67,7 +67,7 @@ export function PartInformationTabs({ part, category }: { part: DatabasePart; ca
               tabIndex={selected ? 0 : -1}
               onClick={() => selectTab(tab.id)}
               onKeyDown={(event) => handleTabKeyDown(event, index)}
-              className={`shrink-0 border-b-2 px-4 py-4 text-xs transition-colors sm:text-sm ${selected ? 'border-[#facc15] font-bold text-neutral-950' : 'border-transparent font-semibold text-neutral-600 hover:text-neutral-950'}`}
+              className={`shrink-0 whitespace-nowrap border-b-2 px-3 py-3.5 text-xs transition-colors sm:px-4 sm:py-4 sm:text-sm ${selected ? 'border-[#facc15] font-bold text-neutral-950' : 'border-transparent font-semibold text-neutral-600 hover:text-neutral-950'}`}
             >
               {tab.label}
             </button>
@@ -75,7 +75,7 @@ export function PartInformationTabs({ part, category }: { part: DatabasePart; ca
         })}
       </div>
 
-      <div className="h-[520px] overflow-x-hidden overflow-y-auto overscroll-contain px-5 sm:h-[440px] sm:px-8 lg:h-[400px]">
+      <div className="min-h-[220px] overflow-x-hidden px-4 sm:min-h-[260px] sm:px-8 lg:min-h-[300px]">
         <AnimatePresence initial={false} mode="wait" custom={direction}>
           <motion.div
             key={activeTab}
@@ -89,27 +89,27 @@ export function PartInformationTabs({ part, category }: { part: DatabasePart; ca
             animate="center"
             exit="exit"
             transition={reduceMotion ? { duration: 0 } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="py-7 outline-none"
+            className="py-5 sm:py-7 outline-none"
           >
             {activeTab === 'description' && (
               <>
-                <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Product description</h2>
+                <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-neutral-950">Product description</h2>
                 {descriptionParagraphs.length > 0 ? (
-                  <div className="mt-4 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600">
+                  <div className="mt-3 sm:mt-4 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600">
                     {descriptionParagraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
                   </div>
                 ) : (
-                  <p className="mt-4 text-sm text-neutral-500">Detailed product information is not available for this part yet.</p>
+                  <p className="mt-3 sm:mt-4 text-sm text-neutral-500">Detailed product information is not available for this part yet.</p>
                 )}
               </>
             )}
 
             {activeTab === 'specifications' && (
               <>
-                <h2 className="text-lg font-extrabold tracking-tight text-neutral-950">Specifications &amp; fitment</h2>
-                <dl className="mt-4 grid max-w-3xl grid-cols-1 gap-x-10 sm:grid-cols-2">
+                <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-neutral-950">Specifications &amp; fitment</h2>
+                <dl className="mt-3 sm:mt-4 grid max-w-3xl grid-cols-1 gap-x-10 sm:grid-cols-2">
                   {[['Part', part.part], ['Category', category], ['Condition', part.condition], ['Year', String(part.year)], ['Make', part.make], ['Model', part.model]].map(([label, value]) => (
-                    <div key={label} className="flex justify-between gap-4 border-b border-neutral-100 py-3 text-sm"><dt className="text-neutral-500">{label}</dt><dd className="text-right font-semibold capitalize text-neutral-900">{value}</dd></div>
+                    <div key={label} className="flex justify-between gap-4 border-b border-neutral-100 py-3 text-xs sm:text-sm"><dt className="shrink-0 text-neutral-500">{label}</dt><dd className="break-words text-right font-semibold capitalize text-neutral-900">{value}</dd></div>
                   ))}
                 </dl>
               </>

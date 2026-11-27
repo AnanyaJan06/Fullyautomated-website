@@ -94,12 +94,12 @@ function CartLoadingSkeleton() {
       className="animate-fade-in grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start"
     >
       <div className="space-y-5 lg:col-span-8">
-        <div className="flex items-center justify-between rounded-xl border border-neutral-200 bg-white px-5 py-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-4 shadow-sm sm:px-5">
           <div className="flex items-center gap-3">
-            <div className="h-6 w-6 rounded-full skeleton-shimmer" />
-            <div className="h-4 w-56 rounded skeleton-shimmer" />
+            <div className="h-6 w-6 shrink-0 rounded-full skeleton-shimmer" />
+            <div className="h-4 w-36 rounded skeleton-shimmer sm:w-56" />
           </div>
-          <div className="h-4 w-28 rounded skeleton-shimmer" />
+          <div className="h-4 w-24 rounded skeleton-shimmer sm:w-28" />
         </div>
 
         {Array.from({ length: 2 }).map((_, index) => (
@@ -327,8 +327,8 @@ export default function CartPage() {
     <main className="min-h-screen bg-neutral-50 pb-16">
       {/* Top Reman-Transmission Style Banner & Progress Header */}
       <div className="bg-[#161824] text-white">
-        <div className="mx-auto max-w-[1440px] px-4 py-7 sm:px-6 lg:px-8">
-          <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-2 text-xs text-neutral-400">
+        <div className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-7 lg:px-8">
+          <nav aria-label="Breadcrumb" className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-neutral-400">
             <Link href="/" className="transition hover:text-white">
               Home
             </Link>
@@ -340,12 +340,12 @@ export default function CartPage() {
             <span className="font-bold text-white">Shopping Cart &amp; VIN Fitment Verification</span>
           </nav>
 
-          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-center lg:gap-6">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#725800] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#725800] px-3 py-1 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white">
                 Direct OEM &amp; Remanufactured Powertrain Cart
               </span>
-              <h1 className="mt-2.5 text-2xl font-black tracking-tight sm:text-3xl">
+              <h1 className="mt-2.5 text-xl font-black tracking-tight sm:text-3xl">
                 Your Selected Auto Parts &amp; Fitment Cart
               </h1>
               <p className="mt-1 text-xs text-neutral-300 sm:text-sm">
@@ -355,58 +355,58 @@ export default function CartPage() {
 
             {/* 3-Step Checkout Progress Bar */}
             <div className="grid grid-cols-3 gap-2 rounded-xl border border-white/10 bg-white/5 p-3 text-xs sm:gap-4 sm:p-4">
-              <div className="flex items-center gap-2.5">
+              <div className="flex flex-col items-center gap-1.5 text-center sm:flex-row sm:gap-2.5 sm:text-left">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-black text-neutral-950">
                   ✓
                 </span>
-                <div>
+                <div className="min-w-0">
                   <span className="block text-[10px] font-bold uppercase text-emerald-400">Step 1</span>
-                  <span className="font-bold text-white">Part Selected</span>
+                  <span className="block text-[11px] sm:text-xs font-bold leading-tight text-white">Part Selected</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#725800] text-xs font-black text-white">
+              <div className="flex flex-col items-center gap-1.5 text-center sm:flex-row sm:gap-2.5 sm:text-left">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#facc15] text-xs font-black text-neutral-950">
                   2
                 </span>
-                <div>
-                  <span className="block text-[10px] font-bold uppercase text-[#725800]">Step 2</span>
-                  <span className="font-bold text-white">VIN &amp; Warranty</span>
+                <div className="min-w-0">
+                  <span className="block text-[10px] font-bold uppercase text-[#facc15]">Step 2</span>
+                  <span className="block text-[11px] sm:text-xs font-bold leading-tight text-white">VIN &amp; Warranty</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 opacity-75">
+              <div className="flex flex-col items-center gap-1.5 text-center opacity-75 sm:flex-row sm:gap-2.5 sm:text-left">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-neutral-500 text-xs font-black text-neutral-300">
                   3
                 </span>
-                <div>
+                <div className="min-w-0">
                   <span className="block text-[10px] font-bold uppercase text-neutral-400">Step 3</span>
-                  <span className="font-bold text-neutral-200">Freight Dispatch</span>
+                  <span className="block text-[11px] sm:text-xs font-bold leading-tight text-neutral-200">Freight Dispatch</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Reman-Transmission Style Guarantees Strip */}
-          <div className="mt-6 grid grid-cols-1 gap-3 border-t border-white/10 pt-4 text-xs sm:grid-cols-3">
-            <div className="flex items-center gap-2.5 text-neutral-200">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 font-bold">
+          <div className="mt-5 sm:mt-6 grid grid-cols-1 gap-3 border-t border-white/10 pt-4 text-xs sm:grid-cols-3">
+            <div className="flex items-start sm:items-center gap-2.5 text-neutral-200">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 font-bold">
                 ✓
               </span>
               <span>
                 <strong className="text-white">No Upfront Core Charge:</strong> $0.00 Core Deposit Waived at Checkout
               </span>
             </div>
-            <div className="flex items-center gap-2.5 text-neutral-200">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 font-bold">
+            <div className="flex items-start sm:items-center gap-2.5 text-neutral-200">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-400 font-bold">
                 🛡️
               </span>
               <span>
                 <strong className="text-white">100% Exact VIN Fitment:</strong> Dyno-Tested &amp; Verified Before Dispatch
               </span>
             </div>
-            <div className="flex items-center gap-2.5 text-neutral-200">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 font-bold">
+            <div className="flex items-start sm:items-center gap-2.5 text-neutral-200">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 font-bold">
                 🚚
               </span>
               <span>
@@ -449,7 +449,7 @@ export default function CartPage() {
                   <h2 className="mt-1 text-xl font-black text-neutral-900">
                     Thank you, {confirmedOrder.customerName}! Order #{confirmedOrder.orderNumber}
                   </h2>
-                  <p className="text-xs text-neutral-500">
+                  <p className="text-xs text-neutral-500 break-words">
                     Placed on {confirmedOrder.createdAt} • Confirmation sent to {confirmedOrder.customerEmail}
                   </p>
                 </div>
@@ -599,10 +599,10 @@ export default function CartPage() {
                       </div>
 
                       {/* Part Details & Controls */}
-                      <div className="flex-1">
-                        <div className="flex flex-wrap items-start justify-between gap-2">
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                          <div className="min-w-0">
+                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                               <span className="font-mono text-[11px] font-semibold text-neutral-500">
                                 SKU: {item.sku}
                               </span>
@@ -617,12 +617,12 @@ export default function CartPage() {
                               </span>
                             </div>
 
-                            <h3 className="mt-1.5 text-base font-black text-neutral-900">
+                            <h3 className="mt-1.5 break-words text-base font-black text-neutral-900">
                               {item.part}
                             </h3>
                           </div>
 
-                          <div className="text-right">
+                          <div className="shrink-0 text-left sm:text-right">
                             <span className="block text-lg font-black text-[#725800]">
                               ${item.lineSubtotal.toFixed(2)}
                             </span>
@@ -694,7 +694,7 @@ export default function CartPage() {
                           </p>
                         </div>
                         {item.vin && (
-                          <span className="animate-scale-in inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-800">
+                          <span className="animate-scale-in inline-flex max-w-full shrink-0 items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-800 break-all">
                             ✓ VIN Saved: {item.vin}
                           </span>
                         )}
@@ -775,8 +775,8 @@ export default function CartPage() {
             </div>
 
             {/* Right 4 Columns: Reman-Transmission Style Order Summary & Dispatch Checkout */}
-            <aside className="space-y-5 lg:col-span-4 lg:sticky lg:top-24">
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <aside className="space-y-5 lg:col-span-4 lg:sticky lg:top-6">
+              <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-6">
                 <h2 className="border-b border-neutral-100 pb-3 text-lg font-black text-neutral-900">
                   Order &amp; Freight Summary
                 </h2>
@@ -963,7 +963,7 @@ export default function CartPage() {
                 <p className="mt-1 text-xs leading-relaxed text-neutral-300">
                   Our drivetrain and OEM parts specialists verify transmission codes, engine casting numbers, and shop delivery logistics.
                 </p>
-                <div className="mt-3 flex items-center justify-between rounded-xl bg-white/10 px-3.5 py-2.5 text-xs">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white/10 px-3.5 py-2.5 text-xs">
                   <span className="text-neutral-300">Direct Specialist Line:</span>
                   <a href="tel:18005550199" className="font-extrabold text-amber-400 hover:underline">
                     1-800-555-0199

@@ -45,13 +45,13 @@ export function WeeklyCountdown() {
   ];
 
   return (
-    <div className="mb-5 flex items-center gap-2" aria-label="Time until the next weekly refresh">
+    <div className="mb-5 grid grid-cols-4 gap-1.5 sm:inline-flex sm:items-center sm:gap-2" aria-label="Time until the next weekly refresh">
       {units.map((unit) => (
-        <div key={unit.label} className="min-w-[48px] rounded-lg bg-[#161824] px-2.5 py-2 text-center text-white sm:min-w-[54px]">
-          <span className="block text-base font-black leading-none tabular-nums">
+        <div key={unit.label} className="min-w-0 rounded-lg bg-[#161824] px-2 py-2 text-center text-white sm:min-w-[54px] sm:px-2.5">
+          <span className="block text-sm font-black leading-none tabular-nums sm:text-base">
             {unit.value === undefined ? '--' : String(unit.value).padStart(2, '0')}
           </span>
-          <span className="text-[10px] uppercase text-neutral-400">{unit.label}</span>
+          <span className="mt-0.5 block text-[10px] uppercase text-neutral-400">{unit.label}</span>
         </div>
       ))}
     </div>

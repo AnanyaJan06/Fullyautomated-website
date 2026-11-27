@@ -29,8 +29,8 @@ export function AddToCartButton({
   if (typeof priceOnIdle === 'number') {
     return (
       <div>
-        <div className="flex min-h-[38px] w-full items-center justify-between gap-3">
-          <p className="shrink-0 text-lg font-extrabold text-neutral-950">
+        <div className="flex min-h-[38px] w-full flex-wrap items-center justify-between gap-2">
+          <p className="shrink-0 text-base sm:text-lg font-extrabold text-neutral-950">
             ${priceOnIdle.toFixed(2)}
           </p>
 
@@ -40,13 +40,13 @@ export function AddToCartButton({
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-2.5 py-2 text-xs font-bold text-white transition-all duration-200 hover:bg-emerald-700 active:scale-[0.98]"
+                  className="inline-flex whitespace-nowrap items-center justify-center rounded-lg bg-emerald-600 px-2.5 py-2 text-xs font-bold text-white transition-all duration-200 hover:bg-emerald-700 active:scale-[0.98]"
                 >
                   <span>✓ In Cart</span>
                 </button>
                 <Link
                   href="/cart"
-                  className="inline-flex items-center justify-center rounded-lg bg-neutral-950 px-2.5 py-2 text-xs font-bold text-white transition-all duration-200 hover:bg-[#facc15] hover:text-neutral-950 active:scale-[0.98]"
+                  className="inline-flex whitespace-nowrap items-center justify-center rounded-lg bg-neutral-950 px-2.5 py-2 text-xs font-bold text-white transition-all duration-200 hover:bg-[#facc15] hover:text-neutral-950 active:scale-[0.98]"
                 >
                   Cart →
                 </Link>
@@ -57,7 +57,7 @@ export function AddToCartButton({
                 disabled={status === 'loading'}
                 onClick={handleAddToCart}
                 aria-live="polite"
-                className={`inline-flex items-center justify-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-extrabold shadow-sm transition-colors duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-65 ${
+                className={`inline-flex whitespace-nowrap items-center justify-center gap-1.5 rounded-lg px-3 sm:px-3.5 py-2 text-xs font-extrabold shadow-sm transition-colors duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-65 ${
                   priceButtonStyle === 'neutral'
                     ? 'border border-[#454646] bg-[#454646] text-white hover:bg-[#383939] focus-visible:outline-[#facc15]'
                     : 'bg-[#facc15] text-neutral-950 hover:bg-neutral-950 hover:text-white focus-visible:outline-neutral-950'

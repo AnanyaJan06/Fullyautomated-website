@@ -41,11 +41,11 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-76px)] bg-neutral-50 py-10 px-4 sm:px-6 lg:px-8 flex items-center">
+    <main className="min-h-[calc(100vh-76px)] bg-neutral-50 py-6 px-4 sm:py-10 sm:px-6 lg:px-8 flex items-center">
       <div className="mx-auto w-full max-w-[1220px]">
         {/* Top Breadcrumb */}
-        <div className="mb-6 flex items-center justify-between text-xs text-neutral-500">
-          <div className="flex items-center gap-2">
+        <div className="mb-5 sm:mb-6 flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-500">
+          <div className="flex flex-wrap items-center gap-2">
             <Link href="/" className="font-semibold text-neutral-700 hover:text-[#725800] transition">
               Home
             </Link>
@@ -59,9 +59,9 @@ export default function LoginPage() {
         </div>
 
         {/* Main Split Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white shadow-xl">
           {/* Left Panel: Automotive Garage Showcase */}
-          <div className="lg:col-span-5 relative overflow-hidden bg-gradient-to-br from-[#161824] via-[#1d2030] to-[#2c1215] p-8 sm:p-10 text-white flex flex-col justify-between">
+          <div className="order-2 lg:order-1 lg:col-span-5 relative overflow-hidden bg-gradient-to-br from-[#161824] via-[#1d2030] to-[#2c1215] p-6 sm:p-10 text-white flex flex-col justify-between">
             {/* Subtle Technical Grid Pattern */}
             <div
               className="pointer-events-none absolute inset-0 opacity-10"
@@ -77,7 +77,7 @@ export default function LoginPage() {
                 <span>⚡ Automobilic Digital Garage</span>
               </div>
 
-              <h1 className="mt-5 text-3xl sm:text-4xl font-black tracking-tight leading-tight">
+              <h1 className="mt-4 sm:mt-5 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
                 Precision Fitment Starts With Your Garage.
               </h1>
               <p className="mt-3 text-sm text-neutral-300 leading-relaxed">
@@ -85,7 +85,7 @@ export default function LoginPage() {
               </p>
 
               {/* Automotive Benefits */}
-              <div className="mt-8 space-y-4">
+              <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
                 {[
                   {
                     badge: 'FITMENT',
@@ -105,9 +105,9 @@ export default function LoginPage() {
                 ].map((item, idx) => (
                   <div
                     key={idx}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm"
+                    className="rounded-2xl border border-white/10 bg-white/5 p-3.5 sm:p-4 backdrop-blur-sm"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="rounded bg-[#725800] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
                         {item.badge}
                       </span>
@@ -120,24 +120,24 @@ export default function LoginPage() {
             </div>
 
             {/* Bottom Spec Telemetry Bar */}
-            <div className="relative z-10 mt-8 pt-6 border-t border-white/10 grid grid-cols-3 gap-4 text-center">
+            <div className="relative z-10 mt-7 sm:mt-8 pt-6 border-t border-white/10 grid grid-cols-3 gap-2 sm:gap-4 text-center">
               <div>
-                <span className="block text-xl font-black text-white">68K+</span>
-                <span className="text-[11px] text-neutral-400">OEM &amp; Track Parts</span>
+                <span className="block text-lg sm:text-xl font-black text-white">68K+</span>
+                <span className="text-[10px] sm:text-[11px] text-neutral-400">OEM &amp; Track Parts</span>
               </div>
               <div>
-                <span className="block text-xl font-black text-[#725800]">99.8%</span>
-                <span className="text-[11px] text-neutral-400">Fitment Accuracy</span>
+                <span className="block text-lg sm:text-xl font-black text-[#facc15]">99.8%</span>
+                <span className="text-[10px] sm:text-[11px] text-neutral-400">Fitment Accuracy</span>
               </div>
               <div>
-                <span className="block text-xl font-black text-white">24/7</span>
-                <span className="text-[11px] text-neutral-400">ASE Tech Support</span>
+                <span className="block text-lg sm:text-xl font-black text-white">24/7</span>
+                <span className="text-[10px] sm:text-[11px] text-neutral-400">ASE Tech Support</span>
               </div>
             </div>
           </div>
 
           {/* Right Panel: Sign In Form */}
-          <div className="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center">
+          <div className="order-1 lg:order-2 lg:col-span-7 p-5 sm:p-10 lg:p-12 flex flex-col justify-center">
             <div className="max-w-md mx-auto w-full">
               {/* Top Mode Switcher Tabs */}
               <div className="grid grid-cols-2 rounded-2xl bg-neutral-100 p-1.5 mb-8">

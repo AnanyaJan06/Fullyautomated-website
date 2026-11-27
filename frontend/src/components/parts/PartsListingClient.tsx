@@ -91,6 +91,7 @@ export function PartsListingClient({
   });
   const [result, setResult] = useState<PartSearchResponse | null>(initialData);
   const [isLoading, setIsLoading] = useState(!initialData && !initialError);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState(
     initialError ? 'Unable to load parts from the server. Please try again.' : ''
   );
@@ -194,6 +195,7 @@ export function PartsListingClient({
       maxPrice,
     }));
     setPage(1);
+    setMobileFiltersOpen(false);
   }
 
   function handleResetFilters() {
@@ -223,6 +225,16 @@ export function PartsListingClient({
     });
   }
 
+  const activeFilterCount = [
+    appliedFilters.partType,
+    appliedFilters.make,
+    appliedFilters.model,
+    appliedFilters.year,
+    appliedFilters.condition,
+    appliedFilters.q.trim(),
+    appliedFilters.minPrice,
+    appliedFilters.maxPrice,
+  ].filter(Boolean).length;
   const hasActiveFilters = Boolean(partType || make || model || year || condition || q.trim() || minPrice || maxPrice);
   const hasUnappliedFilterChanges =
     partType !== appliedFilters.partType ||
@@ -237,10 +249,10 @@ export function PartsListingClient({
   const parts = result?.parts ?? [];
 
   return (
-    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {/* Breadcrumb & Page Header */}
       <div className="mb-6 border-b border-neutral-200 pb-4">
-        <nav aria-label="Breadcrumb" className="mb-2 flex items-center gap-2 text-xs font-medium text-neutral-500">
+        <nav aria-label="Breadcrumb" className="mb-2 flex flex-wrap items-center gap-2 text-xs font-medium text-neutral-500">
           <Link href="/" className="transition-colors hover:text-[#806000]">
             Home
           </Link>
@@ -253,46 +265,71 @@ export function PartsListingClient({
             <span className="text-xs font-extrabold uppercase tracking-wider text-[#806000]">
               OEM &amp; Aftermarket Catalog
             </span>
-            <h1 className="mt-0.5 text-2xl font-black text-neutral-900">
+            <h1 className="mt-0.5 text-xl sm:text-2xl font-black text-neutral-900">
               Shop Auto Parts &amp; Performance Gear
             </h1>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-500">
-            <label htmlFor="sort-parts">Sort:</label>
-            <select
-              id="sort-parts"
-              value={sort}
-              onChange={(e) => {
-                const nextSort = e.target.value as PartSortOption;
-                setSort(nextSort);
-                setAppliedSort(nextSort);
-                setPage(1);
-              }}
-              className="max-w-44 cursor-pointer appearance-none bg-transparent py-0.5 pr-4 text-xs font-bold text-neutral-900 outline-none transition hover:text-[#806000] focus:text-[#806000]"
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setMobileFiltersOpen((prev) => !prev)}
+              aria-expanded={mobileFiltersOpen}
+              aria-controls="parts-filter-sidebar"
+              className="inline-flex flex-1 sm:flex-initial items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-3.5 py-2 text-xs font-extrabold text-neutral-900 shadow-sm transition hover:border-neutral-400 hover:bg-neutral-50 lg:hidden"
             >
-              {SORT_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="-ml-4 pointer-events-none h-3.5 w-3.5 text-neutral-600">
-              <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M3 6h18M7 12h10M10 18h4" />
+              </svg>
+              <span>{mobileFiltersOpen ? 'Hide Filters' : 'Filters'}</span>
+              {activeFilterCount > 0 && (
+                <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#facc15] px-1.5 text-[10px] font-black text-neutral-950">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+
+            <div className="flex flex-1 sm:flex-initial shrink-0 items-center justify-between gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-500">
+              <label htmlFor="sort-parts" className="shrink-0">Sort:</label>
+              <div className="relative flex items-center">
+                <select
+                  id="sort-parts"
+                  value={sort}
+                  onChange={(e) => {
+                    const nextSort = e.target.value as PartSortOption;
+                    setSort(nextSort);
+                    setAppliedSort(nextSort);
+                    setPage(1);
+                  }}
+                  className="max-w-44 cursor-pointer appearance-none bg-transparent py-0.5 pr-5 text-xs font-bold text-neutral-900 outline-none transition hover:text-[#806000] focus:text-[#806000]"
+                >
+                  {SORT_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="-ml-4 pointer-events-none h-3.5 w-3.5 text-neutral-600">
+                  <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content Layout: Filter Sidebar + Product Listing Grid */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
         {/* Left Filter Sidebar */}
-        <aside className="lg:col-span-3">
+        <aside
+          id="parts-filter-sidebar"
+          className={`${mobileFiltersOpen ? 'block' : 'hidden'} lg:block lg:col-span-3`}
+        >
           <form
             id="parts-filter-form"
             role="search"
             onSubmit={handleFilterSubmit}
-            className="sticky top-24 space-y-5 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+            className="space-y-4 sm:space-y-5 rounded-2xl border border-neutral-200 bg-white p-4 sm:p-5 shadow-sm lg:sticky lg:top-6"
           >
             <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
               <h2 className="text-sm font-black uppercase tracking-wider text-neutral-900">
@@ -506,13 +543,13 @@ export function PartsListingClient({
           {errorMsg && (
             <div
               role="alert"
-              className="mb-6 flex items-center justify-between rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-800"
+              className="mb-6 flex flex-col gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-800 sm:flex-row sm:items-center sm:justify-between"
             >
               <span>{errorMsg}</span>
               <button
                 type="button"
                 onClick={handleRetry}
-                className="font-bold text-red-900 underline"
+                className="self-start shrink-0 font-bold text-red-900 underline sm:self-auto"
               >
                 Try Again
               </button>
@@ -521,7 +558,7 @@ export function PartsListingClient({
 
           {/* Loading Skeleton */}
           {isLoading && (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
                 <div
                   key={index}
@@ -534,7 +571,7 @@ export function PartsListingClient({
           {/* Product Grid */}
           {!isLoading && parts.length > 0 && (
             <>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {parts.map((product) => (
                   <DatabaseProductCard key={product.id} product={product} listingImage />
                 ))}
@@ -544,13 +581,13 @@ export function PartsListingClient({
               {result && (result.pagination.page > 1 || result.pagination.hasNextPage) && (
                 <nav
                   aria-label="Catalog pagination"
-                  className="mt-8 flex items-center justify-center gap-3 border-t border-neutral-200 pt-6"
+                  className="mt-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 border-t border-neutral-200 pt-6"
                 >
                   <button
                     type="button"
                     disabled={isLoading || result.pagination.page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    className="rounded-xl border border-neutral-300 bg-white px-4 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="min-h-[40px] rounded-xl border border-neutral-300 bg-white px-4 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     &larr; Previous
                   </button>
@@ -561,7 +598,7 @@ export function PartsListingClient({
                     type="button"
                     disabled={isLoading || !result.pagination.hasNextPage}
                     onClick={() => setPage((p) => p + 1)}
-                    className="rounded-xl border border-neutral-300 bg-white px-4 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="min-h-[40px] rounded-xl border border-neutral-300 bg-white px-4 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Next &rarr;
                   </button>

@@ -5,22 +5,22 @@ export function Footer() {
   return (
     <footer className="bg-[#161824] text-neutral-300 mt-16">
       {/* Newsletter Banner */}
-      <div className="bg-[#facc15] text-neutral-950 py-8 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl md:text-2xl font-bold">
+      <div className="bg-[#facc15] text-neutral-950 py-7 sm:py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-5 md:gap-6">
+          <div className="min-w-0">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-snug">
               Join Our Automotive Newsletter &amp; Get $20 Off Your First Order
             </h3>
-            <p className="text-neutral-700 text-sm mt-1">
+            <p className="text-neutral-800 text-xs sm:text-sm mt-1">
               Receive exclusive coupons, OEM fitment guides, and flash sale alerts directly in your inbox.
             </p>
           </div>
 
-          <div className="w-full md:w-auto flex flex-col sm:flex-row gap-2 min-w-[340px]">
+          <div className="w-full md:w-auto flex flex-col sm:flex-row gap-2 md:min-w-[340px] lg:min-w-[400px] shrink-0">
             <input
               type="email"
               placeholder="Enter your email address..."
-              className="px-4 py-3 rounded-lg text-sm text-neutral-900 bg-white focus:outline-none flex-1"
+              className="px-4 py-3 rounded-lg text-sm text-neutral-900 bg-white focus:outline-none focus:ring-2 focus:ring-neutral-950/20 flex-1 min-w-0"
             />
             <button
               type="button"
@@ -33,14 +33,14 @@ export function Footer() {
       </div>
 
       {/* Main 4-Column Footer */}
-      <div className="max-w-7xl mx-auto py-12 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 border-b border-neutral-800">
+      <div className="max-w-7xl mx-auto py-10 sm:py-12 px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 border-b border-neutral-800">
         {/* Col 1: Brand Info */}
-        <div>
+        <div className="min-w-0">
           <div className="flex items-center gap-2.5 mb-4">
-            <div className="w-9 h-9 rounded-lg bg-[#facc15] flex items-center justify-center text-neutral-950 font-black text-lg">
+            <div className="w-9 h-9 rounded-lg bg-[#facc15] flex items-center justify-center text-neutral-950 font-black text-lg shrink-0">
               A
             </div>
-            <span className="text-2xl font-black tracking-tight text-white">
+            <span className="text-xl sm:text-2xl font-black tracking-tight text-white">
               AUTOMOBILIC<span className="text-[#facc15]">.</span>
             </span>
           </div>
@@ -48,10 +48,10 @@ export function Footer() {
             Automobilic Auto Parts &amp; Performance Tools Store. Verified OEM &amp; aftermarket components
             with guaranteed vehicle fitment.
           </p>
-          <div className="text-sm space-y-1 text-neutral-300">
+          <div className="text-sm space-y-1.5 text-neutral-300 break-words">
             <p>📍 1550 Industrial Parkway, Suite 210, Detroit, MI 48202</p>
             <p>📞 (555) 867-5309</p>
-            <p>✉️ support@automobilic-autoparts.com</p>
+            <p className="[overflow-wrap:anywhere]">✉️ support@automobilic-autoparts.com</p>
           </div>
         </div>
 
@@ -143,9 +143,9 @@ export function Footer() {
       </div>
 
       {/* Bottom Copyright */}
-      <div className="max-w-7xl mx-auto py-6 px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
-        <p>© {new Date().getFullYear()} Automobilic Auto Parts Store . All rights reserved.</p>
-        <div className="flex items-center gap-4">
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left text-xs text-neutral-500 gap-3 sm:gap-4">
+        <p>© {new Date().getFullYear()} Automobilic Auto Parts Store. All rights reserved.</p>
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
           <span>Privacy Policy</span>
           <span>Terms &amp; Conditions</span>
           <span>Sitemap</span>
