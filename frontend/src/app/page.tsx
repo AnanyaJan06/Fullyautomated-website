@@ -5,6 +5,7 @@ import { VehicleFilterHero } from '@/components/home/VehicleFilterHero';
 import { DatabaseProductCard } from '@/components/home/DatabaseProductCard';
 import { WeeklyCountdown } from '@/components/home/WeeklyCountdown';
 import { ProductTabsSection } from '@/components/home/ProductTabsSection';
+import { VehicleBrandCarousel } from '@/components/home/VehicleBrandCarousel';
 import { partService } from '@/services/part.service';
 import type { DatabasePart } from '@/types';
 
@@ -175,6 +176,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* 5. Parts expert support and service benefits */}
       <section id="contact" className="mx-auto mt-10 sm:mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="overflow-hidden rounded-lg bg-neutral-950 px-5 py-7 text-white shadow-sm sm:px-10 lg:px-14">
@@ -209,6 +211,14 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 divide-y divide-neutral-200 border-b border-neutral-200 py-5 md:grid-cols-3 md:divide-y-0 sm:py-8">
+=======
+      {/* 5. Vehicle brands */}
+      <VehicleBrandCarousel />
+
+      {/* Service benefits */}
+      <section className="mx-auto mt-8 max-w-[1440px] px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 border-b border-neutral-200 py-7 sm:grid-cols-3 sm:py-8">
+>>>>>>> 75afd3b9fb5b73e336204622bd3694f6d407536f
           {[
             { icon: 'quality', title: 'Original Products', desc: 'Quality parts from trusted brands.' },
             { icon: 'price', title: 'Affordable Rates', desc: 'Great value across our catalog.' },
