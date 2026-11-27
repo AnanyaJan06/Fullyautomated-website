@@ -5,6 +5,7 @@ import { VehicleFilterHero } from '@/components/home/VehicleFilterHero';
 import { DatabaseProductCard } from '@/components/home/DatabaseProductCard';
 import { WeeklyCountdown } from '@/components/home/WeeklyCountdown';
 import { ProductTabsSection } from '@/components/home/ProductTabsSection';
+import { VehicleBrandCarousel } from '@/components/home/VehicleBrandCarousel';
 import { partService } from '@/services/part.service';
 import type { DatabasePart } from '@/types';
 
@@ -175,39 +176,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. Parts expert support and service benefits */}
-      <section id="contact" className="mx-auto mt-14 max-w-[1440px] px-4 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-lg bg-neutral-950 px-6 py-7 text-white shadow-sm sm:px-10 lg:px-16">
-          <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
-            <div>
-              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-                Need Help Finding the Right Product?
-              </h2>
-              <p className="mt-1 text-sm text-neutral-300 sm:text-base">
-                Our Parts Experts Can Help. Call for immediate assistance.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex shrink-0 items-center justify-center rounded-lg bg-[#facc15] px-6 py-3 text-sm font-bold text-neutral-950 transition-colors hover:bg-[#eab308] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                Contact Support
-              </Link>
-              <Link
-                href="/faq"
-                className="inline-flex shrink-0 items-center justify-center rounded-lg border border-white/25 bg-white/10 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                Help &amp; FAQs
-              </Link>
-            </div>
-            <a href="tel:+18001234567890" className="text-center transition-opacity hover:opacity-80">
-              <span className="block text-xl font-extrabold sm:text-2xl">+(800) 1234 5678 90</span>
-              <span className="mt-0.5 block text-xs text-neutral-400 sm:text-sm">You can contact us 24/7.</span>
-            </a>
-          </div>
-        </div>
+      {/* 5. Vehicle brands */}
+      <VehicleBrandCarousel />
 
+      {/* Service benefits */}
+      <section className="mx-auto mt-8 max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 border-b border-neutral-200 py-7 sm:grid-cols-3 sm:py-8">
           {[
             { icon: 'quality', title: 'Original Products', desc: 'Quality parts from trusted brands.' },

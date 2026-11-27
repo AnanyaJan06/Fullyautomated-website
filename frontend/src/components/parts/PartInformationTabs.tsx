@@ -75,7 +75,7 @@ export function PartInformationTabs({ part, category }: { part: DatabasePart; ca
         })}
       </div>
 
-      <div className="h-[520px] overflow-x-hidden overflow-y-auto overscroll-contain px-5 sm:h-[440px] sm:px-8 lg:h-[400px]">
+      <div className="min-h-[520px] overflow-x-clip px-5 sm:min-h-[440px] sm:px-8 lg:min-h-[400px]">
         <AnimatePresence initial={false} mode="wait" custom={direction}>
           <motion.div
             key={activeTab}
